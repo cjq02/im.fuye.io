@@ -8,6 +8,7 @@
 .htaccess
 .user.ini
 nginx.htaccess
+install.lock
 
 
 # addons module
