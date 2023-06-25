@@ -42,7 +42,7 @@ class Account extends Base{
             }
             $can_create=false;
 
-            if($type>0&&$type<=6){
+            if($type>=0&&$type<=6){
                 if($create[$type_array[$type]]>=1){
                     $can_create=true;
                 }
