@@ -1,4 +1,4 @@
-# sunphp-web
+# sunphp
 
 ## 介绍
 [sunphp](https://gitee.com/bluestear/sunphp) 是一个支持多用户，多平台，多应用的开发框架！其根本目的是实现快速开发公众号、小程序、H5、APP，无需开发者重复造轮子！为每一位开发者赋能！
@@ -49,7 +49,7 @@ Include /www/wwwroot/sunphp.git/*.conf
 免费商用版已经能满足大部分用户需求，如果有以下特殊需求，可付费开通[高级商用版](https://mall.sunphp.cn/pages/goods_details/index?id=12)
 1. 如需隐藏版权信息（powered by Sunphp），需付费开通高级商用版
 2. 如需隐藏系统在线升级功能、应用市场功能，需付费开通高级商用版
-3. 如需其他特殊的定制需求，欢迎联系[商务合作](/cooperation/)
+3. 如需其他特殊的定制需求，欢迎联系[商务合作](https://bluestear.gitee.io/sunphp-web/cooperation/)
 
 
 ## 正版校验
