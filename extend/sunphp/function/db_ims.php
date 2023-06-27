@@ -146,7 +146,7 @@ function pdo_getcolumn($table,$con=[],$value){
 //所有行
 function pdo_getall($table,$con=[],$fields=[]){
 
-    return Db::table(tableprefix().$table)->where($con)->field($fields)->select();
+    return Db::table(tableprefix().$table)->where($con)->field($fields)->select()->toArray();
 }
 
 //返回添加成功的条数，通常情况返回 1

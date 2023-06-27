@@ -491,9 +491,6 @@ class App extends Base
                     $data['dir']=$arg;
 
 
-
-
-
                     $file_list[] = $file;
 
                     $app = CoreApp::where('identity', $data['identity'])->where('dir',$arg)->find();
