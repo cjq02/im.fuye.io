@@ -13,6 +13,6 @@ namespace app\admin\model;
 use think\Model;
 class CoreAccount extends Model{
     protected $type=[
-        'level'=>'integer'
+        // 'level'=>'integer'
     ];
 }
