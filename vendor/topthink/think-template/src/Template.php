@@ -15,6 +15,7 @@ namespace think;
 use Exception;
 use Psr\SimpleCache\CacheInterface;
 
+
 /**
  * ThinkPHP分离出来的模板引擎
  * 支持XML标签和普通标签的模板解析
@@ -256,7 +257,6 @@ class Template
             }
 
 
-            // light自定义，当变量不存在的时候，输出空白字符串，而不要报错！
 
             // 读取编译存储
             $this->storage->read($cacheFile, $this->data);
@@ -529,6 +529,9 @@ class Template
      */
     private function parsePhp(string &$content): void
     {
+
+
+
         // 短标签的情况要将<?标签用echo方式输出 否则无法正常输出xml标识
         $content = preg_replace('/(<\?(?!php|=|$))/i', '<?php echo \'\\1\'; ?>' . "\n", $content);
 
@@ -868,8 +871,6 @@ class Template
                 $str  = stripslashes($match[1]);
                 $flag = substr($str, 0, 1);
 
-
-
                 switch ($flag) {
                     case '$':
                         // 解析模板变量 格式 {$varName}
@@ -943,13 +944,33 @@ class Template
 
                                             $str = implode(' : ', $array);
                                         }
+
                                         $str = '<?php echo ' . ($express ?: '!empty(' . $name . ')') . ' ? ' . $str . '; ?>';
                                 }
                             }
                         } else {
+
+
                             $this->parseVar($str);
+
+
+                            // light，模板渲染未定义的变量，数组——不报错，返回空字符串
+                            // if等其他调用，还是会报错，根本解决方法在于error的机制
+                            // 最佳的方法是——模板中使用$name??''————采用严谨的语法规范
+                            // 这里修改了会导致其他报错！
+
+                            // global $_W;
+                            // if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
+                            //     $str="isset(".$str.")?".$str.":''";
+                            //     // $str=$str."??''";    //php7简写方法
+                            // }
+
+
                             $this->parseVarFunction($str);
+
+
                             $str = '<?php echo ' . $str . '; ?>';
+
                         }
                         break;
                     case ':':
@@ -1001,6 +1022,8 @@ class Template
     public function parseVar(string &$varStr): void
     {
         $varStr = trim($varStr);
+
+
 
         if (preg_match_all('/\$[a-zA-Z_](?>\w*)(?:[:\.][0-9a-zA-Z_](?>\w*))+/', $varStr, $matches, PREG_OFFSET_CAPTURE)) {
             static $_varParseList = [];

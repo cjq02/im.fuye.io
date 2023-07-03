@@ -377,7 +377,7 @@ class App extends Base
                         $m = $dom->getElementsByTagName('manifest')->item(0);
                         $uninstall = $m->getElementsByTagName("uninstall")->item(0)->textContent;
                         $db_uninstall = root_path() . $module['dir']."/". $module['identity'] . "/" . $uninstall; //XML文件
-                        if (!empty($uninstall) && file_exists($db_uninstall)) {
+                        if (!empty($uninstall)) {
                             switch($module['dir']){
                                 case 'app':
                                     // 数据库前缀sun
@@ -390,7 +390,11 @@ class App extends Base
                                 default:
                                 break;
                             }
-                            require_once($db_uninstall);
+                            if(file_exists($db_uninstall)){
+                                require_once($db_uninstall);
+                            }else{
+                                pdo_run($uninstall);
+                            }
                         }
                     }
                 }
@@ -851,8 +855,13 @@ class App extends Base
             $app->save($data);
 
             $db_install = root_path().$app['dir']."/" . $app->identity . "/" . $install; //XML文件
-            if (!empty($install) && file_exists($db_install)) {
-                require_once($db_install);
+            if (!empty($install)) {
+                if(file_exists($db_install)){
+                    require_once($db_install);
+                }else{
+                    // 执行sql语句
+                    pdo_run($install);
+                }
             }
         } else {
             //再次更新数据
@@ -860,8 +869,12 @@ class App extends Base
             $app->save($data);
             //升级
             $db_upgrade = root_path().$app['dir']."/" . $app->identity . "/" . $upgrade; //XML文件
-            if (!empty($upgrade) && file_exists($db_upgrade)) {
-                require_once($db_upgrade);
+            if (!empty($upgrade)) {
+                if(file_exists($db_upgrade)){
+                    require_once($db_upgrade);
+                }else{
+                    pdo_run($upgrade);
+                }
             }
         }
 

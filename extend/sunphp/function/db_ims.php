@@ -185,7 +185,12 @@ function pdo_delete($table,$con=[]){
 //如果可能有多条数据，必须在sql中使用limit 1来限制数量
 function pdo_fetch($sql,$params=[]){
     $res= Db::query($sql,$params);
-    //如果为空[]，current返回false
+
+    if(empty($res)){
+        return [];
+    }
+
+    //如果为空[]，current返回false，导致模板渲染问题
     return current($res);
 }
 

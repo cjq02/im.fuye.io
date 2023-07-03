@@ -37,6 +37,29 @@ function message($title,$url='',$type='success'){
     die();
 }
 
+
+// 不可以重复定义
+function we_url($segment,$params=[]){
+    $url='./index.php?';
+    $seg=explode('/',$segment);
+    $a=['c','a','do'];
+    if(!empty($seg)){
+       foreach($seg as $k=>$v){
+            $url.=$a[$k].'='.$v.'&';
+       }
+    }
+    if(!empty($params)){
+        foreach($params as $key=>$val){
+             $url.=$key.'='.$val.'&';
+        }
+    }
+    if(substr($url,-1)=='&'){
+        $url=substr($url,0,-1);
+    }
+    return $url;
+}
+
+
 function pagination($total,$index,$size){
     global $_W,$_GPC;
 
@@ -87,7 +110,7 @@ function checksubmit($var = 'submit', $allowget = false){
 }
 
 
-function tpl_form_field_image($field, $url, $arg='', $extras){
+function tpl_form_field_image($field, $url, $arg='', $extras=''){
 
     global $_W,$_GPC;
     $upload_url=$_W['siteroot']."index.php/admin/file/upload?i=".$_GPC['i'];
@@ -163,7 +186,7 @@ return $html;
 }
 
 
-function tpl_form_field_audio($field, $url, $arg='', $extras){
+function tpl_form_field_audio($field, $url, $arg='', $extras=''){
 
     global $_W,$_GPC;
     $upload_url=$_W['siteroot']."index.php/admin/file/upload?i=".$_GPC['i'];
@@ -238,7 +261,7 @@ return $html;
 
 }
 
-function tpl_form_field_video($field, $url, $arg='', $extras){
+function tpl_form_field_video($field, $url, $arg='', $extras=''){
 
     global $_W,$_GPC;
     $upload_url=$_W['siteroot']."index.php/admin/file/upload?i=".$_GPC['i'];

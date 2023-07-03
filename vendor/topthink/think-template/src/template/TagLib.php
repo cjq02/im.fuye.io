@@ -223,9 +223,17 @@ class TagLib
                 // sonlight处理自定义的自闭和标签
                 $mytag_list=['php '];
 
+
+
                 if(in_array($matches[1],$mytag_list)){
-                  $mytag_regex  = '/\{'.$matches[1].'([^\/]*)\/?\}/is';
+                    // 无法匹配中间有/的内容
+                    // $mytag_regex  = '/\{'.$matches[1].'([^\/]*)\/?\}/is';
+
+                  // 非贪婪模式
+                  $mytag_regex  = '/\{'.$matches[1].'(.*?)\/?\}/is';
+
                   preg_match($mytag_regex,$matches[0],$mytag_matches);
+
 
                   if(!empty($mytag_matches)){
                     // 添加可能缺失的分号

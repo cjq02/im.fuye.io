@@ -99,6 +99,11 @@ function pdo_delete($table,$con=[]){
 //如果可能有多条数据，必须在sql中使用limit 1来限制数量
 function pdo_fetch($sql,$params=[]){
     $res= Db::query($sql,$params);
+
+    if(empty($res)){
+        return [];
+    }
+
     //如果为空[]，current返回false
     return current($res);
 }
