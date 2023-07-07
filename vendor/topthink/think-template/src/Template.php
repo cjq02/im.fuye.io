@@ -957,16 +957,20 @@ class Template
                             // light，模板渲染未定义的变量，数组——不报错，返回空字符串
                             // if等其他调用，还是会报错，根本解决方法在于error的机制
                             // 最佳的方法是——模板中使用$name??''————采用严谨的语法规范
-                            // 这里修改了会导致其他报错！
 
-                            // global $_W;
-                            // if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
-                            //     $str="isset(".$str.")?".$str.":''";
-                            //     // $str=$str."??''";    //php7简写方法
-                            // }
+                            global $_W;
+                            if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
+                                if($str!='$pager'){
+                                    //$pager特殊性，必须原生输出
+                                    $str="isset(".$str.")?".$str.":''";
+                                    // $str=$str."??''";    //php7简写方法
+                                }
+                            }
 
 
                             $this->parseVarFunction($str);
+
+
 
 
                             $str = '<?php echo ' . $str . '; ?>';
@@ -1093,7 +1097,7 @@ class Template
 
         $_key = md5($varStr);
 
-        // 自定义$pager的解析方法
+        // light自定义$pager的解析方法
         if($varStr=='$pager|htmlentities'){
             $varStr='$pager|RAW';
         }

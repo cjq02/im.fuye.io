@@ -197,7 +197,10 @@ class Cx extends Taglib
                 //addons单独模板，到template目录下寻找
                 $tpl_file=root_path().'addons/'.$_W['current_module']['name'].'/template/'.$content.'.html';
                 if(file_exists($tpl_file)){
-                    $parseStr= file_get_contents($tpl_file);
+                    // $parseStr= file_get_contents($tpl_file);读取的是html没有解析
+                    //读取的模板需要先解析
+                    $parseStr=\think\facade\View::fetch($tpl_file);
+
                 }else{
                     $parseStr='';
                 }
@@ -381,6 +384,22 @@ class Cx extends Taglib
     {
         $condition = !empty($tag['expression']) ? $tag['expression'] : $tag['condition'];
         $condition = $this->parseCondition($condition);
+
+
+        // light兼容未设置变量默认值报错error
+        global $_W;
+        if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
+            // if(preg_match('/(\$[^=><&!()|\s]*)/',$condition,$matches)){
+            if(preg_match('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
+                $m_str='';
+                foreach ($matches as $m){
+                    $m_str.='isset('.$m.')&&';
+                }
+                $condition=$m_str.$condition;
+            }
+        }
+
+
         $parseStr  = '<?php if(' . $condition . '): ?>' . $content . '<?php endif; ?>';
 
         return $parseStr;
@@ -398,6 +417,22 @@ class Cx extends Taglib
     {
         $condition = !empty($tag['expression']) ? $tag['expression'] : $tag['condition'];
         $condition = $this->parseCondition($condition);
+
+
+        // light兼容未设置变量默认值报错error
+        global $_W;
+        if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
+            // if(preg_match('/(\$[^=><&!()|\s]*)/',$condition,$matches)){
+            if(preg_match('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
+                $m_str='';
+                foreach ($matches as $m){
+                    $m_str.='isset('.$m.')&&';
+                }
+                $condition=$m_str.$condition;
+            }
+        }
+
+
         $parseStr  = '<?php elseif(' . $condition . '): ?>';
 
         return $parseStr;
