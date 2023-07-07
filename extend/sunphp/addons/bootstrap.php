@@ -120,6 +120,10 @@ switch($_W['addons_index']){
         //后台登录用户
         $_W['uid']=$user['id'];
 
+        $_W['username']=$user['name'];
+        $_W['user']=[
+            'username'=>$user['name']
+        ];
 
 
     break;

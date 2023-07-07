@@ -390,7 +390,7 @@ class App extends Base
                                 default:
                                 break;
                             }
-                            if(file_exists($db_uninstall)){
+                            if(strlen($uninstall)<100&&file_exists($db_uninstall)){
                                 require_once($db_uninstall);
                             }else{
                                 pdo_run($uninstall);
@@ -856,7 +856,7 @@ class App extends Base
 
             $db_install = root_path().$app['dir']."/" . $app->identity . "/" . $install; //XML文件
             if (!empty($install)) {
-                if(file_exists($db_install)){
+                if(strlen($install)<100&&file_exists($db_install)){
                     require_once($db_install);
                 }else{
                     // 执行sql语句
@@ -870,7 +870,7 @@ class App extends Base
             //升级
             $db_upgrade = root_path().$app['dir']."/" . $app->identity . "/" . $upgrade; //XML文件
             if (!empty($upgrade)) {
-                if(file_exists($db_upgrade)){
+                if(strlen($upgrade)<100&&file_exists($db_upgrade)){
                     require_once($db_upgrade);
                 }else{
                     pdo_run($upgrade);

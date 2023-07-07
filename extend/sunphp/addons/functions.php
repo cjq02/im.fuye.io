@@ -23,6 +23,7 @@ use TencentCloud\Batch\V20170312\Models\TaskTemplateView;
 use think\facade\View;
 use sunphp\account\SunAccount;
 use sunphp\file\SunFile;
+use xin\helper\Func;
 
 function message($title,$url='',$type='success'){
     $tpl_file= root_path().'view/sunphp/message/show.html';
@@ -35,6 +36,11 @@ function message($title,$url='',$type='success'){
     $template_view=View::fetch($tpl_file);
     echo $template_view;
     die();
+}
+
+// web端验证操作用户是否已登录
+function checklogin(){
+    return true;
 }
 
 

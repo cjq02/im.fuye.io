@@ -194,6 +194,13 @@ class Cx extends Taglib
                 '</html>';
             break;
             default:
+                //addons单独模板，到template目录下寻找
+                $tpl_file=root_path().'addons/'.$_W['current_module']['name'].'/template/'.$content.'.html';
+                if(file_exists($tpl_file)){
+                    $parseStr= file_get_contents($tpl_file);
+                }else{
+                    $parseStr='';
+                }
             break;
         }
         return $parseStr;
@@ -827,6 +834,11 @@ class Cx extends Taglib
         $vars   = isset($tag['vars']) ? $tag['vars'] : '';
         $suffix = isset($tag['suffix']) ? $tag['suffix'] : 'true';
         $domain = isset($tag['domain']) ? $tag['domain'] : 'false';
+
+        // 兼容addons的{url }
+        if(!isset($tag['link'])&&!isset($tag['vars'])&&!empty($tag['expression'])){
+            return '<?php echo we_url(' . $tag['expression'] . ');?>';
+        }
 
         return '<?php echo url("' . $url . '","' . $vars . '",' . $suffix . ',' . $domain . ');?>';
     }
