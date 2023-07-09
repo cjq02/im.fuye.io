@@ -125,7 +125,8 @@ class Account extends Base{
 
         $file=root_path().'addons/'.$post['identity'].'/module.php';
         if(file_exists($file)){
-            define('IN_IA', true);
+            !(defined('IN_IA')) && define('IN_IA', true);
+            !(defined('IA_ROOT')) && define('IA_ROOT', substr(root_path(),0,-1));
 
             include_once root_path().'extend/sunphp/addons/WeModule.php';
             include_once $file;
