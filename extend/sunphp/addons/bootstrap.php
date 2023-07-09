@@ -122,6 +122,7 @@ switch($_W['addons_index']){
 
         $_W['username']=$user['name'];
         $_W['user']=[
+            'uid'=>$user['id'],
             'username'=>$user['name']
         ];
 
