@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-05-25 18:14:31
+ * @LastEditTime: 2023-07-09 14:12:36
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -20,6 +20,7 @@ use app\admin\model\CoreSms;
 use app\admin\model\CoreStorage;
 use app\admin\model\CoreUseapp;
 use app\admin\model\CoreUser;
+use xin\helper\Func;
 
 class Account extends Base{
 
@@ -111,6 +112,33 @@ class Account extends Base{
             'total'=>$total
         ];
         return jsonResult(200,'操作成功',$result);
+    }
+
+    // addons模块单独入口地址校验
+    public function welcomeDisplay(){
+        $post = $this->request->post();
+        //检查应用
+        $module=CoreApp::where(['identity'=>$post['identity'],'dir'=>'addons'])->find();
+        if(empty($module)){
+            return jsonResult(400,'应用不存在',[]);
+        }
+
+        $file=root_path().'addons/'.$post['identity'].'/module.php';
+        if(file_exists($file)){
+            define('IN_IA', true);
+
+            include_once root_path().'extend/sunphp/addons/WeModule.php';
+            include_once $file;
+
+            $class_module=ucfirst(strtolower($post['identity'])).'Module';
+            $instance=new $class_module();
+
+            if (method_exists($instance, 'welcomeDisplay')) {
+                $url=$this->request->domain()."/web/index.php?c=site&a=entry&m=".$post['identity'].'&do=sunphpWelcome';
+                return jsonResult(200,'操作成功',['url'=>$url]);
+			}
+        }
+        return jsonResult(200,'操作成功',['url'=>'']);
     }
 
     public function appList()

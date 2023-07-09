@@ -13,8 +13,8 @@
 
 		<!-- 【留空】默认点击应用进入模块菜单页-->
 		<!-- 【自定义】配置管理后台入口路径后，将直接跳转到管理后台（无菜单页）<admin>/demo/admin/index</admin> -->
+		<!-- 【addons】<admin><![CDATA[/web/index.php?c=site&a=entry&m=demo&do=admin]]></admin> -->
 		<admin></admin>
-
 
 
 

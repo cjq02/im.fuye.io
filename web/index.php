@@ -4,7 +4,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-15 11:03:17
  * @LastEditors: light
- * @LastEditTime: 2023-05-31 17:42:27
+ * @LastEditTime: 2023-07-09 14:00:14
  * @Description: SonLight Tech版权所有
  */
 
@@ -23,6 +23,8 @@ require __DIR__ . '/../vendor/autoload.php';
 global $_W,$_GPC;
 $_W['addons_index']='web';
 
+// 与thinkphp6冲突的函数，需要提前预定义
+include_once __DIR__ . '/../extend/sunphp/addons/functions_conflict.php';
 
 
 // 执行HTTP应用并响应
@@ -53,13 +55,24 @@ include_once root_path().'extend/sunphp/addons/WeAccount.php';
 
 
 //引入WeModule，兼容$this->操作方法
-include_once root_path().'extend/sunphp/addons/WeModule'.$class_a.'.php';
 
-include_once root_path().'addons/'.$module_now.'/site.php';
+if($_GPC['do']=='sunphpWelcome'){
+    include_once root_path().'extend/sunphp/addons/WeModule.php';
+    include_once root_path().'addons/'.$module_now.'/module.php';
 
+    $class_module=ucfirst(strtolower($module_now)).'Module';
 
-$class_now=new $class_module();
-$method='doWeb'.$_GPC['do'];
+    $class_now=new $class_module();
+    $method='welcomeDisplay';//自定义后台模块入口
+
+}else{
+    include_once root_path().'extend/sunphp/addons/WeModule'.$class_a.'.php';
+    include_once root_path().'addons/'.$module_now.'/site.php';
+
+    $class_now=new $class_module();
+    $method='doWeb'.$_GPC['do'];
+}
+
 
 if(session_id()){
     // 防止session_start阻塞

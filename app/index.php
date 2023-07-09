@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 18:21:29
  * @LastEditors: light
- * @LastEditTime: 2023-06-01 13:49:30
+ * @LastEditTime: 2023-07-09 14:06:34
  * @Description: SonLight Tech版权所有
  */
 
@@ -21,6 +21,9 @@ require __DIR__ . '/../vendor/autoload.php';
 /* addons模块的入口地址 */
 global $_W,$_GPC;
 $_W['addons_index']='app';
+
+// 与thinkphp6冲突的函数，需要提前预定义
+include_once __DIR__ . '/../extend/sunphp/addons/functions_conflict.php';
 
 
 // 执行HTTP应用并响应

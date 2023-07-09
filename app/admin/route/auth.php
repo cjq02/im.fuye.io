@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-04-05 11:24:24
  * @LastEditors: light
- * @LastEditTime: 2023-05-17 10:03:57
+ * @LastEditTime: 2023-07-09 12:23:59
  * @Description: SonLight Tech版权所有
  */
 
@@ -41,6 +41,7 @@ Route::group('menu',function(){
 //权限3：系统管理员+平台管理员+操作员
 Route::group('account',function(){
     Route::rule('myapp','account/myapp');
+    Route::rule('welcomeDisplay','account/welcomeDisplay');
     Route::rule('module','account/module');
     Route::rule('top','account/top');
     Route::rule('getPay','account/getPay');

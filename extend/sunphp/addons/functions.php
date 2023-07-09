@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-05-26 13:57:48
+ * @LastEditTime: 2023-07-09 14:01:40
  * @Description: SonLight Tech版权所有
  */
 /*
@@ -46,7 +46,15 @@ function checklogin(){
 
 // 不可以重复定义
 function we_url($segment,$params=[]){
+
     $url='./index.php?';
+
+    // 加入i参数
+    global $_W;
+    if(!empty($_W['uniacid'])){
+        $url.='i='.$_W['uniacid'].'&';
+    }
+
     $seg=explode('/',$segment);
     $a=['c','a','do'];
     if(!empty($seg)){
