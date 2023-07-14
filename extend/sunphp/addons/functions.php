@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-07-09 14:01:40
+ * @LastEditTime: 2023-07-14 18:07:58
  * @Description: SonLight Tech版权所有
  */
 /*
@@ -41,6 +41,11 @@ function message($title,$url='',$type='success'){
 // web端验证操作用户是否已登录
 function checklogin(){
     return true;
+}
+
+
+function strexists($str,$find){
+    return strpos($str,$find);
 }
 
 

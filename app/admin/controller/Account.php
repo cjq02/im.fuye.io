@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-07-09 14:12:36
+ * @LastEditTime: 2023-07-14 17:58:18
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -125,6 +125,14 @@ class Account extends Base{
 
         $file=root_path().'addons/'.$post['identity'].'/module.php';
         if(file_exists($file)){
+
+            $file_str=file_get_contents($file);
+            if(strpos($file_str,'welcomeDisplay')!==false){
+               $url=$this->request->domain()."/web/index.php?c=site&a=entry&m=".$post['identity'].'&do=sunphpWelcome';
+                return jsonResult(200,'操作成功',['url'=>$url]);
+            }
+
+
             !(defined('IN_IA')) && define('IN_IA', true);
             !(defined('IA_ROOT')) && define('IA_ROOT', substr(root_path(),0,-1));
 
