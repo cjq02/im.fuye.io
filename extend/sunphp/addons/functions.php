@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-07-14 18:07:58
+ * @LastEditTime: 2023-07-20 11:39:00
  * @Description: SonLight Tech版权所有
  */
 /*
@@ -23,10 +23,19 @@ use TencentCloud\Batch\V20170312\Models\TaskTemplateView;
 use think\facade\View;
 use sunphp\account\SunAccount;
 use sunphp\file\SunFile;
-use xin\helper\Func;
+
 
 function message($title,$url='',$type='success'){
     $tpl_file= root_path().'view/sunphp/message/show.html';
+
+    // index.php开头的url，可能不是/app/或者/web/目录访问
+    if(preg_match("/^index\.php/i",$url)){
+        if(!preg_match("/(^\/app\/)|(^\/web\/)/i",$_SERVER['DOCUMENT_URI'])){
+            $url='/app/'.$url;
+        }
+
+    }
+
     View::assign([
         'title'=>$title,
         'url'=>$url,
@@ -46,6 +55,31 @@ function checklogin(){
 
 function strexists($str,$find){
     return strpos($str,$find);
+}
+
+//随机数
+function random($len,$num=0){
+    if($num){
+        //整数
+		$chars = "123456789";
+    }else{
+        //字符串数字混合
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    }
+
+	mt_srand(intval(10000000 * (float)microtime()));
+	for ($i = 0, $str = '', $lc = strlen($chars) - 1; $i < $len; $i++) {
+		$str .= $chars[mt_rand(0, $lc)];
+	}
+	return $str;
+}
+
+function iunserializer($str){
+    return unserialize($str);
+}
+
+function iserializer($str){
+    return serialize($str);
 }
 
 

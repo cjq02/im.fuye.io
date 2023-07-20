@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-24 14:52:38
  * @LastEditors: light
- * @LastEditTime: 2023-05-31 08:25:38
+ * @LastEditTime: 2023-07-18 18:43:48
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -151,7 +151,6 @@ function pdo_getall($table,$con=[],$fields=[]){
 
 //返回添加成功的条数，通常情况返回 1
 function pdo_insert($table,$data){
-
     return Db::table(tableprefix().$table)->insert($data);
 }
 

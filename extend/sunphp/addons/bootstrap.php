@@ -200,6 +200,8 @@ if(empty($can_use)){
 !(defined('DEVELOPMENT')) && define('DEVELOPMENT',false);
 
 
+// 默认空
+$_W['openid']='';
 
 // 构造wxapp的参数
 if(!empty($get['from'])){
@@ -277,6 +279,9 @@ $_W['ishttps']=$_W['sitescheme']=='https'?true:false;
 
 
 $_W['uniacid']=$get['i'];
+$_W['acid']=$get['i'];
+
+
 $_W['current_module']['name']=$module_name;
 $_W['current_module']['version']=$module['version'];
 

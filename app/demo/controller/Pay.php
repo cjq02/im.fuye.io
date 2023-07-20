@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:46:26
  * @LastEditors: light
- * @LastEditTime: 2023-05-04 09:10:38
+ * @LastEditTime: 2023-07-20 13:54:21
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -45,7 +45,7 @@ class Pay {
             'tid' =>date('YmdHis').'_'.mt_rand(1000000000, 9999999999),
             'money' => '0.01',//金额：元
             'title' => '支付宝App支付测试'
-         ]);
+         ])->getBody()->getContents();
     }
 
 
@@ -148,13 +148,19 @@ class Pay {
 
     /* 微信APP支付API-V3 */
     public function wechatApp(){
-        $wechat=SunPay::wechat();
+        /*
+        参数1：当前平台的id，默认为空，自动获取（也可以指定）
+        参数2：微信开放平台app应用的appid，不能为空，需要设置
+        */
+        $wx_appid='微信开放平台app应用的appid';
+        $wechat=SunPay::wechat('',$wx_appid);
         $order = [
             'tid'=>date('YmdHis').'_'.mt_rand(1000000000, 9999999999),
             'money'=>0.02,//金额：元
             'title'=>'微信APP支付标题'
         ];
-        return $wechat->app($order);
+        // 返回数组，作为app支付参数
+        return $wechat->app($order)->toArray();
     }
 
      /* 微信扫码支付API-V3 */

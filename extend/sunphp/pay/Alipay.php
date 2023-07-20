@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-04-28 09:30:37
+ * @LastEditTime: 2023-07-20 10:45:05
  * @Description: SonLight Tech版权所有
  */
 
@@ -52,7 +52,13 @@ class Alipay {
 
         $str=Uuid::uuid1()->getHex()->toString();
         $order_id=date('YmdHis').strtoupper(substr($str,0,16));
-        $module=app('http')->getName();
+
+        if(empty($params['module'])){
+            $module=app('http')->getName();
+        }else{
+            $module=$params['module'];
+        }
+
         $acid=request()->get('i');
 
         //记录系统订单

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-28 09:52:45
  * @LastEditors: light
- * @LastEditTime: 2023-05-26 16:35:26
+ * @LastEditTime: 2023-07-20 11:03:27
  * @Description: SonLight Tech版权所有
  */
 
@@ -91,7 +91,7 @@ if(empty($module)){
 //通知模块支付成功
 $request->setPathinfo('PayResult/return');
 $notify_post = [
-    'from' => 'notify',
+    'from' => 'return',
     'result' => 'success',
     'type' => 'alipay',
     'acid' => $order['acid'],
@@ -112,11 +112,10 @@ if($module['dir']=='addons'){
     $http->name($order['module']); //指定模块
     $response = $http->run($request);
 
+    //输出模块响应结果
+    $response->send();
+    $http->end($response);
 }
 
-//不能输出响应，否则后面代码无法执行
-$response->send();
-$http->end($response);
-
-
+// 同步通知不需要返回结果，执行逻辑既可
 // return Pay::alipay()->success();

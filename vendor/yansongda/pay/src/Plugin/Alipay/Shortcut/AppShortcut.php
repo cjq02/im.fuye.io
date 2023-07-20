@@ -1,4 +1,11 @@
 <?php
+/*
+ * @Author: SonLight Tech
+ * @Date: 2023-04-23 11:43:24
+ * @LastEditors: light
+ * @LastEditTime: 2023-07-20 13:44:29
+ * @Description: SonLight Tech版权所有
+ */
 
 declare(strict_types=1);
 
@@ -12,6 +19,7 @@ use Yansongda\Pay\Plugin\Alipay\Trade\AppPayPlugin;
 use Yansongda\Pay\Rocket;
 use Yansongda\Supports\Arr;
 use Yansongda\Supports\Collection;
+
 
 class AppShortcut implements ShortcutInterface
 {

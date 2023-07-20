@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 14:14:49
  * @LastEditors: light
- * @LastEditTime: 2023-06-01 16:43:00
+ * @LastEditTime: 2023-07-19 17:36:51
  * @Description: SonLight Tech版权所有
  */
 
@@ -153,7 +153,7 @@ class SunPay{
     }
 
     /* 微信支付API-V3 （推荐）*/
-    public static function wechat($uniacid=''){
+    public static function wechat($uniacid='',$wechat_app_id=''){
 
         if(empty($uniacid)){
             $account=request()->middleware('account');
@@ -176,7 +176,7 @@ class SunPay{
             die();
         }
 
-        $module=app('http')->getName();
+        // $module=app('http')->getName();
         $domain=request()->domain();
         //记录使用的是哪个支付参数，V3必须先解密
         $notify_url=$domain.'/payment/wechat/notify.php/'.$params['acid'];
@@ -205,8 +205,8 @@ class SunPay{
             'mp_app_id' => $account['appid'],
             // 选填-小程序 的 app_id
             'mini_app_id' => $account['appid'],
-            // 选填-app 的 app_id
-            'app_id' => '',
+            // 选填-app 的 app_id，开放平台app号，app支付必填
+            'app_id' => $wechat_app_id,
             // 选填-合单 app_id
             'combine_app_id' => '',
             // 选填-合单商户号
@@ -257,7 +257,7 @@ class SunPay{
             die();
         }
 
-        $module=app('http')->getName();
+        // $module=app('http')->getName();
         $domain=request()->domain();
         $return_url=$domain.'/payment/unipay/return.php';
         $notify_url=$domain.'/payment/unipay/notify.php';
