@@ -39,7 +39,15 @@ switch($_W['addons_index']){
     break;
     case 'web':
         if(empty($get['i'])){
+
+            //尝试获取来源HTTP_REFERER的i参数
             $cookie_i=cookie('sunphp_addons_uniacid');
+
+            if(preg_match("/(\?|&)\i=([^&#\/]+)(&|$)/i",$_SERVER['HTTP_REFERER'],$matches)){
+                if(!empty($matches[2])&&is_numeric($matches[2])){
+                    $cookie_i=$matches[2];
+                }
+            }
 
             if(empty($cookie_i)){
                 header('Location:'.$request->domain());
