@@ -342,8 +342,9 @@ $_GPC['__input'] = $post;
 
 // 转换为Sungpc对象，访问未知属性时，给默认值
 // 注意：会导致二维数组无法赋值，如有二维数组赋值，需要注意格式
-include_once root_path() . 'extend/sunphp/addons/SunGPC.php';
-$_GPC=new SunGPC($_GPC);
+// 注意：会导致$_GPC['xx']++运算报错！
+// include_once root_path() . 'extend/sunphp/addons/SunGPC.php';
+// $_GPC=new SunGPC($_GPC);
 
 
 
