@@ -338,13 +338,13 @@ $_GPC = array_merge($get, $post);
 $_GPC['__input'] = $post;
 
 
-
-
 // 转换为Sungpc对象，访问未知属性时，给默认值
 // 注意：会导致二维数组无法赋值，如有二维数组赋值，需要注意格式
 // 注意：会导致$_GPC['xx']++运算报错！
-// include_once root_path() . 'extend/sunphp/addons/SunGPC.php';
-// $_GPC=new SunGPC($_GPC);
+
+// 取消自动复制，采用严格模式，未定义数组索引必须判断！
+include_once root_path() . 'extend/sunphp/addons/SunGPC.php';
+$_GPC=new SunGPC($_GPC);
 
 
 
