@@ -3,27 +3,19 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-07-20 11:39:00
+ * @LastEditTime: 2023-07-27 16:32:09
  * @Description: SonLight Tech版权所有
  */
-/*
- * @Author: SonLight Tech
- * @Date: 2023-05-16 15:31:11
- * @LastEditors: light
- * @LastEditTime: 2023-05-16 15:44:26
- * @Description: SonLight Tech版权所有
- */
-
 
 declare(strict_types=1);
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
-use TencentCloud\Batch\V20170312\Models\TaskTemplateView;
+
 use think\facade\View;
 use sunphp\account\SunAccount;
 use sunphp\file\SunFile;
-
+use xin\helper\Func;
 
 function message($title,$url='',$type='success'){
     $tpl_file= root_path().'view/sunphp/message/show.html';
@@ -557,6 +549,17 @@ function template_compile($source, $compile){
 
 	file_put_contents($compile, $template_view);
     return true;
+}
+
+
+function tomedia($src='',$local=false,$cache=false){
+    global $_W;
+    if(empty($src)) return '';
+
+    if($local){
+        return $_W['attachurl_local'].$src;
+    }
+    return $_W['attachurl'].$src;
 }
 
 

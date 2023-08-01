@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-15 14:14:16
  * @LastEditors: light
- * @LastEditTime: 2023-05-25 11:31:01
+ * @LastEditTime: 2023-07-27 16:03:51
  * @Description: SonLight Tech版权所有
  */
 
@@ -42,6 +42,19 @@ class SunLoader{
             default:
             break;
         }
+    }
+
+    public function object($arg=''){
+        switch($arg){
+            case 'query':
+                include_once __DIR__ . '/SunQuery.php';
+		        $SunQuery_load = new SunQuery();
+                return $SunQuery_load;
+            break;
+            default:
+            break;
+        }
+        return '';
     }
 
     public function app($arg=''){}

@@ -3,12 +3,14 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-20 09:30:50
  * @LastEditors: light
- * @LastEditTime: 2023-05-22 11:44:50
+ * @LastEditTime: 2023-07-31 15:46:48
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
 
 namespace app\admin\controller;
+
+use app\admin\model\CoreStorage;
 use sunphp\file\SunFile;
 
 
@@ -26,6 +28,8 @@ class File extends Base{
 				$remote_upload=empty($post['remote_upload'])?true:false;
 				$local_delete=empty($post['local_delete'])?true:false;
 
+				$data=[];
+
 				switch ($post['file_type']) {
 					case 'img':
 						if (!empty($file['file_img'])) {
@@ -38,7 +42,6 @@ class File extends Base{
 							$data = array(
 								"path" => $res['path']
 							);
-							return jsonResult(200, "上传成功", $data);
 						}
 						break;
 					case 'video':
@@ -51,7 +54,6 @@ class File extends Base{
 							$data = array(
 								"path" => $res['path']
 							);
-							return jsonResult(200, "上传成功", $data);
 						}
 						break;
 					case 'voice':
@@ -72,7 +74,6 @@ class File extends Base{
 							$data = array(
 								"path" => $res['path']
 							);
-							return jsonResult(200, "上传成功", $data);
 						}
 						break;
 					case 'file':
@@ -90,12 +91,60 @@ class File extends Base{
 							$data = array(
 								"path" => $res['path']
 							);
-							return jsonResult(200, "上传成功", $data);
 						}
 						break;
 					default:
+							return jsonResult(400, "参数错误", array());
 						break;
 				}
+
+
+				// 是否获取attachurl实际地址
+				if(!empty($post['attachurl'])){
+						$get=$this->request->get();
+
+						// 本地附件url
+						$attachurl_local=$this->request->domain()."/attachment/";
+
+						// 开启远程就是远程附件地址
+						$storage='';
+
+						if(!empty($get['i'])){
+							$storage=CoreStorage::where('acid',$get['i'])->find();
+						}
+						if(empty($storage)||$storage['type']==1){
+							$storage=CoreStorage::where('acid',0)->find();
+						}
+
+						if(empty($storage)){
+							$type=1;
+						}else{
+							$type=$storage->type;
+						}
+						switch($type){
+							case 1:
+								$attachurl=$attachurl_local;
+								break;
+							case 2:
+								$oss=$storage->ali_oss;
+								$attachurl=$oss['url'].'/';
+								break;
+							case 3:
+								$oss=$storage->tencent_cos;
+								$attachurl=$oss['url'].'/';
+								break;
+							case 4:
+								$oss=$storage->qiniu;
+								$attachurl=$oss['url'].'/';
+								break;
+						}
+
+
+					$data['attachurl'] =$attachurl;
+				}
+
+				return jsonResult(200, "上传成功", $data);
+
 			}
 			return jsonResult(400, "参数错误", array());
 	}
