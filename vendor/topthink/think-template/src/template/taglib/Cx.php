@@ -390,9 +390,9 @@ class Cx extends Taglib
         global $_W;
         if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
             // if(preg_match('/(\$[^=><&!()|\s]*)/',$condition,$matches)){
-            if(preg_match('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
+            if(preg_match_all('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
                 $m_str='';
-                foreach ($matches as $m){
+                foreach ($matches[1] as $m){
                     $m_str.='isset('.$m.')&&';
                 }
                 $condition=$m_str.$condition;
@@ -418,14 +418,13 @@ class Cx extends Taglib
         $condition = !empty($tag['expression']) ? $tag['expression'] : $tag['condition'];
         $condition = $this->parseCondition($condition);
 
-
         // light兼容未设置变量默认值报错error
         global $_W;
         if(!empty($_W['addons_index'])&&in_array($_W['addons_index'],['app','web'])){
             // if(preg_match('/(\$[^=><&!()|\s]*)/',$condition,$matches)){
-            if(preg_match('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
+            if(preg_match_all('/(\$[0-9a-z_A-Z\'\"\[\]]*)/',$condition,$matches)){
                 $m_str='';
-                foreach ($matches as $m){
+                foreach ($matches[1] as $m){
                     $m_str.='isset('.$m.')&&';
                 }
                 $condition=$m_str.$condition;
