@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-24 11:39:45
  * @LastEditors: light
- * @LastEditTime: 2023-05-17 15:00:00
+ * @LastEditTime: 2023-08-04 12:05:36
  * @Description: SonLight Tech版权所有
  */
 
@@ -20,13 +20,15 @@ class CheckLogin{
 
         $cookie=$request->cookie();
         if(empty($cookie['sunphp_user_session_id'])){
-			return redirect($request->domain());
+            $sunphp_redirect_url='#/'.urlencode($request->domain().$request->url());
+			return redirect($request->domain().$sunphp_redirect_url);
         }
 
         //检查用户是否存在
         $user=CoreUser::where('session_id',$cookie['sunphp_user_session_id'])->where('is_delete',0)->find();
         if(empty($user)){
-            return redirect($request->domain());
+            $sunphp_redirect_url='#/'.urlencode($request->domain().$request->url());
+			return redirect($request->domain().$sunphp_redirect_url);
         }
 
         $get=$request->get();
