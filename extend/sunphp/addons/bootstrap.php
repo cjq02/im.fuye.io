@@ -81,13 +81,15 @@ switch($_W['addons_index']){
         // 检查后台用户是否登陆
         $cookie=$request->cookie();
         if(empty($cookie['sunphp_user_session_id'])){
-            header('Location:'.$request->domain());
+            $sunphp_redirect_url='#/'.urlencode($request->domain().$request->url());
+            header('Location:'.$request->domain().$sunphp_redirect_url);
             die();
         }
         //检查用户是否存在
         $user=CoreUser::where('session_id',$cookie['sunphp_user_session_id'])->where('is_delete',0)->find();
         if(empty($user)){
-            header('Location:'.$request->domain());
+            $sunphp_redirect_url='#/'.urlencode($request->domain().$request->url());
+            header('Location:'.$request->domain().$sunphp_redirect_url);
             die();
         }
 

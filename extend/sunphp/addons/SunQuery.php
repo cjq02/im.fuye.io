@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-15 14:14:16
  * @LastEditors: light
- * @LastEditTime: 2023-07-27 16:15:23
+ * @LastEditTime: 2023-08-02 15:16:07
  * @Description: SonLight Tech版权所有
  */
 
@@ -18,7 +18,7 @@ class SunQuery{
     public function from($arg=''){
         if(!empty($arg)){
             $prefix='ims_';
-            return Db::table($prefix.$arg);
+            return Db::connect('addons')->table($prefix.$arg);
         }
         return '';
     }

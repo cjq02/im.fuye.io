@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-20 09:30:50
  * @LastEditors: light
- * @LastEditTime: 2023-07-31 15:46:48
+ * @LastEditTime: 2023-08-02 17:36:16
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -101,45 +101,7 @@ class File extends Base{
 
 				// 是否获取attachurl实际地址
 				if(!empty($post['attachurl'])){
-						$get=$this->request->get();
-
-						// 本地附件url
-						$attachurl_local=$this->request->domain()."/attachment/";
-
-						// 开启远程就是远程附件地址
-						$storage='';
-
-						if(!empty($get['i'])){
-							$storage=CoreStorage::where('acid',$get['i'])->find();
-						}
-						if(empty($storage)||$storage['type']==1){
-							$storage=CoreStorage::where('acid',0)->find();
-						}
-
-						if(empty($storage)){
-							$type=1;
-						}else{
-							$type=$storage->type;
-						}
-						switch($type){
-							case 1:
-								$attachurl=$attachurl_local;
-								break;
-							case 2:
-								$oss=$storage->ali_oss;
-								$attachurl=$oss['url'].'/';
-								break;
-							case 3:
-								$oss=$storage->tencent_cos;
-								$attachurl=$oss['url'].'/';
-								break;
-							case 4:
-								$oss=$storage->qiniu;
-								$attachurl=$oss['url'].'/';
-								break;
-						}
-
-
+					$attachurl=SunFile::attachurl();
 					$data['attachurl'] =$attachurl;
 				}
 
