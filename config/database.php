@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-09 09:46:15
  * @LastEditors: light
- * @LastEditTime: 2023-08-02 15:15:23
+ * @LastEditTime: 2023-08-07 15:26:54
  * @Description: SonLight Tech版权所有
  */
 defined('SUN_IN') or exit('Sunphp Access Denied');
@@ -44,7 +44,7 @@ return [
             // 数据库连接参数
             'params'          => [],
             // 数据库编码默认采用utf8
-            'charset'         => env('database.charset', 'utf8'),
+            'charset'         => env('database.charset', 'utf8mb4'),
             // 数据库表前缀
             'prefix'          => env('database.prefix', 'sun_'),
 
@@ -81,7 +81,7 @@ return [
             // 数据库连接参数
             'params'          => [],
             // 数据库编码默认采用utf8
-            'charset'         => env('database.charset', 'utf8'),
+            'charset'         => env('database.charset', 'utf8mb4'),
             // 数据库表前缀
             'prefix'          => env('database.prefix', 'ims_'),
 
