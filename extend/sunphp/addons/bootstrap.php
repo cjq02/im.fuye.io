@@ -300,6 +300,8 @@ $_W['current_module']['version']=$module['version'];
 $_W['account']=$account->toArray();
 
 
+$_W['account']['acid']=$_W['acid'];
+
 
 if($sys_storage_set){
     $system_storage=$storage;
