@@ -823,6 +823,11 @@ function tomedia($src='',$local=false,$cache=false){
     global $_W;
     if(empty($src)) return '';
 
+    // 如果有http开头，则不加附件地址
+    if(preg_match('/^https?:\/\//i',$src)){
+        return $src;
+    }
+
     if($local){
         return $_W['attachurl_local'].$src;
     }
