@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-22 17:02:38
+ * @LastEditTime: 2023-08-23 10:10:43
  * @Description: SonLight Tech版权所有
  */
 
@@ -642,8 +642,8 @@ function mc_oauth_userinfo($uniacid=''){
     $userinfo=$account->login();
 
     /* 获取粉丝信息 */
-	$fans_info = $account->fansQueryInfo($userinfo['openid']);
-    dump($fans_info);
+	// $fans_info = $account->fansQueryInfo($userinfo['openid']);
+    // dump($fans_info);
 
     return $userinfo;
 }
