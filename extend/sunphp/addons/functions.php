@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 15:30:24
+ * @LastEditTime: 2023-08-23 18:47:45
  * @Description: SonLight Tech版权所有
  */
 
@@ -255,6 +255,46 @@ function register_jssdk($debug=false){
     $html.='</script>';
 
     return $html;
+}
+
+
+function tpl_form_field_color($field, $value = '') {
+
+    if(empty($value)){
+        $value='#ffffff';
+    }
+
+    $html='<div>';
+
+    $html.='<div>';
+    $html.='<input class="form-control"  style="width: 100px;display: inline-block;" id="color_'.$field.'" type="text" name="'.$field.'"  value="'.$value.'">';
+    $html.='<span style="width: 34px;height: 34px;display: inline-block;vertical-align: middle;background-color:'.$value.'"></span>';
+
+    $html.='<button id="btn_picker_'.$field.'" type="button" class="btn btn-default">选择颜色</button>';
+    $html.='</div>';
+
+    $html.='</div>';
+
+    $html.='
+    <script>
+    $(function(){
+            require(["colorpicker"],function(e){
+                Colorpicker.create({
+                    el: "btn_picker_'.$field.'",
+                    color: "'.$value.'",
+                    change: function (elem, hex) {
+                        $("input#color_'.$field.'").val(hex);
+                        $("input#color_'.$field.'").next().css("background-color", hex);
+                    }
+                })
+            });
+
+    });
+    </script>
+    ';
+
+    return $html;
+
 }
 
 
@@ -832,6 +872,11 @@ function tomedia($src='',$local=false,$cache=false){
         return $_W['attachurl_local'].$src;
     }
     return $_W['attachurl'].$src;
+}
+
+
+function referer(){
+    return $_SERVER['HTTP_REFERER'];
 }
 
 
