@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 10:10:43
+ * @LastEditTime: 2023-08-23 14:45:15
  * @Description: SonLight Tech版权所有
  */
 
@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
-
+use app\admin\model\CoreMember;
 use think\facade\View;
 use sunphp\account\SunAccount;
 use sunphp\file\SunFile;
@@ -105,15 +105,16 @@ function we_url($segment,$params=[]){
 }
 
 
-function pagination($total,$index,$size){
+function pagination($total,$pindex=1,$size=10){
     global $_W,$_GPC;
 
     $web_url='/web/index.php?i='.$_GPC['i'].'&c=site&a=entry&module_name='.$_W['current_module']['name'].'&do='.$_GPC['do'];
 
     $html='<ul class="pagination">';
 
-	$page = intval($_GPC["page"]);
-	$pindex = max(1, $page);
+    // 传递了页码
+	// $page = intval($_GPC["page"]);
+	// $pindex = max(1, $page);
 
     $num=ceil($total/$size);
 
@@ -131,10 +132,44 @@ function pagination($total,$index,$size){
         $html.='<li><a href="'.$web_url.'&page='.$preindex.'">&laquo;上一页</a></li>';
     }
 
-    for($i=0;$i<$num;$i++){
-        $page_i=$i+1;
-        $html.='<li><a href="'.$web_url.'&page='.$page_i.'">'.$page_i.'</a></li>';
+    // 会显示所有页码
+    // for($i=0;$i<$num;$i++){
+    //     $page_i=$i+1;
+    //     $html.='<li><a href="'.$web_url.'&page='.$page_i.'">'.$page_i.'</a></li>';
+    // }
+
+    if($num<=10){
+        for($i=0;$i<$num;$i++){
+            $page_i=$i+1;
+            $page_acitve='';
+            if($page_i==$pindex){
+                $page_acitve=' class="active"';
+            }
+            $html.='<li '.$page_acitve.'><a href="'.$web_url.'&page='.$page_i.'">'.$page_i.'</a></li>';
+        }
+    }else{
+        if($pindex<=4){
+            $page_array=[1,2,3,4,5,'...',$num];
+        }else if($pindex>=($num-3)){
+            $page_array=[1,'...',$num-4,$num-3,$num-2,$num-1,$num];
+        }else{
+            $page_array=[1,'...',$pindex-2,$pindex-1,$pindex,$pindex+1,$pindex+2,'...',$num];
+        }
+        for($i=0;$i<count($page_array);$i++){
+            $page_i=$page_array[$i];
+            $page_acitve='';
+            if($page_i==$pindex){
+                $page_acitve=' class="active"';
+            }
+            if($page_i=='...'){
+                $html.='<li><a href="javascript:void(0);">'.$page_i.'</a></li>';
+            }else{
+                $html.='<li '.$page_acitve.'><a href="'.$web_url.'&page='.$page_i.'">'.$page_i.'</a></li>';
+            }
+
+        }
     }
+
 
     if($num>1){
          $html.='<li><a href="'.$web_url.'&page='.$next.'">&raquo;下一页</a></li>';
@@ -632,7 +667,9 @@ function cache_clean(){
     $cache->clear();
 }
 
-function mc_oauth_userinfo($uniacid=''){
+// 默认不用框架sun_core_member会员管理
+// 如需使用，需要手动开启
+function mc_oauth_userinfo($uniacid='',$fans=false){
     global $_W;
 
     if(empty($uniacid)){
@@ -641,9 +678,53 @@ function mc_oauth_userinfo($uniacid=''){
     $account=SunAccount::create($uniacid);
     $userinfo=$account->login();
 
-    /* 获取粉丝信息 */
-	// $fans_info = $account->fansQueryInfo($userinfo['openid']);
-    // dump($fans_info);
+
+    // 模块必须手动指定，使用框架会员系统
+    if($fans){
+        /* 获取粉丝信息 */
+        $fans_info = $account->fansQueryInfo($userinfo['openid']);
+
+        //获取框架会员
+        $sql='select * from sun_core_member where openid=:openid and acid=:acid';
+        $params=[':openid'=>$userinfo['openid'],':acid'=>$uniacid];
+        $member=pdo_fetch($sql,$params);
+        if(!empty($member)){
+            $_W['fans']=$member;
+            // addons存在的参数uid
+            $_W['fans']['uid']=$member['id'];
+        }else{
+            // 写入框架会员
+            $member_data=[
+                'acid'=>$uniacid,
+                'openid'=>$userinfo['openid'],
+                'nickname'=>$userinfo['nickname'],
+                'avatar'=>$userinfo['headimgurl'],
+                'gender'=>$userinfo['sex'],
+                'create_time'=>date('Y-m-d H:i:s',time())
+            ];
+            if(!empty($userinfo['unionid'])){
+                $member_data['unionid']=$userinfo['unionid'];
+            }
+            $m_now=CoreMember::create($member_data);
+
+            $_W['fans']=$member_data;
+            // addons存在的参数uid
+            $_W['fans']['uid']=$m_now->id;
+
+        }
+
+        $_W['fans']['follow']=$fans_info['subscribe'];
+
+        $_W['member']=$_W['fans'];
+
+        //写入session
+        // session('fans_core_member_'.$uniacid,$_W['fans']);
+
+        session_start();
+        $_SESSION['fans_core_member_'.$uniacid]=$_W['fans'];
+        session_commit();
+
+    }
 
     return $userinfo;
 }

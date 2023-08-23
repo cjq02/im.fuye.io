@@ -184,7 +184,7 @@ CREATE TABLE `sun_core_pay` (
 
 DROP TABLE IF EXISTS `sun_core_member`;
 CREATE TABLE `sun_core_member` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
   `acid` int(11) NOT NULL,
   `openid` varchar(50) NOT NULL,
   `unionid` varchar(50) DEFAULT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE `sun_core_member` (
   `qq` varchar(50) DEFAULT NULL COMMENT 'QQ号',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`uid`),
   KEY `index_o` (`openid`) USING HASH,
   KEY `index_m` (`mobile`) USING BTREE,
   KEY `index_e` (`email`) USING HASH,

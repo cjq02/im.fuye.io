@@ -31,10 +31,23 @@ switch($_W['addons_index']){
             die();
         }
 
-        // 可能存在的参数
-        $_W['member']=[
-            'uid'=>''
-        ];
+        session_start();
+        if(!empty($_SESSION['fans_core_member_'.$get['i']])){
+            $_W['fans']=$_SESSION['fans_core_member_'.$get['i']];
+
+        }else{
+            // 可能存在的参数
+            $_W['fans']=[
+                'uid'=>'',
+                'openid'=>'',
+                'nickname'=>'',
+                'avatar'=>'',
+                'follow'=>'',
+            ];
+        }
+        session_commit();
+
+        $_W['member']=$_W['fans'];
 
     break;
     case 'web':

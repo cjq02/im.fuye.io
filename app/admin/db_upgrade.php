@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 10:02:41
+ * @LastEditTime: 2023-08-23 14:57:03
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -14,7 +14,7 @@ defined('SUN_IN') or exit('Sunphp Access Denied');
 
 if (!pdo_tableexists('sun_core_member')) {
     pdo_query("CREATE TABLE `sun_core_member` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `uid` int(11) NOT NULL AUTO_INCREMENT,
         `acid` int(11) NOT NULL,
         `openid` varchar(50) NOT NULL,
         `unionid` varchar(50) DEFAULT NULL,
@@ -40,12 +40,12 @@ if (!pdo_tableexists('sun_core_member')) {
         `qq` varchar(50) DEFAULT NULL COMMENT 'QQ号',
         `create_time` datetime DEFAULT NULL,
         `update_time` datetime DEFAULT NULL,
-        PRIMARY KEY (`id`),
+        PRIMARY KEY (`uid`),
         KEY `index_o` (`openid`) USING HASH,
         KEY `index_m` (`mobile`) USING BTREE,
         KEY `index_e` (`email`) USING HASH,
         KEY `index_u` (`unionid`) USING HASH
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      ) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8mb4;
   ");
 }
 

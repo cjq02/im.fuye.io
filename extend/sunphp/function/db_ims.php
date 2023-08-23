@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-24 14:52:38
  * @LastEditors: light
- * @LastEditTime: 2023-07-18 18:43:48
+ * @LastEditTime: 2023-08-23 14:53:50
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -21,6 +21,13 @@ function tableprefix(){
 }
 
 function tablename($table){
+    switch($table){
+        case 'mc_members':
+            return ' sun_core_member ';
+        break;
+        default:
+        break;
+    }
     $prefix=tableprefix();
     return ' '.$prefix.$table.' ';
 }
@@ -125,6 +132,10 @@ function pdo_get($table,$con=[],$fields=[]){
         return $unisetting;
 
 
+        break;
+        case 'mc_members':
+            // 对应的是sun_core_members表
+            return Db::table('sun_core_member')->where($con)->field($fields)->find();
         break;
         default:
         break;
