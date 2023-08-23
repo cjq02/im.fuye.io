@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 14:45:15
+ * @LastEditTime: 2023-08-23 15:30:24
  * @Description: SonLight Tech版权所有
  */
 
@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
-use app\admin\model\CoreMember;
+use think\facade\Db;
 use think\facade\View;
 use sunphp\account\SunAccount;
 use sunphp\file\SunFile;
@@ -690,8 +690,6 @@ function mc_oauth_userinfo($uniacid='',$fans=false){
         $member=pdo_fetch($sql,$params);
         if(!empty($member)){
             $_W['fans']=$member;
-            // addons存在的参数uid
-            $_W['fans']['uid']=$member['id'];
         }else{
             // 写入框架会员
             $member_data=[
@@ -705,11 +703,11 @@ function mc_oauth_userinfo($uniacid='',$fans=false){
             if(!empty($userinfo['unionid'])){
                 $member_data['unionid']=$userinfo['unionid'];
             }
-            $m_now=CoreMember::create($member_data);
 
+            $uid=Db::table('sun_core_member')->insertGetId($member_data);
             $_W['fans']=$member_data;
             // addons存在的参数uid
-            $_W['fans']['uid']=$m_now->id;
+            $_W['fans']['uid']=$uid;
 
         }
 
@@ -717,7 +715,7 @@ function mc_oauth_userinfo($uniacid='',$fans=false){
 
         $_W['member']=$_W['fans'];
 
-        //写入session
+        //不用框架session
         // session('fans_core_member_'.$uniacid,$_W['fans']);
 
         session_start();

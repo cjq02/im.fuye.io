@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-24 14:52:38
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 14:53:50
+ * @LastEditTime: 2023-08-23 15:03:14
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -182,7 +182,14 @@ function pdo_insertall($table,$data){
 
 //返回影响数据的条数
 function pdo_update($table,$data,$con=[]){
-
+    switch($table){
+        case 'mc_members':
+            // 对应的是sun_core_members表
+            return Db::table('sun_core_member')->where($con)->update($data);
+        break;
+        default:
+        break;
+    }
     return Db::table(tableprefix().$table)->where($con)->update($data);
 }
 
