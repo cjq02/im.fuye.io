@@ -181,6 +181,43 @@ CREATE TABLE `sun_core_pay` (
   UNIQUE KEY `index_acid` (`acid`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8mb4;
 
+
+DROP TABLE IF EXISTS `sun_core_member`;
+CREATE TABLE `sun_core_member` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) NOT NULL,
+  `openid` varchar(50) NOT NULL,
+  `unionid` varchar(50) DEFAULT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `salt` varchar(50) DEFAULT NULL,
+  `mobile` varchar(50) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(50) DEFAULT NULL,
+  `credit1` decimal(10,2) DEFAULT NULL COMMENT '积分',
+  `credit2` decimal(10,2) DEFAULT NULL COMMENT '余额',
+  `credit3` decimal(10,2) DEFAULT NULL COMMENT '自定义',
+  `credit4` decimal(10,2) DEFAULT NULL COMMENT '自定义',
+  `credit5` decimal(10,2) DEFAULT NULL COMMENT '自定义',
+  `credit6` decimal(10,2) DEFAULT NULL COMMENT '自定义',
+  `realname` varchar(50) DEFAULT NULL COMMENT '真是姓名',
+  `idcard` varchar(30) DEFAULT NULL COMMENT '身份证号码',
+  `gender` tinyint(1) DEFAULT NULL COMMENT '1男；2女',
+  `birthday` datetime DEFAULT NULL COMMENT '生日',
+  `address` varchar(255) DEFAULT NULL COMMENT '地址',
+  `alipay` varchar(50) DEFAULT NULL COMMENT '支付宝',
+  `wechat` varchar(50) DEFAULT NULL COMMENT '微信号',
+  `qq` varchar(50) DEFAULT NULL COMMENT 'QQ号',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_o` (`openid`) USING HASH,
+  KEY `index_m` (`mobile`) USING BTREE,
+  KEY `index_e` (`email`) USING HASH,
+  KEY `index_u` (`unionid`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8mb4;
+
+
 -- ----------------------------
 -- Table structure for sun_core_sms
 -- ----------------------------

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-07-27 16:32:09
+ * @LastEditTime: 2023-08-22 17:02:38
  * @Description: SonLight Tech版权所有
  */
 
@@ -154,6 +154,184 @@ function checksubmit($var = 'submit', $allowget = false){
    return false;
 }
 
+function register_jssdk($debug=false){
+    global $_W;
+    $account=SunAccount::create($_W['uniacid']);
+    $jssdk=$account->getJssdkConfig();
+
+    $sysinfo=[
+        'uniacid'=>$_W['uniacid'],
+        'acid'=>$_W['acid'],
+        'uid'=>'',
+        'siteroot'=>$_W['siteroot'],
+        'siteurl'=>$_W['siteurl'],
+        'attachurl'=>$_W['attachurl'],
+        'pre'=>'',
+        'MODULE_URL'=>defined('MODULE_URL')?MODULE_URL:''
+    ];
+
+    $html='<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>';
+
+    $html.='<script type="text/javascript">';
+
+    $html.='window.sysinfo=window.sysinfo||'.json_encode($sysinfo).';';
+	$html.='jssdkconfig = '.json_encode($jssdk).' || {};';
+
+	$html.='jssdkconfig.debug = '.$debug.';';
+
+	$html.="jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard'
+	];";
+
+	$html.='wx.config(jssdkconfig);';
+    $html.='</script>';
+
+    return $html;
+}
+
+
+function tpl_form_field_multi_image($field, $url, $arg='', $extras=''){
+
+    global $_W,$_GPC;
+    $upload_url=$_W['siteroot']."index.php/admin/file/upload?i=".$_GPC['i'];
+    $attach_url=$_W['attachurl'];
+
+    $html='<div>';
+
+    $html.='<div>';
+    $html.='<input class="form-control" readonly="readonly" value="批量上传图片">';
+
+    $html.='<input class="sun-input-file" accept="image/*" multiple type="file" onchange="tapMultiImage'.$field.'(this)">';
+
+
+    $html.='</div>';
+
+
+    $html.='<div id="multi_imgs_'.$field.'" style="display:flex;flex-wrap: wrap;">';
+
+    // 动态生成，动态删减
+    if(!empty($url)){
+        foreach($url as $img){
+            if(!empty($img)){
+                    $html.='<div  style="display:flex;margin-bottom:10px;">';
+                    $html.='<input type="hidden" name="'.$field.'[]" value="'.$img.'">';
+                    $html.='<img  src="'.$img.'" class="sun-img">';
+                    $html.='<div onclick="closeImg'.$field.'()" style="padding-left: 5px;margin-right: 15px;cursor:pointer;">X</div>';
+                    $html.='</div>';
+            }
+        }
+    }
+
+
+    $html.='</div>';
+
+
+
+    $html.='</div>';
+
+
+
+    $html.='<script>';
+
+    $html.='function closeImg'.$field.'(){';
+        // 移除html节点
+        $html.='document.getElementById("multi_imgs_'.$field.'").removeChild(event.currentTarget.parentNode);';
+    $html.='}';
+
+
+
+    $html.='async function tapMultiImage'.$field.'(t){';
+
+    $html.='var files=$(t)[0].files;';
+    $html.='if (files.length<=0) {return;}';
+
+
+
+    $html.='for(var i=0;i<files.length;i++){';
+    $html.='var file=files[i];';
+
+
+        $html.='if(file.type==""){';
+            $html.='file = new File([file], new Date().getTime()+".jpg",{type:"image/jpeg"});';
+            $html.='}';
+
+            $html.='var formdata=new FormData();';
+            $html.='formdata.append("file_type","img");';
+
+            $html.='formdata.append("session_id",localStorage.getItem("sunphp_admin_session_id"));';
+
+            $html.='formdata.append("file_img",file);';
+            $html.='await $.ajax({';
+                $html.='url:"'.$upload_url.'",';
+                $html.='data:formdata,';
+                $html.='headers:{"token":localStorage.getItem("sunphp_admin_access_token")},';
+                $html.='type:"POST",';
+                $html.='catch:false,';
+                $html.='contentType:false,';
+                $html.='processData:false,';
+                $html.='success:function(result){';
+                    $html.='if(result.status==200){';
+                        $html.='var imgurl ="'.$attach_url.'"+result.data.path;';
+
+                        // 区分单引号、转移单引号
+                        $html.='var img_node=\'<div  style="display:flex;margin-bottom:10px;"><input type="hidden" name="'.$field.'[]" value="\'+imgurl+\'"><img src="\'+imgurl+\'" class="sun-img"><div onclick="closeImg'.$field.'()" style="padding-left: 5px;margin-right: 15px;cursor:pointer;">X</div></div>\';';
+
+                        $html.='$("div#multi_imgs_'.$field.'").append(img_node);';
+
+                        $html.='}else if([401,402,403].indexOf(result.status)>-1){';
+                        $html.='location.href="'.$_W['siteroot'].'";';
+                        $html.='}';
+
+                        $html.='}';
+                        $html.='});';
+
+
+    $html.='}';
+
+
+
+    $html.='}';
+
+
+    $html.='</script>';
+
+return $html;
+
+}
+
 
 function tpl_form_field_image($field, $url, $arg='', $extras=''){
 
@@ -164,9 +342,9 @@ function tpl_form_field_image($field, $url, $arg='', $extras=''){
     $html='<div>';
 
     $html.='<div>';
-    $html.='<input class="form-control" id="'.$field.'" accept="image/*" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
+    $html.='<input class="form-control" id="'.$field.'" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
 
-    $html.='<input class="sun-input-file" type="file" onchange="tapImage'.$field.'(this)">';
+    $html.='<input class="sun-input-file" accept="image/*" type="file" onchange="tapImage'.$field.'(this)">';
 
 
 
@@ -240,9 +418,9 @@ function tpl_form_field_audio($field, $url, $arg='', $extras=''){
     $html='<div>';
 
     $html.='<div>';
-    $html.='<input class="form-control" id="'.$field.'" accept="audio/*" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
+    $html.='<input class="form-control" id="'.$field.'" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
 
-    $html.='<input class="sun-input-file" type="file" onchange="tapAudio'.$field.'(this)">';
+    $html.='<input class="sun-input-file" accept="audio/*" type="file" onchange="tapAudio'.$field.'(this)">';
 
 
 
@@ -315,9 +493,9 @@ function tpl_form_field_video($field, $url, $arg='', $extras=''){
     $html='<div>';
 
     $html.='<div>';
-    $html.='<input class="form-control" id="'.$field.'" accept="video/*" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
+    $html.='<input class="form-control" id="'.$field.'" type="text" name="'.$field.'" url="'.$url.'" value="'.$url.'">';
 
-    $html.='<input class="sun-input-file" type="file" onchange="tapVideo'.$field.'(this)">';
+    $html.='<input class="sun-input-file" accept="video/*" type="file" onchange="tapVideo'.$field.'(this)">';
 
 
 
@@ -454,9 +632,19 @@ function cache_clean(){
     $cache->clear();
 }
 
-function mc_oauth_userinfo($unacid){
-    $account=SunAccount::create($unacid);
+function mc_oauth_userinfo($uniacid=''){
+    global $_W;
+
+    if(empty($uniacid)){
+        $uniacid=$_W['uniacid'];
+    }
+    $account=SunAccount::create($uniacid);
     $userinfo=$account->login();
+
+    /* 获取粉丝信息 */
+	$fans_info = $account->fansQueryInfo($userinfo['openid']);
+    dump($fans_info);
+
     return $userinfo;
 }
 
