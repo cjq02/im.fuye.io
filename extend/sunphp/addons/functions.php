@@ -745,9 +745,14 @@ function mc_oauth_userinfo($uniacid='',$fans=false){
             }
 
             $uid=Db::table('sun_core_member')->insertGetId($member_data);
-            $_W['fans']=$member_data;
-            // addons存在的参数uid
-            $_W['fans']['uid']=$uid;
+
+            // addons存在的参数uid，这种写法首次的参数不完整
+            // $_W['fans']=$member_data;
+            // $_W['fans']['uid']=$uid;
+
+            $sql='select * from sun_core_member where uid=:uid';
+            $params=[':uid'=>$uid];
+            $_W['fans']==pdo_fetch($sql,$params);
 
         }
 
