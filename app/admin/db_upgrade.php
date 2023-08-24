@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 14:57:03
+ * @LastEditTime: 2023-08-24 15:59:24
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -15,7 +15,7 @@ defined('SUN_IN') or exit('Sunphp Access Denied');
 if (!pdo_tableexists('sun_core_member')) {
     pdo_query("CREATE TABLE `sun_core_member` (
         `uid` int(11) NOT NULL AUTO_INCREMENT,
-        `acid` int(11) NOT NULL,
+        `uniacid` int(11) NOT NULL,
         `openid` varchar(50) NOT NULL,
         `unionid` varchar(50) DEFAULT NULL,
         `nickname` varchar(50) DEFAULT NULL,

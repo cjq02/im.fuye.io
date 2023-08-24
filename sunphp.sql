@@ -185,7 +185,7 @@ CREATE TABLE `sun_core_pay` (
 DROP TABLE IF EXISTS `sun_core_member`;
 CREATE TABLE `sun_core_member` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `acid` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
   `openid` varchar(50) NOT NULL,
   `unionid` varchar(50) DEFAULT NULL,
   `nickname` varchar(50) DEFAULT NULL,
