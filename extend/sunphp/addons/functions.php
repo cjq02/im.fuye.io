@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 18:47:45
+ * @LastEditTime: 2023-08-24 16:07:26
  * @Description: SonLight Tech版权所有
  */
 
@@ -725,15 +725,15 @@ function mc_oauth_userinfo($uniacid='',$fans=false){
         $fans_info = $account->fansQueryInfo($userinfo['openid']);
 
         //获取框架会员
-        $sql='select * from sun_core_member where openid=:openid and acid=:acid';
-        $params=[':openid'=>$userinfo['openid'],':acid'=>$uniacid];
+        $sql='select * from sun_core_member where openid=:openid and uniacid=:uniacid';
+        $params=[':openid'=>$userinfo['openid'],':uniacid'=>$uniacid];
         $member=pdo_fetch($sql,$params);
         if(!empty($member)){
             $_W['fans']=$member;
         }else{
             // 写入框架会员
             $member_data=[
-                'acid'=>$uniacid,
+                'uniacid'=>$uniacid,
                 'openid'=>$userinfo['openid'],
                 'nickname'=>$userinfo['nickname'],
                 'avatar'=>$userinfo['headimgurl'],
