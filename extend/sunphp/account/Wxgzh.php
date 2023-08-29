@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-08-25 19:13:46
+ * @LastEditTime: 2023-08-29 12:16:08
  * @Description: SonLight Tech版权所有
  */
 
@@ -108,6 +108,12 @@ class Wxgzh {
             'miniprogram' => $miniprogram,
             'data' => $data
         ]);
+    }
+
+    public function clearAccessToken(){
+        // $config=$this->config;
+        // $app = Factory::officialAccount($config);
+        // $app['access_token']->setToken('123456', 0);
     }
 
     public function getAccessToken(){
