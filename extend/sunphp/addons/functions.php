@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-25 18:59:28
+ * @LastEditTime: 2023-08-29 16:29:12
  * @Description: SonLight Tech版权所有
  */
 
@@ -193,71 +193,27 @@ function checksubmit($var = 'submit', $allowget = false){
 
 
 function sunphp_addons_template($content=''){
-
-
     global $_W,$_GPC;
-
-    $system=CoreSystem::where('id',1)->find();
 
     switch($content){
         case 'common/header':
 
-            $parseStr='<!DOCTYPE html>'.
-                        '<html lang="en">'.
-                        '<head>'.
-                            '<meta charset="UTF-8">'.
-                            '<meta http-equiv="X-UA-Compatible" content="IE=edge">'.
-                            '<meta name="viewport" content="width=device-width, initial-scale=1.0">'.
-                            '<title>管理后台</title>'.
-                            '<link href="/public/sunphp/css/bootstrap.min.css?v='.time().'" rel="stylesheet">'.
-                            '<link href="/public/sunphp/css/font-awesome.min.css?v='.time().'" rel="stylesheet">'.
-                            '<link href="/public/sunphp/css/common.css?v='.time().'" rel="stylesheet">'.
-                            '<script type="text/javascript" src="/public/sunphp/js/jquery-1.11.1.min.js?v='.time().'"></script>'.
-                            '<script type="text/javascript" src="/public/sunphp/js/bootstrap.min.js?v='.time().'"></script>'.
-                            '<script type="text/javascript" src="/public/sunphp/js/config.js?v='.time().'"></script>'.
-                            '<script type="text/javascript" src="/public/sunphp/js/require.js?v='.time().'"></script>'.
-                            '<script type="text/javascript" >require.config(sunphp_require_config);</script>'.
-                        '</head>'.
-                        '<body>';
+            $system=CoreSystem::where('id',1)->find();
+
             //添加顶部列表
             if(empty($system['sys_logo'])){
                 $logo=$_W['siteroot'].'attachment/logo.png';
             }else{
                 $logo=$_W['attachurl'].$system['sys_logo'];
-
             }
-            $parseStr.='<div class="sun-one">';
-            $parseStr.='<img src="'.$logo.'" class="sun-logo">';
-            $parseStr.='<span class="sun-title">';
-
-            $parseStr.='<a href="'.$_W['siteroot'].'">';
-            $parseStr.=$system['sys_name'];
-            $parseStr.='</a>';
-
-            $parseStr.='</span>';
 
             //平台信息
             $account=request()->middleware("account");
-            $parseStr.='<span class="sun-name">';
-
-            $parseStr.='<a href="'.$_W['siteroot'].'#/account/info?acid='.$_GPC['i'].'">';
-            $parseStr.=' > '.$account['name'];
-            $parseStr.='</a>';
-
-            $parseStr.='</span>';
-
-            $parseStr.='</div>';
-
-
-            // 左右布局div
-            $parseStr.='<div class="sun-two">';
-
-
 
 
             // 添加左侧菜单权限
             $menus=SunHelper::getMenus();
-            $parseStr.='<div class="sun-menu">';
+
 
              //应用信息
              $app=request()->middleware("app");
@@ -268,54 +224,29 @@ function sunphp_addons_template($content=''){
                 $app_logo=$_W['attachurl'].$app['logo'];
             }
 
-             $parseStr.='<div class="sun-app">';
-             $parseStr.='<img src="'.$app_logo.'" class="sun-logo">';
-             $parseStr.='<div class="sun-title">';
-             $parseStr.=$app['name'];
-             $parseStr.='</div>';
-             $parseStr.='</div>';
+            // $_W,$_GPC未assign，全局变量模板中还是可用的
+            View::assign([
+                'system'=>$system,
+                'logo'=>$logo,
+                'account'=>$account,
+                'menus'=>$menus,
+                'app'=>$app,
+                'app_logo'=>$app_logo
+            ]);
 
-
-            foreach($menus as $menu){
-                $active="no";
-                if($menu['do']==$_GPC['do']){
-                    $active='active';
-                }
-                $web_url='/web/index.php?i='.$_GPC['i'].'&c=site&a=entry&module_name='.$_W['current_module']['name'].'&do='.$menu['do'];
-                if(!empty($menu['state'])){
-                    $web_url.='&state='.$menu['state'];
-                }
-                $parseStr.='<a href="'.$web_url.'" class="'.$active.'">';
-                $parseStr.=$menu['title'];
-                $parseStr.='</a>';
-            }
-            $parseStr.='</div>';
-
-            $parseStr.='<div class="sun-content">';
+            $tpl_file=root_path().'view/sunphp/common/header.html';
+            $parseStr=View::fetch($tpl_file);
 
         break;
         case 'common/footer':
-            $parseStr='</div>';
-            $parseStr.='</div>';
+            $system=CoreSystem::where('id',1)->find();
 
-            if($system['sys_type']==1){
-                $parseStr.='<div class="sun-footer">'.
-                '<div  class="sun-link">'.
-                '<span >Copyright ©'.date("Y").'</span>'.
-                '<span > '.$system["sys_name"].'</span>'.
-                '<span >'.
-                '<a  target="_blank" href="https://beian.miit.gov.cn/"> 备案号：'.$system["record_no"].'</a>'.
-                '</span>'.
-                '</div>'.
-                '<div  class="sun-copyright">'.
-                'powered by <a target="_blank" href="https://bluestear.gitee.io/sunphp-web"><b>Sunphp</b></a>'.
-                '</div>'.
-                '</div>';
-            }
+            View::assign([
+                'system'=>$system
+            ]);
+            $tpl_file=root_path().'view/sunphp/common/footer.html';
+            $parseStr=View::fetch($tpl_file);
 
-
-            $parseStr.= '</body>'.
-            '</html>';
         break;
         default:
             //addons单独模板，到template目录下寻找
