@@ -3,13 +3,14 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-24 16:07:26
+ * @LastEditTime: 2023-08-25 18:59:28
  * @Description: SonLight Tech版权所有
  */
 
 declare(strict_types=1);
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
+
 
 use think\facade\Db;
 use think\facade\View;
@@ -212,44 +213,48 @@ function register_jssdk($debug=false){
     $html.='window.sysinfo=window.sysinfo||'.json_encode($sysinfo).';';
 	$html.='jssdkconfig = '.json_encode($jssdk).' || {};';
 
-	$html.='jssdkconfig.debug = '.$debug.';';
+	if($debug){
+        $html.='jssdkconfig.debug = true;';
+    }else{
+        $html.='jssdkconfig.debug = false;';
+    }
 
-	$html.="jssdkconfig.jsApiList = [
-		'checkJsApi',
-		'onMenuShareTimeline',
-		'onMenuShareAppMessage',
-		'onMenuShareQQ',
-		'onMenuShareWeibo',
-		'hideMenuItems',
-		'showMenuItems',
-		'hideAllNonBaseMenuItem',
-		'showAllNonBaseMenuItem',
-		'translateVoice',
-		'startRecord',
-		'stopRecord',
-		'onRecordEnd',
-		'playVoice',
-		'pauseVoice',
-		'stopVoice',
-		'uploadVoice',
-		'downloadVoice',
-		'chooseImage',
-		'previewImage',
-		'uploadImage',
-		'downloadImage',
-		'getNetworkType',
-		'openLocation',
-		'getLocation',
-		'hideOptionMenu',
-		'showOptionMenu',
-		'closeWindow',
-		'scanQRCode',
-		'chooseWXPay',
-		'openProductSpecificView',
-		'addCard',
-		'chooseCard',
-		'openCard'
-	];";
+	$html.='jssdkconfig.jsApiList = [
+		"checkJsApi",
+		"onMenuShareTimeline",
+		"onMenuShareAppMessage",
+		"onMenuShareQQ",
+		"onMenuShareWeibo",
+		"hideMenuItems",
+		"showMenuItems",
+		"hideAllNonBaseMenuItem",
+		"showAllNonBaseMenuItem",
+		"translateVoice",
+		"startRecord",
+		"stopRecord",
+		"onRecordEnd",
+		"playVoice",
+		"pauseVoice",
+		"stopVoice",
+		"uploadVoice",
+		"downloadVoice",
+		"chooseImage",
+		"previewImage",
+		"uploadImage",
+		"downloadImage",
+		"getNetworkType",
+		"openLocation",
+		"getLocation",
+		"hideOptionMenu",
+		"showOptionMenu",
+		"closeWindow",
+		"scanQRCode",
+		"chooseWXPay",
+		"openProductSpecificView",
+		"addCard",
+		"chooseCard",
+		"openCard"
+	];';
 
 	$html.='wx.config(jssdkconfig);';
     $html.='</script>';
@@ -786,6 +791,29 @@ function file_random_name($path,$ext){
     } while (file_exists(root_path() . "attachment/" . $path  . $filename));
 
     return $filename;
+}
+
+function setting_load($params=''){
+    $res=[];
+    switch($params){
+        case 'upload':
+            global $_W;
+            $res['upload']=$_W['setting']['upload'];
+        break;
+        default:
+        break;
+    }
+    return $res;
+}
+
+function file_write($filename, $data) {
+
+	$filename = ATTACHMENT_ROOT . '/' . $filename;
+	mkdirs(dirname($filename));
+	file_put_contents($filename, $data);
+	@chmod($filename, 0644);
+
+	return is_file($filename);
 }
 
 // 本地上传，不远程上传

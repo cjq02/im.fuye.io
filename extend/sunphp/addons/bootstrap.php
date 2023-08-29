@@ -319,11 +319,22 @@ $_W['account']['acid']=$_W['acid'];
 if($sys_storage_set){
     $system_storage=$storage;
 }else{
-    $system_storage=CoreStorage::where('acid',0)->field(['img_size','video_size','file_size'])->find();
+    $system_storage=CoreStorage::where('acid',0)->field(['suffix','img_size','video_size','file_size'])->find();
 }
 $_W['setting']['upload']['audio']['limit']=$system_storage['video_size'];
+$_W['setting']['upload']['video']['limit']=$system_storage['video_size'];
 $_W['setting']['upload']['image']['limit']=$system_storage['img_size'];
 $_W['setting']['upload']['file']['limit']=$system_storage['file_size'];
+
+$sys_suffix=[];
+if(!empty($system_storage['suffix'])){
+    $sys_suffix=preg_split("/[\s\r\n]+/",$system_storage->suffix);
+}
+
+$_W['setting']['upload']['audio']['extentions']=$sys_suffix;
+$_W['setting']['upload']['video']['extentions']=$sys_suffix;
+$_W['setting']['upload']['image']['extentions']=$sys_suffix;
+$_W['setting']['upload']['file']['extentions']=$sys_suffix;
 
 
 // 打开的容器

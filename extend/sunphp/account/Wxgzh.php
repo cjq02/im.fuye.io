@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-06-02 14:55:53
+ * @LastEditTime: 2023-08-25 19:13:46
  * @Description: SonLight Tech版权所有
  */
 
@@ -113,7 +113,19 @@ class Wxgzh {
     public function getAccessToken(){
         $config=$this->config;
         $app = Factory::officialAccount($config);
-        return $app->user->getAccessToken();
+
+        // 这里是授权登陆token
+        // return $app->user->getAccessToken()->getToken();
+
+        $accessToken = $app->access_token;
+        // token 数组  token['access_token'] 字符串，会超时失效
+        // $token = $accessToken->getToken();
+
+        // 强制重新从微信服务器获取 token
+        $token = $accessToken->getToken(true);
+
+        // 返回string类型的access_token
+        return $token['access_token'];
     }
 
     public function getJssdkConfig(){
