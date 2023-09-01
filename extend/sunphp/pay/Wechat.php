@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-04-28 17:39:17
+ * @LastEditTime: 2023-09-01 09:55:49
  * @Description: SonLight Tech版权所有
  */
 
@@ -145,7 +145,7 @@ class Wechat {
         return $result;
     }
 
-     /* 微信扫码支付V3 */
+     /* 微信小程序支付V3 */
      public function mini($params){
         $order_id=$this->order($params);
         $order = [

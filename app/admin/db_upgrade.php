@@ -49,3 +49,13 @@ if (!pdo_tableexists('sun_core_member')) {
   ");
 }
 
+
+if (!pdo_fieldexists('sun_core_account', 'api_url')) {
+  pdo_query("ALTER TABLE `sun_core_account`
+  ADD COLUMN `api_url` varchar(255) NULL COMMENT '消息推送url' AFTER `remark`,
+  ADD COLUMN `api_token` varchar(255) NULL COMMENT '消息推送token' AFTER `api_url`,
+  ADD COLUMN `api_key` varchar(255) NULL COMMENT '消息加密密钥' AFTER `api_token`;
+  ");
+}
+
+

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-07-14 17:58:18
+ * @LastEditTime: 2023-09-01 16:30:54
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -316,7 +316,7 @@ class Account extends Base{
             'total' => $total
         ];
         if (!empty($post['first']) && $post['first'] == 1) {
-            $account=CoreAccount::where('id',$post['acid'])->field('name,avatar,type')->find();
+            $account=CoreAccount::where('id',$post['acid'])->field('name,avatar,type,api_url,api_token,api_key')->find();
             $result['account']=$account;
         }
 
@@ -478,6 +478,13 @@ class Account extends Base{
         }else{
             $s->save($post);
         }
+        return jsonResult(200,'操作成功',[]);
+    }
+
+    public function updateApi(){
+        $post=$this->request->post();
+        $fields=['api_url','api_token','api_key'];
+        CoreAccount::update($post,['id'=>$post['acid']],$fields);
         return jsonResult(200,'操作成功',[]);
     }
 
