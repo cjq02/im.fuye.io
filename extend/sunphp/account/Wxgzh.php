@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-09-05 18:14:58
+ * @LastEditTime: 2023-09-06 17:22:22
  * @Description: SonLight Tech版权所有
  */
 
@@ -13,7 +13,7 @@ namespace sunphp\account;
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
-use config;
+
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\Messages\Image;
@@ -22,6 +22,7 @@ use EasyWeChat\Kernel\Messages\Voice;
 use EasyWeChat\Kernel\Messages\News;
 use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Article;
+use sunphp\file\SunFile;
 
 class Wxgzh {
 
@@ -154,8 +155,85 @@ class Wxgzh {
         return $app->user->get($openId);
     }
 
-
+    // 公众号开通客服功能后，主动通过客服接口发送消息
     public function response($args=[]){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+
+        $msg='';
+        switch($args['type']){
+            case 'text':
+                $msg = new Text($args['content']);
+                break;
+            case 'image':
+                $msg = new Image($args['mediaId']);
+                break;
+            case 'video':
+                $msg = new Video($args['mediaId'], [
+                    'title' => $args['title'],
+                    'description' => $args['description'],
+                ]);
+                break;
+            case 'voice':
+                $msg = new Voice($args['mediaId']);
+                break;
+            case 'news':
+                // 被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条
+                $items = [
+                    new NewsItem([
+                        'title'       => $args['title'],
+                        'description' => $args['description'],
+                        'url'         => $args['url'],//链接 URL
+                        'image'       => $args['image'],//注意：图片链接
+                        // ...
+                    ]),
+                ];
+                $msg = new News($items);
+                break;
+            case 'article':
+               /*  title 标题
+                author 作者
+                content 具体内容
+                thumb_media_id 图文消息的封面图片素材 id（必须是永久 mediaID）
+                digest 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空
+                source_url 来源 URL
+                show_cover 是否显示封面，0 为 false，即不显示，1 为 true，即显示 */
+                $msg = new Article([
+                    'title'   => $args['title'],
+                    'author'  => $args['author'],
+                    'content' => $args['content'],
+                    'thumb_media_id' => $args['thumb_media_id'],
+                    'digest' => $args['digest'],
+                    'source_url' => $args['source_url'],
+                    'show_cover' => $args['show_cover']
+                ]);
+                break;
+            default:
+            break;
+        }
+
+
+
+
+        // 小程序发送客服消息
+        try{
+            $res=$app->customer_service->message($msg)->to($args['openid'])->send();
+        }catch(\Exception $e){
+            // logging_run($e);
+        }
+
+
+        // 成功的返回结果
+        // array (
+        //     'errcode' => 0,
+        //     'errmsg' => 'ok',
+        //   )
+
+        return $res;
+    }
+
+    //收到推送消息后——被动发送消息
+    public function response_passive($args=[]){
         $config=$this->config;
         $app = Factory::officialAccount($config);
         $app->server->push(function ($message) use($args){
@@ -230,6 +308,89 @@ class Wxgzh {
 
         $response = $app->server->serve();
         $response->send();
+
+    }
+
+    public function getMedia($mediaId,$type,$remote_upload=true,$local_delete=true){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+
+        //生成文件路径
+        $get=request()->get();
+
+        if (!empty($get['i'])&&intval($get['i'])>0) {
+            $uniacid = intval($get['i']);
+            $path = "{$type}s/{$uniacid}/" . date('Y/m');
+        } else {
+            $path = "{$type}s/system";
+        }
+
+
+        // 创建多级目录
+        if(!is_dir(root_path() . "attachment/" . $path)){
+            mkdir(root_path() . "attachment/" . $path, 0777, true);
+        }
+
+        switch ($type) {
+            case 'image':
+                $ext='jpg';
+                break;
+            case 'audio':
+            case 'voice':
+                $ext='mp3';
+                break;
+            case 'video':
+                $ext='mp4';
+                break;
+            default:
+                return;
+                break;
+        }
+
+        //指定文件名称
+        do {
+            $data = uniqid("", true);
+            $data .= microtime();
+            $data .= $_SERVER['HTTP_USER_AGENT'];
+            $data .= $_SERVER['REMOTE_PORT'];
+            $data .= $_SERVER['REMOTE_ADDR'];
+            $hash = strtolower(hash('ripemd128', "sunphp" . md5($data)));
+            $filename = md5($hash) . '.' . $ext;
+
+
+            $filename_noext = md5($hash);
+
+        } while (file_exists(root_path() . "attachment/" . $path . "/" . $filename));
+
+
+        $stream = $app->media->get($mediaId);
+
+        if ($stream instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
+            // // 以内容 md5 为文件名存到本地
+            // $stream->save('保存目录');
+
+            // 自定义文件名，不需要带后缀
+            // 注意不要带有后缀，返回结果带有后缀名
+            $res_filename=$stream->saveAs(root_path() . "attachment/" . $path, $filename_noext);
+
+
+            // 注意，语音是amr格式，需要转码mp3
+            if($type=='voice'){
+                // $res_filename=SunFile::amrToMp3($res_filename);
+            }
+
+            if($remote_upload){
+                SunFile::remoteUpload($path . "/" . $res_filename,$local_delete);
+            }
+
+            $result = [
+                "status" => 1,
+                "message"=>"下载成功",
+                "path" =>  $path . "/" . $res_filename
+            ];
+            return $result;
+
+        }
 
     }
 

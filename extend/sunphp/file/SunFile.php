@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-07 11:16:34
  * @LastEditors: light
- * @LastEditTime: 2023-09-05 13:30:26
+ * @LastEditTime: 2023-09-06 16:52:52
  * @Description: SonLight Tech版权所有
  */
 
@@ -446,6 +446,8 @@ class SunFile
                 $data .= $_SERVER['REMOTE_ADDR'];
                 $hash = strtolower(hash('ripemd128', "sunphp" . md5($data)));
                 $filename = md5($hash) . '.' . $ext;
+
+
             } while (file_exists(root_path() . "attachment/" . $path . "/" . $filename));
 
 

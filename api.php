@@ -34,6 +34,8 @@ $get=$request->get();
 $post=$request->post();
 
 
+
+
 if(empty($get['id'])){
     echo "id参数错误！";
     die();
@@ -59,6 +61,29 @@ if(empty($account['api_token'])){
 // $log = $app->log;
 // $log->write($get);
 // $log->write($post);
+
+
+// 可能是xml数据
+if(empty($post)){
+    $postStr = file_get_contents('php://input');
+    // $log->write($postStr);
+    if(!empty($postStr)){
+        try{
+            $input_array=simplexml_load_string($postStr,'SimpleXMLElement', LIBXML_NOCDATA);
+            $input_array=json_encode($input_array);
+            $input_array=json_decode($input_array,true);
+            // $log->write($input_array);
+
+            $post=$input_array;
+            $request->withPost($post);
+
+        }catch(\Exception $e){
+            $log->write($e);
+        }
+    }
+}
+
+
 
 
 // 检查微信get签名，接入开发者
