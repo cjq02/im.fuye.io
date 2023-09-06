@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 18:21:29
  * @LastEditors: light
- * @LastEditTime: 2023-09-01 14:41:35
+ * @LastEditTime: 2023-09-01 18:19:30
  * @Description: SonLight Tech版权所有
  */
 
@@ -14,6 +14,7 @@ namespace think;
 
 use app\admin\model\CoreAccount;
 use app\admin\model\CoreApp;
+use app\admin\model\CoreBindapp;
 use sunphp\api\SunWxapi;
 
 define('SUN_IN', true);
@@ -49,22 +50,20 @@ if(empty($account)){
     die();
 }
 
-if(empty($account['token'])){
+if(empty($account['api_token'])){
     echo "平台token未配置！";
     die();
 }
 
 
+// $log = $app->log;
+// $log->write($get);
+// $log->write($post);
 
-$log = $app->log;
-
-
-$log->write($get);
-$log->write($post);
 
 // 检查微信get签名，接入开发者
 if($request->isGet()){
-    if(SunWxapi::checkSignature($account['token'])){
+    if(SunWxapi::checkSignature($account['api_token'])){
         echo $_GET['echostr'];
         die();
     }else{
@@ -75,115 +74,103 @@ if($request->isGet()){
 
 // 微信post数据
 if($request->isPost()){
+    // 校验签名是否来自微信服务器
+    if(!SunWxapi::checkSignature($account['api_token'])){
+        echo "微信api校验失败！";
+        die();
+    }
 
-}
+    // 如果api携带了module参数
+    if(!empty($get['m'])){
+        //检查应用
+        $module=CoreApp::where(['identity'=>$get['m'],'is_delete'=>0])->find();
+        if(empty($module)){
+            echo "应用不存在！";
+            die();
+        }
 
+        //检查平台是否绑定应用
+        $can_use=CoreBindapp::alias('a')->join('core_supports b','a.sid=b.id')
+        ->where(['a.acid'=>$account['id'],'b.app_id'=>$module['id']])->find();
+        if(empty($can_use)){
+            echo "平台未绑定应用";
+            die();
+        }
 
+        $request->account=$account->toArray();
+        $request->app=$module->toArray();
 
-die();
+        switch($module['dir']){
+            case 'addons':
+                /* addons模块的入口地址 */
+                global $_W,$_GPC;
+                $_W['addons_index']='api';
 
+                // 与thinkphp6冲突的函数，需要提前预定义
+                // include_once __DIR__ . '/extend/sunphp/addons/functions_conflict.php';
 
+                include_once root_path() . 'extend/sunphp/addons/bootstrap_api.php';
+                $module_now=$_W['current_module']['name'];
+                $class_module=ucfirst(strtolower($module_now)).'ModuleProcessor';
 
+                // 兼容数据操作
+                include_once root_path().'extend/sunphp/function/db_ims.php';
 
-// 区分模块类型app、addons
-$module=CoreApp::where(['identity'=>$module_name,'is_delete'=>0])->find();
-if(empty($module)){
-    echo "应用不存在！";
-    die();
-}
+                // 兼容常用方法，如message(),load()等等
+                include_once root_path().'extend/sunphp/addons/functions.php';
 
+                //兼容WeAccount::create()->sendTplNotice方法
+                include_once root_path().'extend/sunphp/addons/WeAccount.php';
 
-/* addons模块的入口地址 */
-global $_W,$_GPC;
-$_W['addons_index']='api';
+                //引入WeModule，兼容$this->操作方法
+                include_once root_path().'extend/sunphp/addons/WeModuleProcessor.php';
 
-// 与thinkphp6冲突的函数，需要提前预定义
-// include_once __DIR__ . '/extend/sunphp/addons/functions_conflict.php';
-
-include_once root_path() . 'extend/sunphp/addons/bootstrap.php';
-
-
-
-$module_now=$_W['current_module']['name'];
-$class_a=ucfirst(strtolower($_GPC['a']));
-$class_module=ucfirst(strtolower($module_now)).'Module'.$class_a;
-
-
-
-
-
-
-// 兼容数据操作
-include_once root_path().'extend/sunphp/function/db_ims.php';
-
-// 兼容常用方法，如message(),load()等等
-include_once root_path().'extend/sunphp/addons/functions.php';
-
-
-
-
-
-
-if($_GPC['c']=='entry'){
-
-    //执行应用内部逻辑
-
-    //兼容WeAccount::create()->sendTplNotice方法
-    include_once root_path().'extend/sunphp/addons/WeAccount.php';
-
-    //引入WeModule，兼容$this->操作方法
-    include_once root_path().'extend/sunphp/addons/WeModule'.$class_a.'.php';
+                include_once root_path().'addons/'.$module_now.'/processor.php';
 
 
-    include_once root_path().'addons/'.$module_now.'/'.strtolower($_GPC['a']).'.php';
+                $class_now=new $class_module();
+                $method='respond';
+
+                if(session_id()){
+                    // 防止session_start阻塞
+                    session_commit();
+                }
+
+                $result=$class_now->$method();
+
+                // echo $result;
+                // die();
+
+            break;
+            case 'app':
+                $request->setPathinfo('Processor/respond');
+                // $request->withPost($notify_post);
+                $http = $app->http;
+                $http->name($get['m']); //指定模块
+                $response = $http->run($request);
+
+                //不能输出响应，否则后面代码无法执行
+                // $response->send();
+                // $http->end($response);
+
+            break;
+            default:
+            break;
+        }
 
 
-    $class_now=new $class_module();
-
-
-    if($class_a=='Site'){
-        $method='doMobile'.$_GPC['do'];
     }else{
-        // webapp、wxapp等入口
-        $method='doPage'.$_GPC['do'];
+        // 无module参数，使用平台配置的自动回复机制
+        // 1，关键字回复
+        // 2，非关键字回复
+        // 3，默认回复
+
     }
-
-
-    if(session_id()){
-        // 防止session_start阻塞
-        session_commit();
-    }
-
-    $result=$class_now->$method();
-
-
-    echo $result;
-    die();
-
-}else{
-
-    //执行框架内逻辑
-    include_once root_path().'extend/sunphp/addons/'.strtolower($_GPC['from']).'/'.strtolower($_GPC['c']).'/WeFrame'.$class_a.'.php';
-    $class_frame='WeFrame'.$class_a;
-    $class_method=strtolower($_GPC['do']);
-
-    $class_frame_instance=new $class_frame();
-    $result=$class_frame_instance->$class_method();
-
-    echo $result;
-    die();
 
 }
 
 
-
-
-
-
-
-
-
-
-
+echo "success";
+die();
 
 

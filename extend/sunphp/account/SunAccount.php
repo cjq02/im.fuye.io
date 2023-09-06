@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 14:14:49
  * @LastEditors: light
- * @LastEditTime: 2023-06-01 14:03:56
+ * @LastEditTime: 2023-09-03 16:41:12
  * @Description: SonLight Tech版权所有
  */
 
@@ -18,17 +18,23 @@ use app\admin\model\CoreAccount;
 class SunAccount{
 
 
-    public static function create($uniacid=''){
+    public static function create($uniacid='',$account_info=[]){
 
-        if(empty($uniacid)){
-            $account=request()->middleware('account');
+        // 可以通过account_info手动指定一个平台信息
+        if(!empty($account_info)){
+            $account=$account_info;
         }else{
-            $account=CoreAccount::where('id',$uniacid)->where('is_delete',0)->find();
-            if(empty($account)){
-                echo '平台不存在';
-                die();
+            if(empty($uniacid)){
+                $account=request()->middleware('account');
+            }else{
+                $account=CoreAccount::where('id',$uniacid)->where('is_delete',0)->find();
+                if(empty($account)){
+                    echo '平台不存在';
+                    die();
+                }
             }
         }
+
 
         //区分账号类型
         $sun_account='';
@@ -45,6 +51,12 @@ class SunAccount{
                     // EncodingAESKey，兼容与安全模式下请一定要填写！！！
                     'aes_key' => ''
                 ];
+                if(!empty($account['api_token'])){
+                    $config['token']=$account['api_token'];
+                }
+                if(!empty($account['api_key'])){
+                    $config['aes_key']=$account['api_key'];
+                }
                 $sun_account=new Wxgzh($config);
             break;
             case 2:
@@ -55,11 +67,19 @@ class SunAccount{
                     'token' => 'sunphp-wxxcx-token',
                     // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
                     'response_type' => 'array',
+                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
+                    'aes_key' => ''
                     // 'log' => [
                     //     'level' => 'debug',
                     //     'file' => __DIR__.'/wechat.log',
                     // ],
                 ];
+                if(!empty($account['api_token'])){
+                    $config['token']=$account['api_token'];
+                }
+                if(!empty($account['api_key'])){
+                    $config['aes_key']=$account['api_key'];
+                }
                 $sun_account=new Wxxcx($config);
             break;
             case 3:

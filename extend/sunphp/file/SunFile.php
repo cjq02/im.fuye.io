@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-07 11:16:34
  * @LastEditors: light
- * @LastEditTime: 2023-06-02 14:19:52
+ * @LastEditTime: 2023-09-05 13:30:26
  * @Description: SonLight Tech版权所有
  */
 
@@ -194,6 +194,8 @@ class SunFile
             $path = "{$type}s/system";
         }
 
+
+
         //指定文件名称
         do {
             $data = uniqid("", true);
@@ -368,7 +370,19 @@ class SunFile
 
     }
 
-    public static function  remoteDownload($url,$file_path=''){
+    public static function  remoteDownload($url,$type='',$file_path='',$remote_upload=true,$local_delete=true){
+
+        //检查type类型
+        $allow_type=['image', 'audio','voice', 'video','file'];
+        if(!in_array($type,$allow_type)){
+            $result = [
+                "status" => 0,
+                'message'=>'上传失败！参数type错误',
+                "path" => ''
+            ];
+            return $result;
+        }
+
         //远程下载
         $output = $file_path;//本地完整的文件地址（目录+名称+后缀）
         $ch = curl_init($url);
@@ -380,10 +394,75 @@ class SunFile
 
         if(!empty($file_path)){
             if(file_put_contents($output, $file)) {
-                return $output;
+                $result = [
+                    "status" => 1,
+                    "message"=>"下载成功",
+                    "path" =>  $output
+                ];
+                return $result;
             }
         }else{
-            return $file;
+            //下载到本地附件，尝试远程存储上传
+
+            //生成文件路径
+            $get=request()->get();
+
+            if (!empty($get['i'])&&intval($get['i'])>0) {
+                $uniacid = intval($get['i']);
+                $path = "{$type}s/{$uniacid}/" . date('Y/m');
+            } else {
+                $path = "{$type}s/system";
+            }
+
+
+            // 创建多级目录
+            if(!is_dir(root_path() . "attachment/" . $path)){
+                mkdir(root_path() . "attachment/" . $path, 0777, true);
+            }
+
+
+            switch ($type) {
+                case 'image':
+                    $ext='jpg';
+                    break;
+                case 'audio':
+                case 'voice':
+                    $ext='mp3';
+                    break;
+                case 'video':
+                    $ext='mp4';
+                    break;
+                default:
+                    return;
+                    break;
+            }
+
+            //指定文件名称
+            do {
+                $data = uniqid("", true);
+                $data .= microtime();
+                $data .= $_SERVER['HTTP_USER_AGENT'];
+                $data .= $_SERVER['REMOTE_PORT'];
+                $data .= $_SERVER['REMOTE_ADDR'];
+                $hash = strtolower(hash('ripemd128', "sunphp" . md5($data)));
+                $filename = md5($hash) . '.' . $ext;
+            } while (file_exists(root_path() . "attachment/" . $path . "/" . $filename));
+
+
+            if(file_put_contents(root_path() . "attachment/" . $path . "/" . $filename, $file)) {
+            //判断是否上传到云存储，是否上传到云存储后删除本地文件
+                if($remote_upload){
+                    self::remoteUpload($path . "/" . $filename,$local_delete);
+                }
+
+                $result = [
+                    "status" => 1,
+                    "message"=>"下载成功",
+                    "path" =>  $path . "/" . $filename
+                ];
+                return $result;
+            }
+
         }
     }
 
