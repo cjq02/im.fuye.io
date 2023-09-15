@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-09-15 15:01:31
+ * @LastEditTime: 2023-09-15 15:15:08
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -655,7 +655,11 @@ class Account extends Base{
 
         // 推送到微信服务器
         $account=SunAccount::create($post['acid']);
-        $res=$account->createMenu($post['bottons']);
+        $res=$account->createMenu($post['buttons']);
+
+        if(!empty($res['errcode'])&&$res['errcode']>0){
+            return jsonResult(400,$res['errmsg'],[]);
+        }
         return jsonResult(200,'操作成功',[]);
     }
 
