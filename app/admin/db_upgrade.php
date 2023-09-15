@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2023-08-24 15:59:24
+ * @LastEditTime: 2023-09-14 17:33:38
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -55,6 +55,13 @@ if (!pdo_fieldexists('sun_core_account', 'api_url')) {
   ADD COLUMN `api_url` varchar(255) NULL COMMENT '消息推送url' AFTER `remark`,
   ADD COLUMN `api_token` varchar(255) NULL COMMENT '消息推送token' AFTER `api_url`,
   ADD COLUMN `api_key` varchar(255) NULL COMMENT '消息加密密钥' AFTER `api_token`;
+  ");
+}
+
+
+if (!pdo_fieldexists('sun_core_account', 'wx_menu')) {
+  pdo_query("ALTER TABLE `sun_core_account`
+  ADD COLUMN `wx_menu` text NULL COMMENT '微信公众号菜单' AFTER `api_key`;
   ");
 }
 

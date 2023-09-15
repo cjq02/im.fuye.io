@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-09-01 16:30:54
+ * @LastEditTime: 2023-09-15 15:01:31
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -20,6 +20,7 @@ use app\admin\model\CoreSms;
 use app\admin\model\CoreStorage;
 use app\admin\model\CoreUseapp;
 use app\admin\model\CoreUser;
+use sunphp\account\SunAccount;
 use xin\helper\Func;
 
 class Account extends Base{
@@ -637,6 +638,25 @@ class Account extends Base{
 
 
         return jsonResult(200, '操作成功', $result);
+    }
+
+    public function getWxMenu(){
+        $post=$this->request->post();
+        $account=CoreAccount::where('id',$post['acid'])->field('wx_menu')->find();
+        return jsonResult(200,'操作成功',$account);
+    }
+
+    public function updateWxMenu(){
+        $post=$this->request->post();
+        $data=[
+            'wx_menu'=>$post['buttons']
+        ];
+        CoreAccount::update($data,['id'=>$post['acid']]);
+
+        // 推送到微信服务器
+        $account=SunAccount::create($post['acid']);
+        $res=$account->createMenu($post['bottons']);
+        return jsonResult(200,'操作成功',[]);
     }
 
 

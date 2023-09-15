@@ -34,6 +34,7 @@ CREATE TABLE `sun_core_account`  (
   `api_url` varchar(255) NULL COMMENT '消息推送url',
   `api_token` varchar(255) NULL COMMENT '消息推送token',
   `api_key` varchar(255) NULL COMMENT '消息加密密钥',
+  `wx_menu` text NULL COMMENT '微信公众号菜单',
   `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0正常1回收站2删除',
   `create_time` datetime(0) NULL DEFAULT NULL,
   `update_time` datetime(0) NULL DEFAULT NULL,

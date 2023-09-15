@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-09-06 17:22:22
+ * @LastEditTime: 2023-09-15 14:58:12
  * @Description: SonLight Tech版权所有
  */
 
@@ -431,6 +431,18 @@ class Wxgzh {
         }
 
         return $result;
+    }
+
+    public function currentMenu($args=[]){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+        return $app->menu->current();
+    }
+
+    public function createMenu($args=[]){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+        return $app->menu->create($args);
     }
 
 

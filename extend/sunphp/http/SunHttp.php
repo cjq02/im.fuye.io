@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-04-11 13:42:33
  * @LastEditors: light
- * @LastEditTime: 2023-04-11 13:54:37
+ * @LastEditTime: 2023-09-10 11:43:32
  * @Description: SonLight Tech版权所有
  */
 
@@ -29,6 +29,9 @@ class SunHttp
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);     // 设置超时限制防止死循环
         curl_setopt($ch, CURLOPT_TIMEOUT, 35);
+
+        // 设置浏览器HTTP_USER_AGENT
+        // curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 
         $data = curl_exec($ch); //运行curl
         curl_close($ch);
@@ -66,6 +69,9 @@ class SunHttp
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);     // 设置超时限制防止死循环
         curl_setopt($ch, CURLOPT_TIMEOUT, 35);
+
+        // 设置浏览器HTTP_USER_AGENT
+        // curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 
         $data = curl_exec($ch); //运行curl
         curl_close($ch);
