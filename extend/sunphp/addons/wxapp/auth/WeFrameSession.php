@@ -38,8 +38,9 @@ class WeFrameSession{
             'openid'=>$session['openid'],
             'sessionid'=>$sessionid,
         ];
-        //缓存用户的信息
-        SunCache::set($sessionid,$session,36000);
+        //缓存用户的信息，三天有效
+        //数据库持久化存储
+        SunCache::set($sessionid,$session,3600*24*3,true);
 
         return $this->result(0,'操作成功',$res);
     }
@@ -51,7 +52,7 @@ class WeFrameSession{
         global $_GPC;
         if(!empty($_GPC['state'])&&(strpos($_GPC['state'],'we7sid-')!==false)){
             $session=str_replace('we7sid-','',$_GPC['state']);
-            $session_cache=SunCache::get($session);
+            $session_cache=SunCache::get($session,true);
             $account=SunAccount::create();
             $data=$account->decryptData($session_cache['session_key'], $_GPC['iv'], $_GPC['encryptedData']);
             return $this->result(0,'操作成功',$data);

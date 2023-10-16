@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-07 11:16:34
  * @LastEditors: light
- * @LastEditTime: 2023-06-01 15:48:16
+ * @LastEditTime: 2023-10-16 10:52:49
  * @Description: SonLight Tech版权所有
  */
 
@@ -13,6 +13,7 @@ namespace sunphp\cache;
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
+use app\admin\model\CoreCache;
 use think\facade\Cache;
 
 class SunCache{
@@ -21,18 +22,42 @@ class SunCache{
         return 'sunphp_cache_';
     }
 
-    public static function set($name,$value,$expire_time=0){
+    public static function set($name,$value,$expire_time=0,$sql_cache=false){
         $name=self::prefix().$name;
         if($expire_time>0){
             Cache::set($name,$value, $expire_time);
         }else{
             Cache::set($name,$value);
         }
+
+        if($sql_cache){
+            $core_cache=CoreCache::where('key',$name)->find();
+            if(empty($core_cache)){
+                CoreCache::where('key',$name)->update([
+                    'value'=>$value
+                ]);
+            }else{
+                CoreCache::create([
+                    'key'=>$name,
+                    'value'=>$value
+                ]);
+            }
+        }
     }
 
-    public static function get($name){
+    public static function get($name,$sql_cache=false){
         $name=self::prefix().$name;
-        return Cache::get($name);
+        $value=Cache::get($name);
+
+        if($sql_cache){
+            if(empty($value)){
+                $core_cache=CoreCache::where('key',$name)->find();
+                if(!empty($core_cache)){
+                    return $core_cache['value'];
+                }
+            }
+        }
+        return $value;
     }
 
     public static function delete($name){

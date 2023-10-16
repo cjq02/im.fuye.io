@@ -231,7 +231,7 @@ if(!empty($get['from'])){
     switch($get['from']){
         case 'wxapp':
             if(!empty($get['state'])&&(strpos($get['state'],'we7sid-')!==false)){
-                $wxapp_session=SunCache::get(str_replace('we7sid-','',$get['state']));
+                $wxapp_session=SunCache::get(str_replace('we7sid-','',$get['state']),true);
                 if(!empty($wxapp_session)&&!empty($wxapp_session['openid'])){
                     $_W['openid']=$wxapp_session['openid'];
                 }

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-24 11:39:45
  * @LastEditors: light
- * @LastEditTime: 2023-04-20 16:56:02
+ * @LastEditTime: 2023-09-19 17:21:47
  * @Description: SonLight Tech版权所有
  */
 
@@ -33,17 +33,6 @@ class CheckToken{
 
         $token=$request->header('token');
         $session_id=$request->post('session_id','');
-        
-        
-        
-        if (!$token) {
-            $token = $request->get('token', '');
-        }
-        
-        if (!$session_id) {
-            $session_id = $request->get('session_id', '');
-        }
-
 
         if(empty($session_id)||empty($token)){
 			return jsonResult(402, "用户未登录", []);

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2023-09-14 17:33:38
+ * @LastEditTime: 2023-10-16 10:18:30
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -30,7 +30,7 @@ if (!pdo_tableexists('sun_core_member')) {
         `credit4` decimal(10,2) DEFAULT NULL COMMENT '自定义',
         `credit5` decimal(10,2) DEFAULT NULL COMMENT '自定义',
         `credit6` decimal(10,2) DEFAULT NULL COMMENT '自定义',
-        `realname` varchar(50) DEFAULT NULL COMMENT '真是姓名',
+        `realname` varchar(50) DEFAULT NULL COMMENT '真实姓名',
         `idcard` varchar(30) DEFAULT NULL COMMENT '身份证号码',
         `gender` tinyint(1) DEFAULT NULL COMMENT '1男；2女',
         `birthday` datetime DEFAULT NULL COMMENT '生日',
@@ -65,4 +65,13 @@ if (!pdo_fieldexists('sun_core_account', 'wx_menu')) {
   ");
 }
 
+
+if (!pdo_tableexists('sun_core_cache')) {
+  pdo_query("CREATE TABLE `sun_core_cache` (
+      `key` varchar(100) NOT NULL,
+      `value` text,
+      PRIMARY KEY (`key`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+");
+}
 

@@ -222,6 +222,15 @@ CREATE TABLE `sun_core_member` (
 ) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8mb4;
 
 
+DROP TABLE IF EXISTS `sun_core_cache`;
+CREATE TABLE `sun_core_cache` (
+  `key` varchar(100) NOT NULL,
+  `value` text,
+  PRIMARY KEY (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+
 -- ----------------------------
 -- Table structure for sun_core_sms
 -- ----------------------------
