@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-07 11:16:34
  * @LastEditors: light
- * @LastEditTime: 2023-10-16 11:20:53
+ * @LastEditTime: 2023-10-16 14:03:39
  * @Description: SonLight Tech版权所有
  */
 
@@ -53,6 +53,8 @@ class SunCache{
             if(empty($value)){
                 $core_cache=CoreCache::where('key',$name)->find();
                 if(!empty($core_cache)){
+                    // 更新缓存
+                    Cache::set($name,$core_cache['value'], 3600*24*3);
                     return $core_cache['value'];
                 }
             }
