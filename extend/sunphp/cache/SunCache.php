@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-07 11:16:34
  * @LastEditors: light
- * @LastEditTime: 2023-10-16 10:52:49
+ * @LastEditTime: 2023-10-16 11:20:53
  * @Description: SonLight Tech版权所有
  */
 
@@ -32,7 +32,7 @@ class SunCache{
 
         if($sql_cache){
             $core_cache=CoreCache::where('key',$name)->find();
-            if(empty($core_cache)){
+            if(!empty($core_cache)){
                 CoreCache::where('key',$name)->update([
                     'value'=>$value
                 ]);
