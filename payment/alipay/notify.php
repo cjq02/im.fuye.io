@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-28 09:52:45
  * @LastEditors: light
- * @LastEditTime: 2023-05-26 16:36:11
+ * @LastEditTime: 2023-10-17 11:20:34
  * @Description: SonLight Tech版权所有
  */
 
@@ -97,6 +97,7 @@ $notify_post = [
     'acid' => $order['acid'],
     'module' => $order['module'],
     'tid' => $order['tid'],
+    'title' => $order['title'],
     'fee' => $order['money']
 ];
 

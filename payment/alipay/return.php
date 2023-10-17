@@ -97,6 +97,7 @@ $notify_post = [
     'acid' => $order['acid'],
     'module' => $order['module'],
     'tid' => $order['tid'],
+    'title' => $order['title'],
     'fee' => $order['money']
 ];
 

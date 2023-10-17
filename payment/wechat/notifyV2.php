@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-28 09:52:45
  * @LastEditors: light
- * @LastEditTime: 2023-05-26 16:33:24
+ * @LastEditTime: 2023-10-17 11:20:10
  * @Description: SonLight Tech版权所有
  */
 
@@ -77,6 +77,7 @@ if ($data['result_code']=='SUCCESS'&&$data['return_code']=='SUCCESS') {
                 'acid'=>$order['acid'],
                 'module'=>$order['module'],
                 'tid'=>$order['tid'],
+                'title' => $order['title'],
                 'fee'=>$order['money'],
                 'openid'=>$data['openid']
             ];
