@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-24 14:52:38
  * @LastEditors: light
- * @LastEditTime: 2023-05-31 08:17:45
+ * @LastEditTime: 2023-10-20 11:33:48
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -61,9 +61,17 @@ function pdo_getvalue($table,$con=[],$value){
 }
 
 //所有行
-function pdo_getall($table,$con=[],$fields=[]){
-
-    return Db::name($table)->where($con)->field($fields)->select()->toArray();
+function pdo_getall($table,$con=[],$fields=[],$keyfield=''){
+    $data=Db::name($table)->where($con)->field($fields)->select()->toArray();
+    if(!empty($keyfield)){
+        $result=[];
+        foreach($data as $v){
+            $result[$v[$keyfield]]=$v;
+        }
+        return $result;
+    }else{
+        return $data;
+    }
 }
 
 //返回添加成功的条数，通常情况返回 1
@@ -87,7 +95,13 @@ function pdo_insertall($table,$data){
 //返回影响数据的条数
 function pdo_update($table,$data,$con=[]){
 
-    return Db::name($table)->where($con)->update($data);
+    // 无条件全部更新
+    if(empty($con)){
+        return Db::name($table)->whereRaw('1=1')->update($data);
+    }else{
+        return Db::name($table)->where($con)->update($data);
+    }
+
 }
 
 function pdo_delete($table,$con=[]){

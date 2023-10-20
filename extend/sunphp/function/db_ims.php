@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-24 14:52:38
  * @LastEditors: light
- * @LastEditTime: 2023-08-23 15:03:14
+ * @LastEditTime: 2023-10-20 11:59:34
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -155,9 +155,17 @@ function pdo_getcolumn($table,$con=[],$value){
 }
 
 //所有行
-function pdo_getall($table,$con=[],$fields=[]){
-
-    return Db::table(tableprefix().$table)->where($con)->field($fields)->select()->toArray();
+function pdo_getall($table,$con=[],$fields=[],$keyfield=''){
+    $data=Db::table(tableprefix().$table)->where($con)->field($fields)->select()->toArray();
+    if(!empty($keyfield)){
+        $result=[];
+        foreach($data as $v){
+            $result[$v[$keyfield]]=$v;
+        }
+        return $result;
+    }else{
+        return $data;
+    }
 }
 
 //返回添加成功的条数，通常情况返回 1
@@ -190,7 +198,13 @@ function pdo_update($table,$data,$con=[]){
         default:
         break;
     }
-    return Db::table(tableprefix().$table)->where($con)->update($data);
+
+    // 无条件全部更新
+    if(empty($con)){
+        return Db::table(tableprefix().$table)->whereRaw('1=1')->update($data);
+    }else{
+        return Db::table(tableprefix().$table)->where($con)->update($data);
+    }
 }
 
 function pdo_delete($table,$con=[]){

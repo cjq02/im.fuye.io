@@ -118,7 +118,7 @@ switch($_W['addons_index']){
                 'acid'=>$get['i']
             ])->find();
             if(empty($use_account)){
-                return response('');
+                // return response('');会导致程序继续执行报错！
                 echo "无平台操作权限";
                 die();
             }
