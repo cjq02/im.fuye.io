@@ -302,6 +302,7 @@ CREATE TABLE `sun_core_system`  (
   `check` tinyint(1) NOT NULL DEFAULT 1 COMMENT '注册审核，默认1审核',
   `bind_phone` tinyint(1) NOT NULL DEFAULT 0 COMMENT '默认0不绑定，1绑定',
   `record_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案号',
+  `record_security` varchar(255) NULL COMMENT '公安备案号',
   `record_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案公司名称',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-08-29 16:29:12
+ * @LastEditTime: 2023-12-04 10:21:12
  * @Description: SonLight Tech版权所有
  */
 
@@ -905,6 +905,9 @@ function file_upload($file,$type){
          $res=SunFile::upload($key,$type,false,false);
          if($res['status']==1){
             $res['success']=1;
+            return $res;
+         }else{
+            $res['success']=0;
             return $res;
          }
     }

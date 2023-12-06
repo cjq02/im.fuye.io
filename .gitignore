@@ -15,7 +15,7 @@ install.lock
 /addons/*/
 
 # app module
-/app/light_im/
+# /app/light_im/
 
 
 

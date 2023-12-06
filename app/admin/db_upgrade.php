@@ -75,3 +75,9 @@ if (!pdo_tableexists('sun_core_cache')) {
 ");
 }
 
+// 1.3.5
+if (!pdo_fieldexists('sun_core_system', 'record_security')) {
+  pdo_query("ALTER TABLE `sun_core_system`
+  ADD COLUMN `record_security` varchar(255) NULL COMMENT '公安备案号' AFTER `record_no`;
+  ");
+}

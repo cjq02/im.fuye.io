@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 15:13:30
  * @LastEditors: light
- * @LastEditTime: 2023-06-05 08:56:23
+ * @LastEditTime: 2023-12-06 18:06:36
  * @Description: SonLight Tech版权所有
  */
 
@@ -67,9 +67,10 @@ class System extends Base{
                 break;
         }
 
-        $sys=CoreSystem::where('id',1)->field(['sys_type','sys_mall','sys_upgrade','sys_domain','sys_secret','sys_sign','bind_phone','register','record_name','record_no','sys_name','sys_logo'])->find();
+        $sys=CoreSystem::where('id',1)->field(['sys_type','sys_mall','sys_upgrade','sys_domain','sys_secret','sys_sign','bind_phone','register','record_name','record_no','record_security','sys_name','sys_logo'])->find();
         $data['record_name']=$sys->record_name;
         $data['record_no']=$sys->record_no;
+        $data['record_security']=$sys->record_security;
         $data['sys_name']=$sys->sys_name;
         $data['sys_logo']=$sys->sys_logo;
         $data['bind_phone']=$sys->bind_phone;
@@ -95,7 +96,7 @@ class System extends Base{
         $post=$this->request->post();
         $s=CoreSystem::where('id',1)->find();
         if(empty($s)){
-            CoreSystem::create($post,['sys_name','sys_logo','register','bind_phone','check','record_no','record_name']);
+            CoreSystem::create($post,['sys_name','sys_logo','register','bind_phone','check','record_no','record_security','record_name']);
         }else{
             $s->save($post);
         }
@@ -258,7 +259,7 @@ class System extends Base{
     public function activate(){
         //激活高级商用版
         $post=$this->request->post();
-        $sys=CoreSystem::where('id',1)->field(['sys_name','record_name','record_no','sys_type','sys_upgrade','sys_domain','sys_secret','sys_sign'])->find();
+        $sys=CoreSystem::where('id',1)->field(['sys_name','record_name','record_no','record_security','sys_type','sys_upgrade','sys_domain','sys_secret','sys_sign'])->find();
         //版权所有，侵权必究！
         $secret=md5($sys->sys_domain.$sys->sys_type.$sys->sys_sign);
         if($sys->sys_type==2&&$sys->sys_secret==$secret){
