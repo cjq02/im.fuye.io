@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 18:21:29
  * @LastEditors: light
- * @LastEditTime: 2023-12-11 11:41:05
+ * @LastEditTime: 2023-12-11 11:44:57
  * @Description: SonLight Tech版权所有
  */
 
@@ -34,7 +34,7 @@ $app->initialize();
 
 $request = $app->request;
 // 设置全局变量过滤，防止输入特殊字符
-$request->filter(['strip_tags', 'htmlspecialchars']);
+$request->filter(['htmlspecialchars']);
 
 include_once root_path() . 'extend/sunphp/addons/bootstrap.php';
 
