@@ -866,6 +866,11 @@ class App extends Base
         } else {
             //再次更新数据
             $data['new_version'] = null;
+
+            // 升级不能覆盖编辑的名称，描述
+            unset($data['name']);
+            unset($data['description']);
+
             $app->save($data);
             //升级
             $db_upgrade = root_path().$app['dir']."/" . $app->identity . "/" . $upgrade; //XML文件
