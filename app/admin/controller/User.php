@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-22 14:21:35
  * @LastEditors: light
- * @LastEditTime: 2023-05-04 09:30:43
+ * @LastEditTime: 2024-01-11 10:07:46
  * @Description: SonLight Tech版权所有
  */
 /*
@@ -268,16 +268,27 @@ class User extends Base{
                 break;
             case 2:
                 $routes=['Account','App','User','System'];
-                $sys=CoreSystem::where('id',1)->field(['sys_type','sys_upgrade','sys_domain','sys_secret','sys_sign'])->find();
-                if($sys['sys_upgrade']==1){
-                    $routes[]='Version';
-                }else{
-                    //版权所有，侵权必究！
-                    $secret=md5($sys->sys_domain.$sys->sys_type.$sys->sys_sign);
-                    if($sys->sys_type!=2||$sys->sys_secret!=$secret){
+
+                //版权所有，侵权必究！
+                $copyright_file=root_path().'data/copyright.php';
+                if(file_exists($copyright_file)){
+                    $copyright=include_once($copyright_file);
+                    if($copyright['sys_upgrade']==1){
                         $routes[]='Version';
                     }
+                }else{
+                    $sys=CoreSystem::where('id',1)->field(['sys_type','sys_upgrade','sys_domain','sys_secret','sys_sign'])->find();
+                    if($sys['sys_upgrade']==1){
+                        $routes[]='Version';
+                    }else{
+                        //版权所有，侵权必究！
+                        $secret=md5($sys->sys_domain.$sys->sys_type.$sys->sys_sign);
+                        if($sys->sys_type!=2||$sys->sys_secret!=$secret){
+                            $routes[]='Version';
+                        }
+                    }
                 }
+
                 break;
         }
         $data=[

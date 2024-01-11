@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 15:13:30
  * @LastEditors: light
- * @LastEditTime: 2023-12-06 18:06:36
+ * @LastEditTime: 2024-01-11 10:06:53
  * @Description: SonLight Tech版权所有
  */
 
@@ -79,11 +79,20 @@ class System extends Base{
         $data['sys_mall']=$sys->sys_mall;
         $data['sys_upgrade']=$sys->sys_upgrade;
 
-        if($sys->sys_type==2){
-            //版权所有，侵权必究！
-            $secret=md5($sys->sys_domain.$sys->sys_type.$sys->sys_sign);
-            if($sys->sys_secret!=$secret){
-                $data['sys_type']=1;
+        //版权所有，侵权必究！
+        $copyright_file=root_path().'data/copyright.php';
+        if(file_exists($copyright_file)){
+            $copyright=include_once($copyright_file);
+            $data['sys_type']=$copyright['sys_type'];
+            $data['sys_mall']=$copyright['sys_mall'];
+            $data['sys_upgrade']=$copyright['sys_upgrade'];
+        }else{
+            if($sys->sys_type==2){
+                //版权所有，侵权必究！
+                $secret=md5($sys->sys_domain.$sys->sys_type.$sys->sys_sign);
+                if($sys->sys_secret!=$secret){
+                    $data['sys_type']=1;
+                }
             }
         }
         return jsonResult(200,'操作成功',$data);
