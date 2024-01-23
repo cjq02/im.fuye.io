@@ -81,3 +81,10 @@ if (!pdo_fieldexists('sun_core_system', 'record_security')) {
   ADD COLUMN `record_security` varchar(255) NULL COMMENT '公安备案号' AFTER `record_no`;
   ");
 }
+
+// 1.4.5
+if (!pdo_fieldexists('sun_core_storage', 'censor')) {
+  pdo_query("ALTER TABLE `sun_core_storage`
+  ADD COLUMN `censor` text NULL COMMENT '内容安全配置' AFTER `qiniu`;
+  ");
+}

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-09-01 09:55:49
+ * @LastEditTime: 2024-01-21 11:17:32
  * @Description: SonLight Tech版权所有
  */
 
@@ -85,7 +85,9 @@ class Wechat {
             'out_trade_no' => $order_id,
             'description' => $params['title'],
             'amount' => [
-                'total' =>intval($params['money']*100),//单位元，转换为分
+                // 浮点运算损失精度，采用strval或者round
+                // 'total' =>intval(strval($params['money']*100)),//单位元，转换为分
+                'total' =>round($params['money']*100),//单位元，转换为分
             ],
             'payer' => [
                 'openid' => $params['openid'],
@@ -103,7 +105,7 @@ class Wechat {
             'out_trade_no' => $order_id,
             'description' => $params['title'],
             'amount' => [
-                'total' =>intval($params['money']*100),//单位元，转换为分
+                'total' =>round($params['money']*100),//单位元，转换为分
             ],
             'scene_info' => [
                 'payer_client_ip' => request()->host(),
@@ -124,7 +126,7 @@ class Wechat {
             'out_trade_no' => $order_id,
             'description' => $params['title'],
             'amount' => [
-                'total' =>intval($params['money']*100),//单位元，转换为分
+                'total' =>round($params['money']*100),//单位元，转换为分
             ]
         ];
         $result = Pay::wechat()->app($order);
@@ -138,7 +140,7 @@ class Wechat {
             'out_trade_no' => $order_id,
             'description' => $params['title'],
             'amount' => [
-                'total' =>intval($params['money']*100),//单位元，转换为分
+                'total' =>round($params['money']*100),//单位元，转换为分
             ]
         ];
         $result = Pay::wechat()->scan($order);
@@ -152,7 +154,7 @@ class Wechat {
             'out_trade_no' => $order_id,
             'description' => $params['title'],
             'amount' => [
-                'total' =>intval($params['money']*100),//单位元，转换为分
+                'total' =>round($params['money']*100),//单位元，转换为分
                 'currency' => 'CNY'
             ],
             'payer' => [

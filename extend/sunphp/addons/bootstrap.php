@@ -40,6 +40,7 @@ switch($_W['addons_index']){
             $_W['fans']=[
                 'uid'=>'',
                 'openid'=>'',
+                'unionid'=>'',
                 'nickname'=>'',
                 'avatar'=>'',
                 'follow'=>'',
@@ -234,6 +235,14 @@ if(!empty($get['from'])){
                 $wxapp_session=SunCache::get(str_replace('we7sid-','',$get['state']),true);
                 if(!empty($wxapp_session)&&!empty($wxapp_session['openid'])){
                     $_W['openid']=$wxapp_session['openid'];
+
+                    $_W['fans']['openid']=$wxapp_session['openid'];
+
+                    // 可能存在的参数
+                    if(isset($wxapp_session['unionid'])){
+                        $_W['fans']['unionid']=$wxapp_session['unionid'];
+                    }
+
                 }
             }
         break;

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-04-11 13:42:33
  * @LastEditors: light
- * @LastEditTime: 2023-09-10 11:43:32
+ * @LastEditTime: 2024-01-18 16:52:54
  * @Description: SonLight Tech版权所有
  */
 
@@ -16,8 +16,13 @@ defined('SUN_IN') or exit('Sunphp Access Denied');
 
 class SunHttp
 {
-    public static function post($url, $post_data)
+    public static function post($url, $post_data,$http_header='')
     {
+
+        // 二维数组报错Array to string conversion
+        if(is_array($post_data)){
+            $post_data=http_build_query($post_data);
+        }
 
         $ch = curl_init(); //初始化curl
         curl_setopt($ch, CURLOPT_URL, $url); //抓取指定网页
@@ -29,6 +34,11 @@ class SunHttp
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);     // 设置超时限制防止死循环
         curl_setopt($ch, CURLOPT_TIMEOUT, 35);
+
+        // 设置请求头
+        if(!empty($http_header)){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
+        }
 
         // 设置浏览器HTTP_USER_AGENT
         // curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
@@ -59,16 +69,21 @@ class SunHttp
         return $result;
     }
 
-    public static function get($url){
+    public static function get($url,$http_header=''){
 
         $ch = curl_init(); //初始化curl
         curl_setopt($ch, CURLOPT_URL, $url); //抓取指定网页
-        curl_setopt($ch, CURLOPT_HEADER, 1); //设置头文件的信息作为数据流输出
+        curl_setopt($ch, CURLOPT_HEADER, 0); //不获取头文件的信息作为数据流输出
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  // https请求 不验证证书和hosts
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  // 从证书中检查SSL加密算法是否存在
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);     // 设置超时限制防止死循环
         curl_setopt($ch, CURLOPT_TIMEOUT, 35);
+
+        // 设置请求头
+        if(!empty($http_header)){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
+        }
 
         // 设置浏览器HTTP_USER_AGENT
         // curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);

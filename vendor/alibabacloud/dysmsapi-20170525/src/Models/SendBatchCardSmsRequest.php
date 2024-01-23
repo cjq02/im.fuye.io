@@ -9,36 +9,50 @@ use AlibabaCloud\Tea\Model;
 class SendBatchCardSmsRequest extends Model
 {
     /**
+     * @example CARD_SMS_3245
+     *
      * @var string
      */
     public $cardTemplateCode;
 
     /**
+     * @example [{\"customurl\":\"http://www.alibaba.com\",\"dyncParams\":\"{\\\"a\\\":\\\"hello\\\",\\\"b\\\":\\\"world\\\"}\"}]
+     *
      * @var string
      */
     public $cardTemplateParamJson;
 
     /**
+     * @example DIGITAL_SMS_234080176
+     *
      * @var string
      */
     public $digitalTemplateCode;
 
     /**
+     * @example [{"a":1,"b":2},{"a":9,"b":8}]
+     *
      * @var string
      */
     public $digitalTemplateParamJson;
 
     /**
+     * @example SMS
+     *
      * @var string
      */
     public $fallbackType;
 
     /**
+     * @example 16545681783595370
+     *
      * @var string
      */
     public $outId;
 
     /**
+     * @example [\"1390000****\",\"1370000****\"]"
+     *
      * @var string
      */
     public $phoneNumberJson;
@@ -49,19 +63,39 @@ class SendBatchCardSmsRequest extends Model
     public $signNameJson;
 
     /**
+     * @example SMS_234251075
+     *
      * @var string
      */
     public $smsTemplateCode;
 
     /**
+     * @example [{"a":1,"b":2},{"a":9,"b":8}]
+     *
      * @var string
      */
     public $smsTemplateParamJson;
 
     /**
+     * @example [\"6\",\"6\"]
+     *
      * @var string
      */
     public $smsUpExtendCodeJson;
+
+    /**
+     * @example SMS_20375****
+     *
+     * @var string
+     */
+    public $templateCode;
+
+    /**
+     * @example [{"name":"TemplateParamJson"},{"name":"TemplateParamJson"}]
+     *
+     * @var string
+     */
+    public $templateParamJson;
     protected $_name = [
         'cardTemplateCode'         => 'CardTemplateCode',
         'cardTemplateParamJson'    => 'CardTemplateParamJson',
@@ -74,6 +108,8 @@ class SendBatchCardSmsRequest extends Model
         'smsTemplateCode'          => 'SmsTemplateCode',
         'smsTemplateParamJson'     => 'SmsTemplateParamJson',
         'smsUpExtendCodeJson'      => 'SmsUpExtendCodeJson',
+        'templateCode'             => 'TemplateCode',
+        'templateParamJson'        => 'TemplateParamJson',
     ];
 
     public function validate()
@@ -115,6 +151,12 @@ class SendBatchCardSmsRequest extends Model
         }
         if (null !== $this->smsUpExtendCodeJson) {
             $res['SmsUpExtendCodeJson'] = $this->smsUpExtendCodeJson;
+        }
+        if (null !== $this->templateCode) {
+            $res['TemplateCode'] = $this->templateCode;
+        }
+        if (null !== $this->templateParamJson) {
+            $res['TemplateParamJson'] = $this->templateParamJson;
         }
 
         return $res;
@@ -160,6 +202,12 @@ class SendBatchCardSmsRequest extends Model
         }
         if (isset($map['SmsUpExtendCodeJson'])) {
             $model->smsUpExtendCodeJson = $map['SmsUpExtendCodeJson'];
+        }
+        if (isset($map['TemplateCode'])) {
+            $model->templateCode = $map['TemplateCode'];
+        }
+        if (isset($map['TemplateParamJson'])) {
+            $model->templateParamJson = $map['TemplateParamJson'];
         }
 
         return $model;

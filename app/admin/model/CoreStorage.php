@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-14 14:43:12
  * @LastEditors: light
- * @LastEditTime: 2023-03-15 15:11:13
+ * @LastEditTime: 2024-01-17 20:21:25
  * @Description: SonLight Tech版权所有
  */
 
@@ -16,6 +16,7 @@ class CoreStorage extends Model{
         'type'=>'integer',
         'ali_oss'=>'serialize',
         'tencent_cos'=>'serialize',
-        'qiniu'=>'serialize'
+        'qiniu'=>'serialize',
+        'censor'=>'serialize'
     ];
 }

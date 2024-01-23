@@ -4,26 +4,33 @@
 
 namespace AlibabaCloud\SDK\Dysmsapi\V20170525\Models;
 
+use AlibabaCloud\SDK\Dysmsapi\V20170525\Models\QueryCardSmsTemplateReportResponseBody\data;
 use AlibabaCloud\Tea\Model;
 
 class QueryCardSmsTemplateReportResponseBody extends Model
 {
     /**
+     * @example OK
+     *
      * @var string
      */
     public $code;
 
     /**
-     * @var mixed[][]
+     * @var data
      */
     public $data;
 
     /**
+     * @example CC89A90C-978F-46AC-B80D-54738371E7CA
+     *
      * @var string
      */
     public $requestId;
 
     /**
+     * @example true
+     *
      * @var bool
      */
     public $success;
@@ -45,7 +52,7 @@ class QueryCardSmsTemplateReportResponseBody extends Model
             $res['Code'] = $this->code;
         }
         if (null !== $this->data) {
-            $res['Data'] = $this->data;
+            $res['Data'] = null !== $this->data ? $this->data->toMap() : null;
         }
         if (null !== $this->requestId) {
             $res['RequestId'] = $this->requestId;
@@ -69,9 +76,7 @@ class QueryCardSmsTemplateReportResponseBody extends Model
             $model->code = $map['Code'];
         }
         if (isset($map['Data'])) {
-            if (!empty($map['Data'])) {
-                $model->data = $map['Data'];
-            }
+            $model->data = data::fromMap($map['Data']);
         }
         if (isset($map['RequestId'])) {
             $model->requestId = $map['RequestId'];

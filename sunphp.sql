@@ -258,6 +258,7 @@ CREATE TABLE `sun_core_storage`  (
   `ali_oss` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '阿里云',
   `tencent_cos` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '腾讯云',
   `qiniu` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '七牛云',
+  `censor` text NULL COMMENT '内容安全配置',
   `suffix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '后缀名称限制',
   `img_size` int(11) NOT NULL DEFAULT 5000 COMMENT '图片大小限制',
   `video_size` int(11) NOT NULL DEFAULT 5000 COMMENT '音视频大小限制',

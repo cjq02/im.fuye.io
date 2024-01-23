@@ -153,17 +153,17 @@
         },
         {
             "name": "alibabacloud/darabonba-openapi",
-            "version": "0.2.9",
-            "version_normalized": "0.2.9.0",
+            "version": "0.2.10",
+            "version_normalized": "0.2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alibabacloud-sdk-php/darabonba-openapi.git",
-                "reference": "4cdfc36615f345786d668dfbaf68d9a301b6dbe2"
+                "reference": "88f42443e1b5c9d086d0444baa4a874f8636f7bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alibabacloud-sdk-php/darabonba-openapi/zipball/4cdfc36615f345786d668dfbaf68d9a301b6dbe2",
-                "reference": "4cdfc36615f345786d668dfbaf68d9a301b6dbe2",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/darabonba-openapi/zipball/88f42443e1b5c9d086d0444baa4a874f8636f7bb",
+                "reference": "88f42443e1b5c9d086d0444baa4a874f8636f7bb",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -176,11 +176,11 @@
                 "alibabacloud/credentials": "^1.1",
                 "alibabacloud/gateway-spi": "^1",
                 "alibabacloud/openapi-util": "^0.1.10|^0.2.1",
-                "alibabacloud/tea-utils": "^0.2.17",
+                "alibabacloud/tea-utils": "^0.2.19",
                 "alibabacloud/tea-xml": "^0.2",
                 "php": ">5.5"
             },
-            "time": "2023-02-06T12:02:21+00:00",
+            "time": "2023-11-23T07:01:20+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -201,23 +201,23 @@
             "description": "Alibaba Cloud OpenApi Client",
             "support": {
                 "issues": "https://github.com/alibabacloud-sdk-php/darabonba-openapi/issues",
-                "source": "https://github.com/alibabacloud-sdk-php/darabonba-openapi/tree/0.2.9"
+                "source": "https://github.com/alibabacloud-sdk-php/darabonba-openapi/tree/0.2.10"
             },
             "install-path": "../alibabacloud/darabonba-openapi"
         },
         {
             "name": "alibabacloud/dysmsapi-20170525",
-            "version": "2.0.20",
-            "version_normalized": "2.0.20.0",
+            "version": "2.0.24",
+            "version_normalized": "2.0.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alibabacloud-sdk-php/Dysmsapi-20170525.git",
-                "reference": "83a4f839060ca95a016d37d6f147f8af2adc8a12"
+                "reference": "75d8a8c7259f53e58ba3330e004150841be6010d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alibabacloud-sdk-php/Dysmsapi-20170525/zipball/83a4f839060ca95a016d37d6f147f8af2adc8a12",
-                "reference": "83a4f839060ca95a016d37d6f147f8af2adc8a12",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/Dysmsapi-20170525/zipball/75d8a8c7259f53e58ba3330e004150841be6010d",
+                "reference": "75d8a8c7259f53e58ba3330e004150841be6010d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -227,13 +227,13 @@
                 ]
             },
             "require": {
-                "alibabacloud/darabonba-openapi": "^0.2.5",
+                "alibabacloud/darabonba-openapi": "^0.2.8",
                 "alibabacloud/endpoint-util": "^0.1.0",
-                "alibabacloud/openapi-util": "^0.1.10",
-                "alibabacloud/tea-utils": "^0.2.16",
+                "alibabacloud/openapi-util": "^0.1.10|^0.2.1",
+                "alibabacloud/tea-utils": "^0.2.19",
                 "php": ">5.5"
             },
-            "time": "2022-09-29T08:45:21+00:00",
+            "time": "2023-07-04T11:32:11+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -253,7 +253,7 @@
             ],
             "description": "Alibaba Cloud Dysmsapi (20170525) SDK Library for PHP",
             "support": {
-                "source": "https://github.com/alibabacloud-sdk-php/Dysmsapi-20170525/tree/2.0.20"
+                "source": "https://github.com/alibabacloud-sdk-php/Dysmsapi-20170525/tree/2.0.24"
             },
             "install-path": "../alibabacloud/dysmsapi-20170525"
         },
@@ -356,6 +356,58 @@
                 "source": "https://github.com/alibabacloud-sdk-php/alibabacloud-gateway-spi/tree/1.0.0"
             },
             "install-path": "../alibabacloud/gateway-spi"
+        },
+        {
+            "name": "alibabacloud/green-20220302",
+            "version": "2.1.0",
+            "version_normalized": "2.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alibabacloud-sdk-php/green-20220302.git",
+                "reference": "15b44eac2a2fbcacb75094cbe21732f7eafb50b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/green-20220302/zipball/15b44eac2a2fbcacb75094cbe21732f7eafb50b1",
+                "reference": "15b44eac2a2fbcacb75094cbe21732f7eafb50b1",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "alibabacloud/darabonba-openapi": "^0.2.10",
+                "alibabacloud/endpoint-util": "^0.1.0",
+                "alibabacloud/openapi-util": "^0.1.10|^0.2.1",
+                "alibabacloud/tea-utils": "^0.2.19",
+                "php": ">5.5"
+            },
+            "time": "2024-01-08T10:05:00+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "AlibabaCloud\\SDK\\Green\\V20220302\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alibaba Cloud SDK",
+                    "email": "sdk-team@alibabacloud.com"
+                }
+            ],
+            "description": "Alibaba Cloud Green (20220302) SDK Library for PHP",
+            "support": {
+                "source": "https://github.com/alibabacloud-sdk-php/green-20220302/tree/2.1.0"
+            },
+            "install-path": "../alibabacloud/green-20220302"
         },
         {
             "name": "alibabacloud/openapi-util",
@@ -488,17 +540,17 @@
         },
         {
             "name": "alibabacloud/tea-utils",
-            "version": "0.2.18",
-            "version_normalized": "0.2.18.0",
+            "version": "0.2.19",
+            "version_normalized": "0.2.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alibabacloud-sdk-php/tea-utils.git",
-                "reference": "103e6cde583cf446b217fbb5c565b9007c238702"
+                "reference": "8dfc1a93e9415818e93a621b644abbb84981aea4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alibabacloud-sdk-php/tea-utils/zipball/103e6cde583cf446b217fbb5c565b9007c238702",
-                "reference": "103e6cde583cf446b217fbb5c565b9007c238702",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/tea-utils/zipball/8dfc1a93e9415818e93a621b644abbb84981aea4",
+                "reference": "8dfc1a93e9415818e93a621b644abbb84981aea4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -511,7 +563,7 @@
                 "alibabacloud/tea": "^3.1",
                 "php": ">5.5"
             },
-            "time": "2023-04-11T02:17:04+00:00",
+            "time": "2023-06-26T09:49:19+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

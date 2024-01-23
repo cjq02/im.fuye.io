@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2023-12-04 10:21:12
+ * @LastEditTime: 2024-01-19 09:49:14
  * @Description: SonLight Tech版权所有
  */
 
@@ -914,14 +914,38 @@ function file_upload($file,$type){
     return false;
 }
 
-function file_remote_upload($path,$local_delete=true){
-    $res=SunFile::remoteUpload($path,$local_delete);
+function file_remote_upload($path,$local_delete=true,$censor=true,$censor_config=[]){
+    $res=SunFile::remoteUpload($path,$local_delete,$censor,$censor_config);
     return $res;
+}
+
+function file_remote_censor($path,$type,$scenes=[],$sync=true,$remote_delete=true){
+    $res=SunFile::remoteCensor($path,$type,$scenes,$sync,$remote_delete);
+    return $res;
+}
+
+function error($errno, $message = '', $data = []) {
+	return array(
+		'errno' => $errno,
+		'message' => $message,
+        'data' => $data
+	);
 }
 
 function is_error($arg){
     // 注意！报错返回true
-    if(empty($arg)){
+
+    // $arg===false 报错
+    // status 0报错1成功
+    // errno 0成功 其他-报错——考虑到兼容性
+    // 报错一定要求message说明
+    // $result = [
+    //     "status" => 0,
+    //     'message'=>'失败原因',
+    //     "data" => []
+    // ];
+
+    if($arg===false ||(is_array($arg) && array_key_exists('status', $arg) && $arg['status']==0) ||(is_array($arg) && array_key_exists('errno', $arg) && $arg['errno']!=0)){
         return true;
     }
     return false;

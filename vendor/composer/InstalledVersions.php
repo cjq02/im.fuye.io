@@ -27,12 +27,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '2a5ec363eed251b70bae1e95fbb63c0017c70ad5',
     'name' => 'topthink/think',
   ),
   'versions' => 
@@ -57,21 +57,21 @@ private static $installed = array (
     ),
     'alibabacloud/darabonba-openapi' => 
     array (
-      'pretty_version' => '0.2.9',
-      'version' => '0.2.9.0',
+      'pretty_version' => '0.2.10',
+      'version' => '0.2.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4cdfc36615f345786d668dfbaf68d9a301b6dbe2',
+      'reference' => '88f42443e1b5c9d086d0444baa4a874f8636f7bb',
     ),
     'alibabacloud/dysmsapi-20170525' => 
     array (
-      'pretty_version' => '2.0.20',
-      'version' => '2.0.20.0',
+      'pretty_version' => '2.0.24',
+      'version' => '2.0.24.0',
       'aliases' => 
       array (
       ),
-      'reference' => '83a4f839060ca95a016d37d6f147f8af2adc8a12',
+      'reference' => '75d8a8c7259f53e58ba3330e004150841be6010d',
     ),
     'alibabacloud/endpoint-util' => 
     array (
@@ -90,6 +90,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '7440f77750c329d8ab252db1d1d967314ccd1fcb',
+    ),
+    'alibabacloud/green-20220302' => 
+    array (
+      'pretty_version' => '2.1.0',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '15b44eac2a2fbcacb75094cbe21732f7eafb50b1',
     ),
     'alibabacloud/openapi-util' => 
     array (
@@ -111,12 +120,12 @@ private static $installed = array (
     ),
     'alibabacloud/tea-utils' => 
     array (
-      'pretty_version' => '0.2.18',
-      'version' => '0.2.18.0',
+      'pretty_version' => '0.2.19',
+      'version' => '0.2.19.0',
       'aliases' => 
       array (
       ),
-      'reference' => '103e6cde583cf446b217fbb5c565b9007c238702',
+      'reference' => '8dfc1a93e9415818e93a621b644abbb84981aea4',
     ),
     'alibabacloud/tea-xml' => 
     array (
@@ -753,12 +762,12 @@ private static $installed = array (
     ),
     'topthink/think' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '2a5ec363eed251b70bae1e95fbb63c0017c70ad5',
     ),
     'topthink/think-filesystem' => 
     array (

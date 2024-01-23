@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-14 14:16:33
  * @LastEditors: light
- * @LastEditTime: 2023-04-06 10:57:20
+ * @LastEditTime: 2024-01-17 21:30:14
  * @Description: SonLight Tech版权所有
  */
 
@@ -26,6 +26,18 @@ class Storage extends Base{
             CoreStorage::create($post,['acid','suffix','img_size','video_size','file_size']);
         }else{
             // CoreStorage::update($post,['acid'=>0]);
+            $s->save($post);
+        }
+        return jsonResult(200,'操作成功',[]);
+    }
+
+    public function censor(){
+        $post=$this->request->post();
+
+        $s=CoreStorage::where('acid',0)->find();
+        if(empty($s)){
+            return jsonResult(400,'请先设置远程存储！',[]);
+        }else{
             $s->save($post);
         }
         return jsonResult(200,'操作成功',[]);

@@ -72,6 +72,7 @@ return array(
     'AlibabaCloud\\Tea\\XML\\' => array($vendorDir . '/alibabacloud/tea-xml/src'),
     'AlibabaCloud\\Tea\\Utils\\' => array($vendorDir . '/alibabacloud/tea-utils/src'),
     'AlibabaCloud\\Tea\\' => array($vendorDir . '/alibabacloud/tea/src'),
+    'AlibabaCloud\\SDK\\Green\\V20220302\\' => array($vendorDir . '/alibabacloud/green-20220302/src'),
     'AlibabaCloud\\SDK\\Dysmsapi\\V20170525\\' => array($vendorDir . '/alibabacloud/dysmsapi-20170525/src'),
     'AlibabaCloud\\OpenApiUtil\\' => array($vendorDir . '/alibabacloud/openapi-util/src'),
     'AlibabaCloud\\Endpoint\\' => array($vendorDir . '/alibabacloud/endpoint-util/src'),

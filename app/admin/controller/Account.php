@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-17 10:48:42
  * @LastEditors: light
- * @LastEditTime: 2023-09-15 15:15:08
+ * @LastEditTime: 2024-01-17 21:29:19
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -442,6 +442,17 @@ class Account extends Base{
         $s=CoreStorage::where('acid',$post['acid'])->find();
         if(empty($s)){
             CoreStorage::create($post,['acid','type','ali_oss','tencent_cos','qiniu']);
+        }else{
+            $s->save($post);
+        }
+        return jsonResult(200,'操作成功',[]);
+    }
+
+    public function censor(){
+        $post=$this->request->post();
+        $s=CoreStorage::where('acid',$post['acid'])->find();
+        if(empty($s)){
+            return jsonResult(400,'请先设置远程存储！',[]);
         }else{
             $s->save($post);
         }
