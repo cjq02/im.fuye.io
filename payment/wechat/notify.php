@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-28 09:52:45
  * @LastEditors: light
- * @LastEditTime: 2023-10-17 11:19:52
+ * @LastEditTime: 2024-01-23 20:42:15
  * @Description: SonLight Tech版权所有
  */
 
@@ -119,7 +119,7 @@ if(empty($ciphertext['out_trade_no']) || empty($ciphertext['amount'])){
 
 //订单信息
 $order = CoreOrder::where('order_id', $ciphertext['out_trade_no'])->find();
-if (empty($order) || $order['type'] != 0||($order['money']*100)!=$ciphertext['amount']['total']) {
+if (empty($order) || $order['type'] != 0||round($order['money']*100)!=$ciphertext['amount']['total']) {
     exit('fail');
 }
 
