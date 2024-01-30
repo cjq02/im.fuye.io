@@ -353,9 +353,19 @@ if(empty($header['user-agent'])){
     $ua = $header['user-agent'];
 }
 
-if(strpos($ua, 'MicroMessenger') == false && strpos($ua, 'Windows Phone') == false){
-    //普通浏览器，不区分详细
-    $_W['container']="unknown";
+if(stripos($ua, 'MicroMessenger') == false && stripos($ua, 'Windows Phone') == false){
+    if(stripos($ua, 'iphone') !== false){
+        $_W['container']="iphone";
+    }else  if(stripos($ua, 'ipad') !== false){
+        $_W['container']="ipad";
+    }else  if(stripos($ua, 'ipod') !== false){
+        $_W['container']="ipod";
+    }else  if(stripos($ua, 'android') !== false){
+        $_W['container']="android";
+    }else{
+        //普通浏览器，不区分详细
+        $_W['container']="unknown";
+    }
 }else{
     // 微信浏览器
     $_W['container']="wechat";
