@@ -2,7 +2,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-29 11:02:48
  * @LastEditors: light
- * @LastEditTime: 2023-05-29 16:20:33
+ * @LastEditTime: 2024-03-14 17:01:10
  * @Description: SonLight Tech版权所有
 -->
 <!DOCTYPE html>
@@ -27,6 +27,12 @@
         }
         .sunphp-mute{
             color:#979797
+        }
+        .sunphp-back{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: #04be02;
         }
         .sunphp-scan{
             position: fixed;
@@ -55,7 +61,11 @@
 <body>
 
     <div class="sunphp-mui">
-        <div class="sunphp-title sunphp-mute">我的订单</div>
+        <div class="sunphp-title sunphp-back" onclick="tapBack()">
+            <span class="mui-icon mui-icon-arrowleft"></span>
+            <span>我的订单</span>
+        </div>
+
         <ul class="mui-table-view">
             <li class="mui-table-view-cell">
                 订单名称<span class="mui-pull-right sunphp-mute">{$title}</span>
@@ -70,6 +80,8 @@
 
         <div class="sunphp-title sunphp-mute">支付方式</div>
         <ul class="mui-table-view">
+
+            {if $payment['wechat']==1}
             <li class="mui-table-view-cell mui-media">
                 <a onclick="tapWechat()" href="javascript:;" class="mui-navigate-right">
                     <img class="mui-media-object mui-pull-left" src="/public/sunphp/images/wx.png">
@@ -79,7 +91,9 @@
                     </div>
                 </a>
             </li>
+            {/if}
 
+            {if $payment['alipay']==1}
             <li class="mui-table-view-cell mui-media">
                 <a onclick="tapAli()" href="javascript:;" class="mui-navigate-right">
                     <img class="mui-media-object mui-pull-left" src="/public/sunphp/images/zfb.png">
@@ -89,6 +103,8 @@
                     </div>
                 </a>
             </li>
+            {/if}
+
         </ul>
 
 
@@ -124,6 +140,11 @@
             //全部运行
             console.log('web')
         });
+
+        function tapBack(){
+            // 返回上一页
+            window.history.back();
+        }
 
         function tapScan(){
             document.querySelector('.sunphp-scan').style.display='none';

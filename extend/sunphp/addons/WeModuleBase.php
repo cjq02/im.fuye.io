@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-15 14:14:16
  * @LastEditors: light
- * @LastEditTime: 2023-07-20 11:11:42
+ * @LastEditTime: 2024-03-06 17:37:08
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -82,6 +82,32 @@ class WeModuleBase{
 
         $tpl_file= root_path().'view/sunphp/pay/show.html';
         View::assign($arg);
+
+        // 启用了哪些支付方式
+        $result['payment'] = array(
+            'wechat' => 0,
+            'alipay' => 0
+        );
+        $unisetting = pdo_get('uni_settings', array('uniacid' => $_W['uniacid']), array('payment'));
+        if (!empty($unisetting) && !empty($unisetting['payment'])) {
+            $payment = unserialize($unisetting['payment']);
+            // $result['payment']=$payment;
+            //支付宝
+            if (!empty($payment['alipay']) && !empty($payment['alipay']['account'])) {
+                if ($payment['alipay']['pay_switch']) {
+                    $result['payment']['alipay'] = 1;
+                }
+            }
+            //微信
+            if (!empty($payment['wechat']) && !empty($payment['wechat']['account'])) {
+                if ($payment['wechat']['pay_switch']) {
+                    $result['payment']['wechat'] = 1;
+                }
+            }
+        }
+
+        View::assign($result);
+
 
         $template_view=View::fetch($tpl_file);
         echo $template_view;
