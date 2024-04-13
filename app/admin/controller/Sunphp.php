@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-20 09:30:50
  * @LastEditors: light
- * @LastEditTime: 2023-05-29 16:14:51
+ * @LastEditTime: 2024-04-13 13:35:24
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -39,7 +39,8 @@ class Sunphp extends Base{
 
 
         //snsapi_base静默授权校验
-        if(!empty($userinfo['nickname'])&&!empty($userinfo['avatar'])){
+        // 兼容性问题——微信登录——可能没有设置头像昵称，导致循环登录
+        if(isset($userinfo['nickname'])&&isset($userinfo['avatar'])){
             session('wechat_user_'.$get['state'],$userinfo['raw']);
             return redirect($targetUrl);
         }else{
