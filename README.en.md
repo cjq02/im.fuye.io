@@ -4,7 +4,7 @@
 [sunphp](https://gitee.com/bluestear/sunphp) is a support for multiple users, multiple platforms, application development framework. Its fundamental purpose is to achieve the rapid development of public accounts, small programs, H5, APP, no need for developers to repeat the wheel! Empower every developer!
 
 ## Official documentation
-[sunphp official documentation](https://bluestear.gitee.io/sunphp-web)
+[sunphp official documentation](https://bluestear.github.io/sunphp-web)
 
 
 ## Technical support
@@ -20,7 +20,7 @@ The module created in the /addons/ directory serves as the compatibility functio
 Installation environment requirements: PHP7.4+Mysql (recommended 5.7) +Nginx/Apache
 
 ## Installation steps
-1. Download [install.php](https://bluestear.gitee.io/sunphp-web/install.html)file to the web sitethe root directory
+1. Download [install.php](https://bluestear.github.io/sunphp-web/install.html)file to the web sitethe root directory
 2. Cancel the php7.4 disable function -- exec
 3. Access https:// your domain name /install.php to install the system
 4. Configure the password of the database and admin background as prompted
@@ -50,7 +50,7 @@ Include /www/wwwroot/sunphp.git/*.conf
 The free commercial version has been able to meet most user needs. If you have the following special needs, you can pay to open [advanced commercial version](https://mall.sunphp.cn/pages/goods_details/index?id=12).
 1. If you need to hide copyright information (powered by Sunphp), you need to pay to open the advanced business version
 2. If you need to hide the system online upgrade function, you need to pay to open the advanced business version
-3. If you need other special customization, please contact [Business cooperation](https://bluestear.gitee.io/sunphp-web/cooperation/).
+3. If you need other special customization, please contact [Business cooperation](https://bluestear.github.io/sunphp-web/cooperation/).
 
 
 ## Genuine verification
