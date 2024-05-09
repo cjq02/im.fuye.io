@@ -49,7 +49,29 @@ class SunAccount{
                     // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
                     'response_type' => 'array',
                     // EncodingAESKey，兼容与安全模式下请一定要填写！！！
-                    'aes_key' => ''
+                    'aes_key' => '',
+                    //level: 日志级别, 可选为：debug/info/notice/warning/error/critical/alert/emergency
+                    'log' => [
+                        'default' => 'prod', // 默认使用的 channel，生产环境可以改为下面的 prod
+                        'channels' => [
+                            // 测试环境
+                            'dev' => [
+                                //single模式，只有一个文件记录
+                                'driver' => 'single',
+                                // 'path' => '/tmp/easywechat.log',
+                                'path' => root_path() .'runtime/easywechat/easywechat.log',
+                                'level' => 'debug',
+                            ],
+                            // 生产环境
+                            'prod' => [
+                                // daily模式每天记录，在文件名后加上当天日期
+                                'driver' => 'daily',
+                                // 'path' => '/tmp/easywechat.log',
+                                'path' => root_path() .'runtime/easywechat/easywechat.log',
+                                'level' => 'info',
+                            ],
+                        ]
+                    ]
                 ];
                 if(!empty($account['api_token'])){
                     $config['token']=$account['api_token'];
@@ -68,11 +90,14 @@ class SunAccount{
                     // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
                     'response_type' => 'array',
                     // EncodingAESKey，兼容与安全模式下请一定要填写！！！
-                    'aes_key' => ''
-                    // 'log' => [
-                    //     'level' => 'debug',
-                    //     'file' => __DIR__.'/wechat.log',
-                    // ],
+                    'aes_key' => '',
+                    // 日志级别, 可选为：debug/info/notice/warning/error/critical/alert/emergency
+                    'log' => [
+                        // 'level' => 'debug',
+                        // 'file' => __DIR__.'/wechat.log',
+                        'level' => 'info',
+                        'file' => root_path() .'runtime/easywechat/wechat.log'
+                    ]
                 ];
                 if(!empty($account['api_token'])){
                     $config['token']=$account['api_token'];

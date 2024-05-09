@@ -29,15 +29,15 @@ CREATE TABLE `sun_core_account`  (
   `appid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'appid',
   `secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'secret',
   `level` tinyint(1) DEFAULT NULL COMMENT '公众号级别',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '到期时间',
+  `end_time` datetime DEFAULT NULL COMMENT '到期时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `api_url` varchar(255) NULL COMMENT '消息推送url',
   `api_token` varchar(255) NULL COMMENT '消息推送token',
   `api_key` varchar(255) NULL COMMENT '消息加密密钥',
   `wx_menu` text NULL COMMENT '微信公众号菜单',
   `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0正常1回收站2删除',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -60,8 +60,8 @@ CREATE TABLE `sun_core_app`  (
   `cover` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '入口地址',
   `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1框架应用2微擎应用',
   `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0正常1回收站2未安装',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `index_i` (`identity`) USING BTREE COMMENT '唯一标识'
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -75,9 +75,9 @@ CREATE TABLE `sun_core_bindapp`  (
   `acid` int(11) NOT NULL COMMENT 'account平台id',
   `sid` int(11) NOT NULL COMMENT 'supports应用分支id',
   `order` int(11) NOT NULL DEFAULT 1 COMMENT '排序大靠前',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '绑定app到期时间',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL COMMENT '绑定app到期时间',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_aa`(`acid`, `sid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
@@ -96,8 +96,8 @@ CREATE TABLE `sun_core_create`  (
   `app` int(11) NOT NULL DEFAULT 0 COMMENT 'APP应用',
   `zfb_xcx` int(11) NOT NULL DEFAULT 0 COMMENT '支付宝小程序',
   `bd_xcx` int(11) NOT NULL DEFAULT 0 COMMENT '百度小程序',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_u`(`uid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
@@ -114,8 +114,8 @@ CREATE TABLE `sun_core_email`  (
   `email_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'smtp授权码',
   `email_smtp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'smtp服务器',
   `email_sign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮件末尾签名',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_acid`(`acid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -132,8 +132,8 @@ CREATE TABLE `sun_core_menu`  (
   `do` varchar(255) NULL ,
   `state` varchar(255) NULL ,
   `direct` varchar(255) NULL ,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -241,8 +241,8 @@ CREATE TABLE `sun_core_sms`  (
   `type` tinyint(1) NULL DEFAULT NULL COMMENT '短信类型，默认关闭',
   `ali_sms` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '阿里云短信',
   `tencent_sms` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '腾讯云短信',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_acid`(`acid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -263,8 +263,8 @@ CREATE TABLE `sun_core_storage`  (
   `img_size` int(11) NOT NULL DEFAULT 5000 COMMENT '图片大小限制',
   `video_size` int(11) NOT NULL DEFAULT 5000 COMMENT '音视频大小限制',
   `file_size` int(11) NOT NULL DEFAULT 5000 COMMENT '文件大小限制',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_acid`(`acid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -277,8 +277,8 @@ CREATE TABLE `sun_core_supports`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_id` int(11) NOT NULL COMMENT '应用id',
   `type` tinyint(1) NOT NULL COMMENT '支持的平台类型',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_at`(`app_id`, `type`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
@@ -305,8 +305,8 @@ CREATE TABLE `sun_core_system`  (
   `record_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案号',
   `record_security` varchar(255) NULL COMMENT '公安备案号',
   `record_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案公司名称',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -320,8 +320,8 @@ CREATE TABLE `sun_core_useaccount`  (
   `acid` int(11) NOT NULL COMMENT '平台id',
   `role` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1操作员2平台所有者',
   `order` int(11) NOT NULL DEFAULT 1 COMMENT '排序大靠前',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_ua`(`uid`, `acid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
@@ -334,8 +334,8 @@ CREATE TABLE `sun_core_useapp`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL COMMENT '用户id',
   `sid` int(11) NOT NULL COMMENT 'app支持类型id',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_us`(`uid`, `sid`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
@@ -357,10 +357,10 @@ CREATE TABLE `sun_core_user`  (
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录ip',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户备注信息',
   `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0正常1回收站2待审核',
-  `login_time` datetime(0) NULL DEFAULT NULL COMMENT '上次登录时间',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '到期时间',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL COMMENT '上次登录时间',
+  `end_time` datetime DEFAULT NULL COMMENT '到期时间',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_s`(`session_id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -374,8 +374,8 @@ CREATE TABLE `sun_core_usermenu`  (
   `uaid` int(11) NOT NULL COMMENT '使用平台表id',
   `menu_id` int(11) NOT NULL COMMENT '应用菜单id',
   `can_use` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1可用0禁止',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_um`(`uaid`, `menu_id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
