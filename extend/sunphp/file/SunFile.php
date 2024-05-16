@@ -761,7 +761,7 @@ class SunFile
         if (!in_array($type, $allow_type)) {
             $result = [
                 "status" => 0,
-                'message' => '上传失败！参数type错误',
+                'message' => '操作失败！参数type错误',
                 "path" => ''
             ];
             return $result;
@@ -847,6 +847,14 @@ class SunFile
                 return $result;
             }
         }
+
+
+        $result = [
+            "status" => 0,
+            'message' => '操作失败！远程下载错误',
+            "path" => ''
+        ];
+        return $result;
     }
 
 

@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-16 15:31:11
  * @LastEditors: light
- * @LastEditTime: 2024-01-19 09:49:14
+ * @LastEditTime: 2024-05-16 17:20:11
  * @Description: SonLight Tech版权所有
  */
 
@@ -912,6 +912,12 @@ function file_upload($file,$type){
          }
     }
     return false;
+}
+
+// 下载远程文件
+function file_download($url, $type = '', $file_path = '', $remote_upload = true, $local_delete = true){
+    $res=SunFile::remoteDownload($url, $type, $file_path, $remote_upload, $local_delete);
+    return $res;
 }
 
 function file_remote_upload($path,$local_delete=true,$censor=true,$censor_config=[]){
