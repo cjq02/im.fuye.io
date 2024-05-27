@@ -48,7 +48,9 @@ function checklogin(){
 
 
 function strexists($str,$find){
-    return strpos($str,$find);
+    // return strpos($str,$find);
+    $string=strval($str);
+    return !(strpos($string, $find) === FALSE);
 }
 
 //随机数
@@ -951,7 +953,7 @@ function is_error($arg){
     //     "data" => []
     // ];
 
-    if($arg===false ||(is_array($arg) && array_key_exists('status', $arg) && $arg['status']==0) ||(is_array($arg) && array_key_exists('errno', $arg) && $arg['errno']!=0)){
+    if($arg===false ||(is_array($arg) && array_key_exists('status', $arg) && $arg['status']===0) ||(is_array($arg) && array_key_exists('errno', $arg) && $arg['errno']!=0)){
         return true;
     }
     return false;
