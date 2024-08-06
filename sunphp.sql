@@ -222,6 +222,23 @@ CREATE TABLE `sun_core_member` (
 ) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8mb4;
 
 
+DROP TABLE IF EXISTS `sun_core_attachment`;
+CREATE TABLE `sun_core_attachment` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `uid` int(11) unsigned NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `attachment` varchar(255) NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL,
+  `createtime` int(11) unsigned NOT NULL,
+  `module_upload_dir` varchar(100) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT = 1  DEFAULT CHARSET=utf8;
+
+
+
+
 DROP TABLE IF EXISTS `sun_core_cache`;
 CREATE TABLE `sun_core_cache` (
   `key` varchar(100) NOT NULL,

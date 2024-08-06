@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2023-10-16 10:18:30
+ * @LastEditTime: 2024-08-06 18:16:31
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -87,4 +87,23 @@ if (!pdo_fieldexists('sun_core_storage', 'censor')) {
   pdo_query("ALTER TABLE `sun_core_storage`
   ADD COLUMN `censor` text NULL COMMENT '内容安全配置' AFTER `qiniu`;
   ");
+}
+
+
+
+// 1.5.7
+if (!pdo_tableexists('sun_core_attachment')) {
+  pdo_query("CREATE TABLE `sun_core_attachment` (
+      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+      `uniacid` int(11) unsigned NOT NULL,
+      `uid` int(11) unsigned NOT NULL,
+      `filename` varchar(255) NOT NULL,
+      `attachment` varchar(255) NOT NULL,
+      `type` tinyint(1) unsigned NOT NULL,
+      `createtime` int(11) unsigned NOT NULL,
+      `module_upload_dir` varchar(100) DEFAULT NULL,
+      `group_id` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=MyISAM AUTO_INCREMENT = 1  DEFAULT CHARSET=utf8;
+");
 }
