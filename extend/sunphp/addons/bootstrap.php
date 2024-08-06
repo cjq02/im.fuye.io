@@ -57,7 +57,8 @@ switch($_W['addons_index']){
             //尝试获取来源HTTP_REFERER的i参数
             $cookie_i=cookie('sunphp_addons_uniacid');
 
-            if(preg_match("/(\?|&)\i=([^&#\/]+)(&|$)/i",$_SERVER['HTTP_REFERER'],$matches)){
+
+            if(isset($_SERVER['HTTP_REFERER'])&&preg_match("/(\?|&)\i=([^&#\/]+)(&|$)/i",$_SERVER['HTTP_REFERER'],$matches)){
                 if(!empty($matches[2])&&is_numeric($matches[2])){
                     $cookie_i=$matches[2];
                 }
@@ -156,6 +157,8 @@ switch($_W['addons_index']){
     break;
 }
 
+
+
 if(empty($get['a'])){
     // a可能webapp、wxapp等
     $get['a']='site';
@@ -167,21 +170,6 @@ if(empty($get['c'])){
 }
 
 
-if(!empty($get['module_name'])){
-    $module_name=$get['module_name'];
-}else if(!empty($get['m'])){
-    $module_name=$get['m'];
-}else{
-    echo "module_name参数错误！";
-    die();
-}
-
-if(empty($get['do'])){
-    echo "do参数错误！";
-    die();
-}
-
-
 //检查平台
 $account=CoreAccount::where('id',$get['i'])->where('is_delete',0)->find();
 if(empty($account)){
@@ -189,36 +177,74 @@ if(empty($account)){
     die();
 }
 
-
-
-//检查应用
-$module=CoreApp::where(['identity'=>$module_name,'dir'=>'addons'])->find();
-if(empty($module)){
-    echo "应用不存在！";
-    die();
-}
-
-
 $request->account=$account->toArray();
-$request->app=$module->toArray();
 
 
-
-//检查平台是否绑定应用
-$can_use=CoreBindapp::alias('a')->join('core_supports b','a.sid=b.id')
-->where(['a.acid'=>$account['id'],'b.app_id'=>$module['id']])->find();
-if(empty($can_use)){
-    echo "平台未绑定应用";
+if(empty($get['do'])){
+    echo "do参数错误！";
     die();
 }
+
+
+// 定义基础常量
+!(defined('IA_ROOT')) && define('IA_ROOT', substr(root_path(),0,-1));
+
+
+// 某些Web操作不需要检查平台和应用的绑定关系
+$sunphp_web_nocheck=['utility'];
+
+
+
+if(!in_array($get['c'],$sunphp_web_nocheck)){
+
+
+    // 检查参数
+    if(!empty($get['module_name'])){
+        $module_name=$get['module_name'];
+    }else if(!empty($get['m'])){
+        $module_name=$get['m'];
+    }else{
+        echo "module_name参数错误！";
+        die();
+    }
+
+
+
+    //检查应用
+    $module=CoreApp::where(['identity'=>$module_name,'dir'=>'addons'])->find();
+    if(empty($module)){
+        echo "应用不存在！";
+        die();
+    }
+
+    $request->app=$module->toArray();
+
+
+    //检查平台是否绑定应用
+    $can_use=CoreBindapp::alias('a')->join('core_supports b','a.sid=b.id')
+    ->where(['a.acid'=>$account['id'],'b.app_id'=>$module['id']])->find();
+    if(empty($can_use)){
+        echo "平台未绑定应用";
+        die();
+    }
+
+
+    // 定义参数
+    !(defined('MODULE_ROOT')) && define('MODULE_ROOT',IA_ROOT.DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR.$module_name);
+    !(defined('MODULE_URL')) && define('MODULE_URL',$request->domain()."/".'addons'."/".$module_name."/");
+
+
+    // 定义参数
+    $_W['current_module']['name']=$module_name;
+    $_W['current_module']['version']=$module['version'];
+
+}
+
 
 
 // 常量定义
-!(defined('IA_ROOT')) && define('IA_ROOT', substr(root_path(),0,-1));
 !(defined('ATTACHMENT_ROOT')) && define('ATTACHMENT_ROOT',IA_ROOT.DIRECTORY_SEPARATOR.'attachment');
-!(defined('MODULE_ROOT')) && define('MODULE_ROOT',IA_ROOT.DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR.$module_name);
 
-!(defined('MODULE_URL')) && define('MODULE_URL',$request->domain()."/".'addons'."/".$module_name."/");
 !(defined('TIMESTAMP')) && define('TIMESTAMP',$time);
 !(defined('CLIENT_IP')) && define('CLIENT_IP',$request->ip());
 !(defined('DEVELOPMENT')) && define('DEVELOPMENT',false);
@@ -314,8 +340,7 @@ $_W['uniacid']=$get['i'];
 $_W['acid']=$get['i'];
 
 
-$_W['current_module']['name']=$module_name;
-$_W['current_module']['version']=$module['version'];
+
 
 
 // $_W['account']['level']="1";$account包含了level
