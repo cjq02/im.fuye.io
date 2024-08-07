@@ -71,6 +71,11 @@ function random($len,$num=0){
 }
 
 function iunserializer($str){
+    if(empty($str)){
+        return [];
+    }else if(is_array($str)){
+        return $str;
+    }
     return unserialize($str);
 }
 
