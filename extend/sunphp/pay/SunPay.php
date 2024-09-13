@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 14:14:49
  * @LastEditors: light
- * @LastEditTime: 2023-07-19 17:36:51
+ * @LastEditTime: 2024-08-21 11:06:13
  * @Description: SonLight Tech版权所有
  */
 
@@ -77,7 +77,7 @@ class SunPay{
             ],
             'logger' => [
                 'enable' => false,
-                'file' => './logs/pay.log',
+                'file' => root_path() .'runtime/payment/pay.log',// 需要先开启调试
                 'level' => 'info', // 建议生产环境等级调整为 info，开发环境为 debug
                 'type' => 'single', // optional, 可选 daily.
                 'max_file' => 30, // optional, 当 type 为 daily 时有效，默认 30 天

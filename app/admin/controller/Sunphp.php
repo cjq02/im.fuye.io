@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-02-20 09:30:50
  * @LastEditors: light
- * @LastEditTime: 2024-04-13 13:35:24
+ * @LastEditTime: 2024-09-13 11:48:26
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -40,7 +40,13 @@ class Sunphp extends Base{
 
         //snsapi_base静默授权校验
         // 兼容性问题——微信登录——可能没有设置头像昵称，导致循环登录
-        if(isset($userinfo['nickname'])&&isset($userinfo['avatar'])){
+
+        //判断是否api报错
+        $is_fail=false;
+        if(isset($userinfo['raw'])&&isset($userinfo['raw']['errcode'])&&$userinfo['raw']['errcode']>0){
+            $is_fail=true;
+        }
+        if(!$is_fail&&isset($userinfo['nickname'])&&isset($userinfo['avatar'])){
             session('wechat_user_'.$get['state'],$userinfo['raw']);
             return redirect($targetUrl);
         }else{
