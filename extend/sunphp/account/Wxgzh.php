@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-03 15:00:20
  * @LastEditors: light
- * @LastEditTime: 2023-09-15 14:58:12
+ * @LastEditTime: 2024-09-14 20:07:08
  * @Description: SonLight Tech版权所有
  */
 
@@ -23,6 +23,7 @@ use EasyWeChat\Kernel\Messages\News;
 use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Article;
 use sunphp\file\SunFile;
+use sunphp\http\SunHttp;
 
 class Wxgzh {
 
@@ -47,7 +48,8 @@ class Wxgzh {
         return $$app->$name(...$arguments);
     }
 
-    public function login($scope='snsapi_base',$acid='',$target_url=''){
+    // snsapi_userinfo_auto自定义模式，默认调用snsapi_userinfo，直接登陆，不弹出授权页面
+    public function login($scope='snsapi_userinfo_auto',$acid='',$target_url=''){
         $uniacid=request()->get('i',$acid);
 
         // 判断登录
@@ -67,11 +69,20 @@ class Wxgzh {
 
 
         $config=$this->config;
-        $config['oauth']=[
-            // 'scopes'   => ['snsapi_userinfo'],
-            'scopes'=>[$scope],
-            'callback' => '/index.php/admin/sunphp/callback'
-        ];
+
+
+
+        if($scope=='snsapi_base'){
+            $config['oauth']=[
+                'scopes'   => ['snsapi_base'],
+                'callback' => '/index.php/admin/sunphp/callback'
+            ];
+        }else{
+            $config['oauth']=[
+                'scopes'   => ['snsapi_userinfo'],
+                'callback' => '/index.php/admin/sunphp/userback'
+            ];
+        }
 
         $app = Factory::officialAccount($config);
         $oauth = $app->oauth;
@@ -92,18 +103,73 @@ class Wxgzh {
 
         $auth_url=$domain.'/index.php/admin/sunphp/wx?open_url='
         .urlencode($redirectUrl).'&i='.$uniacid.'&t='.$target_url.'&scope='.$scope;
+
         header("Location: {$auth_url}");
         die();
+    }
+
+    // 仅能获得openid
+    public function openid(){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+
+        // 手动设置模式snsapi_base
+        $oauth = $app->oauth->scopes(['snsapi_base']);
+
+        $code = request()->get('code');
+        $user = $oauth->userFromCode($code);
+        return $user->toArray();
+    }
+
+    public function tokenFromCode(){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+
+        // 默认模式是snsapi_userinfo
+        $oauth = $app->oauth;
+
+        $code = request()->get('code');
+        $token = $oauth->tokenFromCode($code);
+        return $token;
     }
 
     public function userinfo(){
         $config=$this->config;
         $app = Factory::officialAccount($config);
+
+
+        // 手动设置模式snsapi_base
+        // $oauth = $app->oauth->scopes(['snsapi_base']);
+
+        // 默认模式是snsapi_userinfo
         $oauth = $app->oauth;
+
 
         $code = request()->get('code');
         $user = $oauth->userFromCode($code);
         return $user->toArray();
+    }
+
+    public function getUserinfo($access_token,$openid){
+        $config=$this->config;
+        $app = Factory::officialAccount($config);
+
+        // 默认模式是snsapi_userinfo
+        $oauth = $app->oauth;
+
+        $oauth->withOpenid($openid);
+        $user = $oauth->userFromToken($access_token);
+
+        return $user->toArray();
+    }
+
+    public function refreshToken($refresh_token){
+        $config=$this->config;
+        $appid=$config['app_id'];
+        $api='https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appid.'&grant_type=refresh_token&refresh_token='.$refresh_token;
+        $res=SunHttp::get($api);
+        $res=json_decode($res,true);
+        return $res;
     }
 
     public function sendTplNotice($openid,$template_id,$data,$url='',$miniprogram=''){

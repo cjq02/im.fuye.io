@@ -248,6 +248,26 @@ CREATE TABLE `sun_core_cache` (
 
 
 
+
+
+DROP TABLE IF EXISTS `sun_core_token`;
+CREATE TABLE `sun_core_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) NOT NULL COMMENT '平台id',
+  `openid` varchar(50) NOT NULL COMMENT '公众号用户openid',
+  `access_token` varchar(255) NOT NULL,
+  `access_expires` datetime NOT NULL COMMENT 'access有效期',
+  `refresh_token` varchar(255) NOT NULL,
+  `refresh_expires` datetime NOT NULL COMMENT 'refresh有效期1月',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_oa` (`openid`,`acid`) USING HASH
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+
+
 -- ----------------------------
 -- Table structure for sun_core_sms
 -- ----------------------------

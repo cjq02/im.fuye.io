@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2024-08-06 18:16:31
+ * @LastEditTime: 2024-09-13 18:18:34
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -105,5 +105,24 @@ if (!pdo_tableexists('sun_core_attachment')) {
       `group_id` int(11) DEFAULT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=MyISAM AUTO_INCREMENT = 1  DEFAULT CHARSET=utf8;
+");
+}
+
+
+
+if (!pdo_tableexists('sun_core_token')) {
+  pdo_query("CREATE TABLE `sun_core_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) NOT NULL COMMENT '平台id',
+  `openid` varchar(50) NOT NULL COMMENT '公众号用户openid',
+  `access_token` varchar(255) NOT NULL,
+  `access_expires` datetime NOT NULL COMMENT 'access有效期',
+  `refresh_token` varchar(255) NOT NULL,
+  `refresh_expires` datetime NOT NULL COMMENT 'refresh有效期1月',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_oa` (`openid`,`acid`) USING HASH
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 ");
 }
