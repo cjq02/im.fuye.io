@@ -238,6 +238,18 @@ CREATE TABLE `sun_core_attachment` (
 
 
 
+DROP TABLE IF EXISTS `sun_core_attachgroup`;
+CREATE TABLE `sun_core_attachgroup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
 
 DROP TABLE IF EXISTS `sun_core_cache`;
 CREATE TABLE `sun_core_cache` (
@@ -339,6 +351,8 @@ CREATE TABLE `sun_core_system`  (
   `register` tinyint(1) NOT NULL DEFAULT 0 COMMENT '能否注册，默认0禁止',
   `check` tinyint(1) NOT NULL DEFAULT 1 COMMENT '注册审核，默认1审核',
   `bind_phone` tinyint(1) NOT NULL DEFAULT 0 COMMENT '默认0不绑定，1绑定',
+  `img_web` varchar(255) NULL COMMENT '电脑端登录背景图',
+  `img_mobile` varchar(255) NULL COMMENT '手机端登录背景图',
   `record_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案号',
   `record_security` varchar(255) NULL COMMENT '公安备案号',
   `record_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备案公司名称',

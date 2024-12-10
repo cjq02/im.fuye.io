@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 15:13:30
  * @LastEditors: light
- * @LastEditTime: 2024-01-11 10:06:53
+ * @LastEditTime: 2024-12-10 15:15:31
  * @Description: SonLight Tech版权所有
  */
 
@@ -67,7 +67,7 @@ class System extends Base{
                 break;
         }
 
-        $sys=CoreSystem::where('id',1)->field(['sys_type','sys_mall','sys_upgrade','sys_domain','sys_secret','sys_sign','bind_phone','register','record_name','record_no','record_security','sys_name','sys_logo'])->find();
+        $sys=CoreSystem::where('id',1)->field(['sys_type','sys_mall','sys_upgrade','sys_domain','sys_secret','sys_sign','bind_phone','img_web','img_mobile','register','record_name','record_no','record_security','sys_name','sys_logo'])->find();
         $data['record_name']=$sys->record_name;
         $data['record_no']=$sys->record_no;
         $data['record_security']=$sys->record_security;
@@ -78,6 +78,9 @@ class System extends Base{
         $data['sys_type']=$sys->sys_type;
         $data['sys_mall']=$sys->sys_mall;
         $data['sys_upgrade']=$sys->sys_upgrade;
+        $data['img_web']=$sys->img_web;
+        $data['img_mobile']=$sys->img_mobile;
+
 
         //版权所有，侵权必究！
         $copyright_file=root_path().'data/copyright.php';
@@ -105,7 +108,7 @@ class System extends Base{
         $post=$this->request->post();
         $s=CoreSystem::where('id',1)->find();
         if(empty($s)){
-            CoreSystem::create($post,['sys_name','sys_logo','register','bind_phone','check','record_no','record_security','record_name']);
+            CoreSystem::create($post,['sys_name','sys_logo','register','bind_phone','img_web','img_mobile','check','record_no','record_security','record_name']);
         }else{
             $s->save($post);
         }

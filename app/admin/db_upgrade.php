@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-20 11:44:58
  * @LastEditors: light
- * @LastEditTime: 2024-09-13 18:18:34
+ * @LastEditTime: 2024-12-10 14:29:49
  * @Description: SonLight Tech版权所有
  */
 declare(strict_types=1);
@@ -110,6 +110,20 @@ if (!pdo_tableexists('sun_core_attachment')) {
 
 
 
+if (!pdo_tableexists('sun_core_attachgroup')) {
+  pdo_query("CREATE TABLE `sun_core_attachgroup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+");
+}
+
+
 if (!pdo_tableexists('sun_core_token')) {
   pdo_query("CREATE TABLE `sun_core_token` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -126,3 +140,12 @@ if (!pdo_tableexists('sun_core_token')) {
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 ");
 }
+
+
+if (!pdo_fieldexists('sun_core_system', 'img_web')) {
+  pdo_query("ALTER TABLE `sun_core_system`
+  ADD COLUMN `img_web` varchar(255) NULL COMMENT '电脑端登录背景图' AFTER `bind_phone`,
+  ADD COLUMN `img_mobile` varchar(255) NULL COMMENT '手机端登录背景图' AFTER `img_web`;
+  ");
+}
+
