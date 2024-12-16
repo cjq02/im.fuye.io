@@ -306,7 +306,9 @@
                         module : pay_data.module
                     });
 
-                h5Copy(h5_aliurl);
+                var xcx_aliurl=window.location.origin+h5_aliurl;
+                h5Copy(xcx_aliurl);
+
                 mui.alert("请将链接粘贴到浏览器打开", "复制成功", "确定", function() {
                     setTimeout(() => {
                         showBackDialog();
