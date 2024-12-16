@@ -2,7 +2,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-05-29 11:02:48
  * @LastEditors: light
- * @LastEditTime: 2024-03-14 17:01:10
+ * @LastEditTime: 2024-12-15 11:28:44
  * @Description: SonLight Tech版权所有
 -->
 <!DOCTYPE html>
@@ -146,6 +146,35 @@
             window.history.back();
         }
 
+        // 返回
+        function showBackDialog(){
+            mui.confirm('是否支付完成？', '提示', ['取消', '支付已成功'], function(e){
+                if(e.index==1){
+                    // 确认
+                    window.history.back();
+                }
+            })
+        }
+
+        function h5Copy(content) {
+
+            if (!document.queryCommandSupported('copy')) {
+                // 不支持
+                return false
+            }
+
+            let textarea = document.createElement("textarea")
+            textarea.value = content
+            textarea.readOnly = "readOnly"
+            document.body.appendChild(textarea)
+            textarea.select() // 选择对象
+            textarea.setSelectionRange(0, content.length) //核心
+            let result = document.execCommand("copy") // 执行浏览器复制命令
+            textarea.remove()
+            return result
+
+        }
+
         function tapScan(){
             document.querySelector('.sunphp-scan').style.display='none';
         }
@@ -159,6 +188,7 @@
         }
 
         function is_weixin() {
+            // 判断是否是微信浏览器
             var ua = navigator.userAgent.toLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
                 return true;
@@ -170,6 +200,15 @@
         function is_h5(){
             var client =/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             return client
+        }
+
+        function isWxXcx(){
+            // 判断微信小程序
+            if(window.__wxjs_environment === 'miniprogram' || /miniProgram/i.test(window.navigator.userAgent.toLowerCase())){
+                return true;
+            }else{
+                return false;
+            }
         }
 
         var sunphp_wxjspay;
@@ -258,7 +297,23 @@
             }
         }
         function tapAli(){
-            if(is_h5()){
+            if(isWxXcx()){
+                var h5_aliurl=util.alipayH5({
+                        orderFee : pay_data.fee,//金额，单位元
+                        payMethod : 'alipay',
+                        orderTitle : pay_data.title,
+                        orderTid : pay_data.tid,//模块内唯一的订单号
+                        module : pay_data.module
+                    });
+
+                h5Copy(h5_aliurl);
+                mui.alert("请将链接粘贴到浏览器打开", "复制成功", "确定", function() {
+                    setTimeout(() => {
+                        showBackDialog();
+                    }, 3000);
+                });
+
+            }else if(is_h5()){
                 var h5_aliurl=util.alipayH5({
                         orderFee : pay_data.fee,//金额，单位元
                         payMethod : 'alipay',
