@@ -7,7 +7,7 @@
 .env
 .htaccess
 .user.ini
-favicon.ico
+# favicon.ico
 nginx.htaccess
 install.lock
 
