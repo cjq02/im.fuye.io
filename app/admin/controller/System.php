@@ -3,7 +3,7 @@
  * @Author: SonLight Tech
  * @Date: 2023-03-13 15:13:30
  * @LastEditors: light
- * @LastEditTime: 2024-12-10 15:15:31
+ * @LastEditTime: 2025-01-16 10:24:24
  * @Description: SonLight Tech版权所有
  */
 
@@ -201,6 +201,13 @@ class System extends Base{
         $env_file=root_path().'.env';
         $env_data=root_path().'data/.env';
         if(!file_exists($env_file)&&file_exists($env_data)){
+            copy($env_data,$env_file);
+        }
+
+        // 将favicon.ico文件复制到根目录
+        $ico_file=root_path().'favicon.ico';
+        $ico_data=root_path().'data/favicon.ico';
+        if(!file_exists($ico_file)&&file_exists($ico_data)){
             copy($env_data,$env_file);
         }
 
