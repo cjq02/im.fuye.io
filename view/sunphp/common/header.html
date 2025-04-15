@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台</title>
+    <link href="/public/sunphp/css/bootstrap.min.css?v={php echo time();}" rel="stylesheet">
+    <link href="/public/sunphp/css/font-awesome.min.css?v={php echo time();}" rel="stylesheet">
+    <link href="/public/sunphp/css/common.css?v={php echo time();}" rel="stylesheet">
+    <script type="text/javascript" src="/public/sunphp/js/jquery-1.11.1.min.js?v={php echo time();}"></script>
+    <script type="text/javascript" src="/public/sunphp/js/bootstrap.min.js?v={php echo time();}"></script>
+    <script type="text/javascript" src="/public/sunphp/js/config.js?v={php echo time();}"></script>
+    <script type="text/javascript" src="/public/sunphp/js/require.js?v={php echo time();}"></script>
+    <script type="text/javascript" >require.config(sunphp_require_config);</script>
+</head>
+<body>
+
+<!-- 添加顶部列表 -->
+
+<div class="sun-one">
+
+<img src="{$logo}" class="sun-logo">
+
+<span class="sun-title">
+<a href="{$_W['siteroot']}">
+{$system['sys_name']}
+</a>
+</span>
+
+<!-- 平台信息 -->
+
+<span class="sun-name">
+<a href="{$_W['siteroot']}#/account/info?acid={$_GPC['i']}">
+ > {$account['name']}
+</a>
+</span>
+
+</div>
+
+
+
+<!-- 左右布局div -->
+<div class="sun-two">
+
+
+<!-- 添加左侧菜单权限 -->
+<div class="sun-menu">
+
+<div class="sun-app">
+<img src="{$app_logo}" class="sun-logo">
+<div class="sun-title">
+{$app['name']}
+</div>
+</div>
+
+
+{foreach $menus as $key=>$menu}
+<a href="/web/index.php?i={$_GPC['i']}&c=site&a=entry&module_name={$_W['current_module']['name']}&do={$menu['do']}{if !empty($menu['state'])}&state={$menu['state']}{/if}"
+    class="{if $menu['do']==$_GPC['do']}active{else /}no{/if}">
+    {$menu['title']}
+    </a>
+{/foreach}
+
+
+
+</div>
+
+<div class="sun-content">

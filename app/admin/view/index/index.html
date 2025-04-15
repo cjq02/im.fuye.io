@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel=icon href=/app/admin/view/index/favicon.ico>
+    <title>管理后台</title>
+    <link href=/app/admin/view/index/static/css/chunk-elementUI.ded27da0.css rel=stylesheet>
+    <link href=/app/admin/view/index/static/css/chunk-libs.3dfb7769.css rel=stylesheet>
+    <link href=/app/admin/view/index/static/css/app.0cf10762.css rel=stylesheet>
+</head>
+
+<body><noscript><strong>We're sorry but 管理后台 doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong></noscript>
+    <div id=app></div>
+
+
+
+      
+
+    <script>
+        var sub_directory='{$sub_directory}';
+        var sunphp_siteinfo={
+            'siteroot':'{$domain}'+sub_directory+'/index.php',
+            'module_name':'admin'
+        };
+    </script>
+
+
+
+
+
+    <script src=/app/admin/view/index/static/js/chunk-elementUI.89b6c4c8.js></script>
+    <script src=/app/admin/view/index/static/js/chunk-libs.bf350320.js></script>
+    <script>(function (e) { function n(n) { for (var t, r, f = n[0], o = n[1], d = n[2], h = 0, i = []; h < f.length; h++)r = f[h], u[r] && i.push(u[r][0]), u[r] = 0; for (t in o) Object.prototype.hasOwnProperty.call(o, t) && (e[t] = o[t]); l && l(n); while (i.length) i.shift()(); return a.push.apply(a, d || []), c() } function c() { for (var e, n = 0; n < a.length; n++) { for (var c = a[n], t = !0, r = 1; r < c.length; r++) { var f = c[r]; 0 !== u[f] && (t = !1) } t && (a.splice(n--, 1), e = o(o.s = c[0])) } return e } var t = {}, r = { runtime: 0 }, u = { runtime: 0 }, a = []; function f(e) { return o.p + "static/js/" + ({}[e] || e) + "." + { "chunk-0e890e85": "b9ae9c72", "chunk-2d0b651b": "22fe0d79", "chunk-2d21d504": "5af37a68", "chunk-2e6c4c4c": "8f7c87c8", "chunk-2f53072e": "08ce3703", "chunk-2f94c63c": "21f81589", "chunk-396771fc": "1127dd90", "chunk-4ffa1c4d": "ddcb8a50", "chunk-5aa5d409": "1e2a4398", "chunk-6026a284": "d0d9b2cd", "chunk-6c8a9e78": "071b3bb4", "chunk-72fd55f8": "9864e840", "chunk-7a2ea5f8": "dedbbbce", "chunk-19245f13": "755fc6ff", "chunk-7a9d8f70": "45776d78", "chunk-d4647bd0": "434d54e6", "chunk-491b65a4": "65243b16", "chunk-748b566e": "f8061e3e", "chunk-60618ef7": "a423f9fd" }[e] + ".js" } function o(n) { if (t[n]) return t[n].exports; var c = t[n] = { i: n, l: !1, exports: {} }; return e[n].call(c.exports, c, c.exports, o), c.l = !0, c.exports } o.e = function (e) { var n = [], c = { "chunk-0e890e85": 1, "chunk-2e6c4c4c": 1, "chunk-2f53072e": 1, "chunk-2f94c63c": 1, "chunk-396771fc": 1, "chunk-4ffa1c4d": 1, "chunk-5aa5d409": 1, "chunk-6026a284": 1, "chunk-6c8a9e78": 1, "chunk-72fd55f8": 1, "chunk-19245f13": 1, "chunk-7a9d8f70": 1, "chunk-d4647bd0": 1 }; r[e] ? n.push(r[e]) : 0 !== r[e] && c[e] && n.push(r[e] = new Promise((function (n, c) { for (var t = "static/css/" + ({}[e] || e) + "." + { "chunk-0e890e85": "39de6bc1", "chunk-2d0b651b": "31d6cfe0", "chunk-2d21d504": "31d6cfe0", "chunk-2e6c4c4c": "bec6993d", "chunk-2f53072e": "1857c290", "chunk-2f94c63c": "dc1a9cfa", "chunk-396771fc": "1e46b88b", "chunk-4ffa1c4d": "d1d3680d", "chunk-5aa5d409": "29ae48d5", "chunk-6026a284": "7da6012c", "chunk-6c8a9e78": "abad8b97", "chunk-72fd55f8": "11bbfb91", "chunk-7a2ea5f8": "31d6cfe0", "chunk-19245f13": "e31f2d09", "chunk-7a9d8f70": "9beab51f", "chunk-d4647bd0": "1f9e3a21", "chunk-491b65a4": "31d6cfe0", "chunk-748b566e": "31d6cfe0", "chunk-60618ef7": "31d6cfe0" }[e] + ".css", u = o.p + t, a = document.getElementsByTagName("link"), f = 0; f < a.length; f++) { var d = a[f], h = d.getAttribute("data-href") || d.getAttribute("href"); if ("stylesheet" === d.rel && (h === t || h === u)) return n() } var i = document.getElementsByTagName("style"); for (f = 0; f < i.length; f++) { d = i[f], h = d.getAttribute("data-href"); if (h === t || h === u) return n() } var l = document.createElement("link"); l.rel = "stylesheet", l.type = "text/css", l.onload = n, l.onerror = function (n) { var t = n && n.target && n.target.src || u, a = new Error("Loading CSS chunk " + e + " failed.\n(" + t + ")"); a.code = "CSS_CHUNK_LOAD_FAILED", a.request = t, delete r[e], l.parentNode.removeChild(l), c(a) }, l.href = u; var s = document.getElementsByTagName("head")[0]; s.appendChild(l) })).then((function () { r[e] = 0 }))); var t = u[e]; if (0 !== t) if (t) n.push(t[2]); else { var a = new Promise((function (n, c) { t = u[e] = [n, c] })); n.push(t[2] = a); var d, h = document.createElement("script"); h.charset = "utf-8", h.timeout = 120, o.nc && h.setAttribute("nonce", o.nc), h.src = f(e), d = function (n) { h.onerror = h.onload = null, clearTimeout(i); var c = u[e]; if (0 !== c) { if (c) { var t = n && ("load" === n.type ? "missing" : n.type), r = n && n.target && n.target.src, a = new Error("Loading chunk " + e + " failed.\n(" + t + ": " + r + ")"); a.type = t, a.request = r, c[1](a) } u[e] = void 0 } }; var i = setTimeout((function () { d({ type: "timeout", target: h }) }), 12e4); h.onerror = h.onload = d, document.head.appendChild(h) } return Promise.all(n) }, o.m = e, o.c = t, o.d = function (e, n, c) { o.o(e, n) || Object.defineProperty(e, n, { enumerable: !0, get: c }) }, o.r = function (e) { "undefined" !== typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e, "__esModule", { value: !0 }) }, o.t = function (e, n) { if (1 & n && (e = o(e)), 8 & n) return e; if (4 & n && "object" === typeof e && e && e.__esModule) return e; var c = Object.create(null); if (o.r(c), Object.defineProperty(c, "default", { enumerable: !0, value: e }), 2 & n && "string" != typeof e) for (var t in e) o.d(c, t, function (n) { return e[n] }.bind(null, t)); return c }, o.n = function (e) { var n = e && e.__esModule ? function () { return e["default"] } : function () { return e }; return o.d(n, "a", n), n }, o.o = function (e, n) { return Object.prototype.hasOwnProperty.call(e, n) }, o.p = "/app/admin/view/index/", o.oe = function (e) { throw console.error(e), e }; var d = window["webpackJsonp"] = window["webpackJsonp"] || [], h = d.push.bind(d); d.push = n, d = d.slice(); for (var i = 0; i < d.length; i++)n(d[i]); var l = h; c() })([]);</script>
+    <script src=/app/admin/view/index/static/js/app.0de86366.js></script>
+</body>
+
+</html>
