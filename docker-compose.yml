@@ -9,12 +9,27 @@ services:
       - ./:/var/www/html
     environment:
       - TZ=Asia/Shanghai
+      - PHP_IDE_CONFIG=serverName=im.fuye.io
+      - XDEBUG_CONFIG=client_host=host.docker.internal
+    ports:
+      - "9000:9000"  # PHP-FPM
+      - "9876:9876"  # Xdebug端口
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command: >
       bash -c "
         apt-get update && 
         apt-get install -y git zip unzip libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev && 
         docker-php-ext-configure gd --with-freetype --with-jpeg && 
-        docker-php-ext-install -j$(nproc) pdo pdo_mysql mysqli zip gd pcntl posix sockets && 
+        docker-php-ext-install -j$(nproc) pdo pdo_mysql mysqli zip gd pcntl posix sockets &&
+        pecl install xdebug-3.1.6 &&
+        docker-php-ext-enable xdebug &&
+        echo 'xdebug.mode=debug' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
+        echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
+        echo 'xdebug.client_host=host.docker.internal' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
+        echo 'xdebug.client_port=9876' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
+        echo 'xdebug.log=/var/log/xdebug.log' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
+        echo 'xdebug.idekey=CURSOR' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&
         echo 'exec=1' > /usr/local/etc/php/conf.d/docker-php-ext-exec.ini && 
         echo 'date.timezone = Asia/Shanghai' > /usr/local/etc/php/conf.d/timezone.ini && 
         echo 'disable_functions = ' > /usr/local/etc/php/conf.d/disable_functions.ini && 
@@ -22,6 +37,8 @@ services:
         mkdir -p /usr/local/etc/php && 
         echo 'max_execution_time = 300' > /usr/local/etc/php/conf.d/timeout.ini && 
         echo 'request_terminate_timeout = 300' > /usr/local/etc/php-fpm.d/timeout.conf && 
+        echo 'display_errors = On' > /usr/local/etc/php/conf.d/display_errors.ini &&
+        echo 'error_reporting = E_ALL' >> /usr/local/etc/php/conf.d/display_errors.ini &&
         php /var/www/html/addons/mdkeji_im/extend/GatewayWorker/start.php start -d && 
         php-fpm
       "
@@ -65,6 +82,28 @@ services:
     networks:
       - sunphp-network
     restart: always
+
+  # 宝塔面板服务
+  # baota:
+  #   image: btpanel/baota:lnmp
+  #   container_name: sunphp-baota
+  #   restart: always
+  #   privileged: true
+  #   ports:
+  #     - "8888:8888"
+  #     - "8079:80"
+  #     - "4443:443"
+  #     - "2121:21"
+  #     - "33060:3306"
+  #   volumes:
+  #     - ./baota/wwwroot:/www/wwwroot
+  #     - ./baota/mysql:/www/server/data
+  #     - ./baota/vhost:/www/server/panel/vhost
+  #     - ./baota/backup:/www/backup
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   networks:
+  #     - sunphp-network
 
 networks:
   sunphp-network:
