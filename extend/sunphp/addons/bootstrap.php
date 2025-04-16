@@ -12,6 +12,17 @@ use sunphp\cache\SunCache;
 
 defined('SUN_IN') or exit('Sunphp Access Denied');
 
+// 加载日志功能
+if (file_exists(__DIR__ . '/../../sunphp/function/log.php')) {
+    require_once __DIR__ . '/../../sunphp/function/log.php';
+    
+    // 设置默认日志路径
+    sun_log_set_path(root_path() . 'runtime/logs/');
+    
+    // 设置默认日志级别
+    sun_log_set_level('debug');
+}
+
 global $_W,$_GPC;
 
 $time=time();
