@@ -14,6 +14,7 @@ services:
     ports:
       - "9000:9000"  # PHP-FPM
       - "9876:9876"  # Xdebug端口
+      - "9075:9075"  # WebSocket端口
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: >
