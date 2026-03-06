@@ -1,10 +1,22 @@
-/.idea
-/.vscode
-*.log
+# 忽略数据库数据
+mysql_data/
 
+# 忽略环境变量文件
+.env
+
+# 忽略日志文件
+*.log
+*.zip
+
+# 忽略编辑器配置
+.idea/
+.vscode/
+
+# 忽略依赖目录
+vendor/
+node_modules/
 
 # conflict file
-.env
 .htaccess
 .user.ini
 favicon.ico
@@ -12,16 +24,18 @@ nginx.htaccess
 install.lock
 
 
-# addons module
-/addons/*/
-
-# app module
-# /app/light_im/
-
-
+# addons 下独立 Git 项目，本仓库不包含
+/addons/mdkeji_im/
+/addons/mdkeji_im_copy/
+/addons/origin/
 
 # attachment
-/attachment/*/
+/attachment/
 
 # runtime
-/runtime/*/
+/runtime/
+
+# app module（按需取消注释）
+/app/uni_im/
+
+/data/mysql/
