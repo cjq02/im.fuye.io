@@ -36,6 +36,6 @@ install.lock
 /runtime/
 
 # app module（按需取消注释）
-/app/uni_im/
+/addons/uni_im/
 
 /data/mysql/
