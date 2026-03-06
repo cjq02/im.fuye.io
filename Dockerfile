@@ -25,7 +25,10 @@ RUN dnf install -y epel-release && \
         socat \
         procps-ng \
         net-tools \
-    && dnf clean all
+        python3 \
+        python3-pip \
+    && dnf clean all && \
+    pip3 install telethon
 
 # 创建 www-data 用户（与 Debian 版保持一致，便于 entrypoint）
 RUN groupadd -r www-data 2>/dev/null || true && \

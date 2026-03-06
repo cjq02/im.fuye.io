@@ -18,6 +18,7 @@ if [ "$(id -u)" = "0" ]; then
 fi
 chmod -R 755 /var/www/im.fuye.io 2>/dev/null || true
 mkdir -p /var/www/im.fuye.io/runtime/session 2>/dev/null || true
+mkdir -p /var/www/im.fuye.io/runtime/telegram/sessions 2>/dev/null || true
 chmod -R 777 /var/www/im.fuye.io/runtime 2>/dev/null || true
 
 # 动态获取 MySQL 容器 IP 并配置，使 127.0.0.1:3306 转发到 MySQL 容器
