@@ -50,7 +50,7 @@ if [ -z "$CRON_RUNNING" ]; then
     echo "   ✅ 有 cron/crond 进程"
   else
     echo "   ❌ cron 服务未运行"
-    echo "   修复 Docker 内：service cron start"
+    echo "   修复 Docker 内：service cron start 或 crond（CentOS）"
     echo "   修复 CentOS 本机：systemctl start crond && systemctl enable crond"
   fi
 fi

@@ -4,8 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        BUILD_UID: ${UID:-1000}
+        BUILD_GID: ${GID:-1000}
     image: sunphp-php:7.4
     container_name: sunphp-php
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ./:/var/www/im.fuye.io
       # 静态资源目录，可按需改为宿主机路径，如: /path/to/resource/img:/var/www/im.fuye.io/boniu

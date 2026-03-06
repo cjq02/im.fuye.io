@@ -8,10 +8,16 @@ log() {
 
 log "Starting PHP container initialization..."
 
-# 设置权限
+# CentOS/Rocky PHP-FPM 需要 /run/php-fpm 目录存放 PID 文件
+mkdir -p /run/php-fpm 2>/dev/null || true
+
+# 设置权限（非 root 运行时 chown 会失败，仅执行 chmod）
 log "Setting file permissions..."
-chown -R www-data:www-data /var/www/im.fuye.io || true
-chmod -R 755 /var/www/im.fuye.io || true
+if [ "$(id -u)" = "0" ]; then
+    chown -R www-data:www-data /var/www/im.fuye.io || true
+fi
+chmod -R 755 /var/www/im.fuye.io 2>/dev/null || true
+mkdir -p /var/www/im.fuye.io/runtime/session 2>/dev/null || true
 chmod -R 777 /var/www/im.fuye.io/runtime 2>/dev/null || true
 
 # 动态获取 MySQL 容器 IP 并配置，使 127.0.0.1:3306 转发到 MySQL 容器
