@@ -21,6 +21,20 @@ mkdir -p /var/www/im.fuye.io/runtime/session 2>/dev/null || true
 mkdir -p /var/www/im.fuye.io/runtime/telegram/sessions 2>/dev/null || true
 chmod -R 777 /var/www/im.fuye.io/runtime 2>/dev/null || true
 
+# Telegram 同步：使用 Python 3.11 创建 venv（与生产一致）
+TELEGRAM_SCRIPT_DIR="/var/www/im.fuye.io/addons/mdkeji_im/scripts/telegram"
+TELEGRAM_VENV="$TELEGRAM_SCRIPT_DIR/venv"
+if [ -f /usr/bin/python3.11 ] && [ -d "$TELEGRAM_SCRIPT_DIR" ]; then
+    if [ ! -f "$TELEGRAM_VENV/bin/python3" ] || ! "$TELEGRAM_VENV/bin/python3" -c "import sys; exit(0 if sys.version_info >= (3, 11) else 1)" 2>/dev/null; then
+        log "Creating Telegram venv with Python 3.11..."
+        rm -rf "$TELEGRAM_VENV" 2>/dev/null || true
+        /usr/bin/python3.11 -m venv "$TELEGRAM_VENV" 2>/dev/null && \
+        "$TELEGRAM_VENV/bin/pip" install -q --upgrade pip telethon 2>/dev/null && \
+        chmod -R 755 "$TELEGRAM_VENV" 2>/dev/null && \
+        log "Telegram venv (Python 3.11) ready" || log "Telegram venv creation skipped"
+    fi
+fi
+
 # 动态获取 MySQL 容器 IP 并配置，使 127.0.0.1:3306 转发到 MySQL 容器
 setup_mysql_forwarding() {
     log "Setting up MySQL port forwarding..."
