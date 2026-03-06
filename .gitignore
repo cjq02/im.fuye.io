@@ -7,6 +7,7 @@ mysql_data/
 # 忽略日志文件
 *.log
 *.zip
+!vendor.zip
 
 # 忽略编辑器配置
 .idea/
@@ -25,7 +26,7 @@ install.lock
 
 
 # addons 下独立 Git 项目，本仓库不包含
-/addons/mdkeji_im/
+# /addons/mdkeji_im/
 /addons/mdkeji_im_copy/
 /addons/origin/
 
@@ -36,6 +37,6 @@ install.lock
 /runtime/
 
 # app module（按需取消注释）
-/addons/uni_im/
+# /addons/uni_im/
 
 /data/mysql/
